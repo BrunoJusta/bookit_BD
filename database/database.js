@@ -87,7 +87,6 @@ function insertUser(req, ) {
     } else {
         console.log("Passwords nao coincidem!")
     }
-
 }
 
 //Login User
