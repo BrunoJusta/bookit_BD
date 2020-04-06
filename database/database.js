@@ -1,8 +1,9 @@
 const dbConfig = require("./db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require("../config.json");
 var connection = mysql.createConnection(dbConfig);
-
 
 //Table User
 function tableUser(req, res) {
@@ -34,11 +35,11 @@ function tableUser(req, res) {
 
 //Remove User
 function deleteUser() {
-    let idToDelete = 2
+    let idToDelete = req.body.id
     connection.connect()
     console.log("Connected!");
-    var sql = `DELETE FROM user WHERE user_id = ${idToDelete}`;
-    connection.query(sql, function (err, result) {
+    var sql = `DELETE FROM user WHERE user_id = ?`;
+    connection.query(sql,[idToDelete], function (err, result) {
         if (!err) {
             console.log('Deleted!')
         } else
@@ -49,31 +50,39 @@ function deleteUser() {
 }
 
 //Register User
-function insertUser(req,) {
+function insertUser(req, ) {
     //Variaveis
-    let name = connection.escape(req.body.name)
-    let lastName =  connection.escape(req.body.lastName)
-    let number = connection.escape(req.body.number)
-    let img = connection.escape("")
-    let school = connection.escape(req.body.school)
+    let name = req.body.name
+    let lastName = req.body.lastName
+    let number = req.body.number
+    let img = ""
+    let email = req.body.email
+    let birthDate = req.body.birthDate
+    let school = 0
     let userType_id = 1
-    let schoolID = 0
 
-    if (school === "ESMAD") {
-        schoolID = 0
-    } else {
-        schoolID = 1
-    }
+    //verify Password
     if (req.body.password === req.body.password2) {
+        //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
             connection.connect();
-            const sql =  `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id) VALUES ("${name}","${lastName}","${email}","${hash}",${number},"${img}",${userType_id},${schoolID})`;
-            console.log(sql)
-            connection.query(sql, function (error, results, fields) {
-                if (error) throw error;
-                console.log('The solution is: ', results);
+            //Get School from mail
+            const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
+            connection.query(sql2, [email], function (error, rows, results, fields) {
+                if (!error) {
+                    school = rows[0].school_id
+                    //Insert user into DB
+                    const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?)`;
+                    connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate], function (error, results, fields) {
+                        if (error) throw error;
+                        console.log('The solution is: ', results);
+                    });
+                    connection.end();
+                } else {
+                    console.log('Error while performing QUERY')
+                    console.log(error)
+                }
             });
-            connection.end();
         })
     } else {
         console.log("Passwords nao coincidem!")
@@ -81,106 +90,63 @@ function insertUser(req,) {
 
 }
 
+//Login User
+class LoginValidation {
+    //FLogin
+    login(req, result) {
+        //Variaveis
+        let email = req.body.email;
+        let password = req.body.password;
+        connection.connect();
+        //Get info from user
+        const sql2 = `SELECT name, email, password FROM user WHERE email = ?;`
+        connection.query(sql2,[email], function (error, rows, results, fields) {
+            if (!error) {
+                console.log(rows)
+                //Verify Password
+                bcrypt.compare(password, rows[0].password, function (err, res) {
+                    if(err){
+                        console.log(error)
+                    }
+                    //Create Token
+                    if (res) {
+                        console.log("works")
+                        let token = jwt.sign({
+                                email: email,
+                            },
+                            config.secret, {
+                                expiresIn: '24h' // expires in 24 hours
+                            }
+                        );
+                        // return the JWT token for the future API calls
+                        result.json({
+                            success: true,
+                            message: 'Authentication successful!',
+                            token: token
+                        });
+                    } else {
+                        console.log("Password Invalida")
+
+                    }
+                })
+            } else {
+                console.log('Error while performing QUERY')
+                console.log(error)
+            }
+            connection.end();
+        });
+    }
+    index(req, res) {
+        res.json({
+            success: true,
+            message: 'Index page',
+        });
+    }
+}
 
 module.exports = {
     insertUser: insertUser,
     tableUser: tableUser,
-    deleteUser: deleteUser
+    deleteUser: deleteUser,
+    LoginValidation: LoginValidation
 }
-
-
-// // Register
-// router.post('/register', (req, res) => {
-//     const {
-//         name,
-//         email,
-//         password,
-//         password2
-//     } = req.body;
-//     let errors = [];
-
-//     if (!name || !email || !password || !password2) {
-//         errors.push({
-//             msg: 'Please enter all fields'
-//         });
-//     }
-
-//     if (password != password2) {
-//         errors.push({
-//             msg: 'Passwords do not match'
-//         });
-//     }
-
-//     if (password.length < 6) {
-//         errors.push({
-//             msg: 'Password must be at least 6 characters'
-//         });
-//     }
-
-//     if (errors.length > 0) {
-//         res.render('register', {
-//             errors,
-//             name,
-//             email,
-//             password,
-//             password2
-//         });
-//     } else {
-//         User.findOne({
-//             email: email
-//         }).then(user => {
-//             if (user) {
-//                 errors.push({
-//                     msg: 'Email already exists'
-//                 });
-//                 res.render('register', {
-//                     errors,
-//                     name,
-//                     email,
-//                     password,
-//                     password2
-//                 });
-//             } else {
-//                 const newUser = new User({
-//                     name,
-//                     email,
-//                     password
-//                 });
-
-//                 bcrypt.genSalt(10, (err, salt) => {
-//                     bcrypt.hash(newUser.password, salt, (err, hash) => {
-//                         if (err) throw err;
-//                         newUser.password = hash;
-//                         newUser
-//                             .save()
-//                             .then(user => {
-//                                 req.flash(
-//                                     'success_msg',
-//                                     'You are now registered and can log in'
-//                                 );
-//                                 res.redirect('/users/login');
-//                             })
-//                             .catch(err => console.log(err));
-//                     });
-//                 });
-//             }
-//         });
-//     }
-// });
-
-// // Login
-// router.post('/login', (req, res, next) => {
-//     passport.authenticate('local', {
-//       successRedirect: '/dashboard',
-//       failureRedirect: '/users/login',
-//       failureFlash: true
-//     })(req, res, next);
-//   });
-  
-//   // Logout
-//   router.get('/logout', (req, res) => {
-//     req.logout();
-//     req.flash('success_msg', 'You are logged out');
-//     res.redirect('/users/login');
-//   });
-  
