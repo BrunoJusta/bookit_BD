@@ -61,7 +61,7 @@ function insertUser(req, ) {
     let school = 0
     let userType_id = 1
 
-    //verify Password
+    //verify Password 123AvesChines
     if (req.body.password === req.body.password2) {
         //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
