@@ -5,6 +5,7 @@ const cors = require("cors");
 const config = require("./config.json");
 const userRouter = require("./routes/userRouter.js");
 const areaRouter = require("./routes/areaRouter")
+const workshopRouter = require("./routes/workshopRouter")
 const jwt = require('jsonwebtoken');
 
 
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use(userRouter);
 app.use(areaRouter);
+app.use(workshopRouter);
 
 app.listen(config.port, () => console.log(config.serverStartMessage, config.host, config.port));
 
