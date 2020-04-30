@@ -1,6 +1,5 @@
 const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-const config = require("../../config.json");
 var connection = mysql.createConnection(dbConfig);
 
 
@@ -17,7 +16,7 @@ exports.addKitMenu = (name, menuType, img, callback) => {
             if (error) callback(error);
             callback(null, {
                 success: true,
-                message: "results"
+            message: "results"
             })
         });
         connection.end();

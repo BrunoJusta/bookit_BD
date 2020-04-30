@@ -6,7 +6,8 @@ const config = require("./config.json");
 const userRouter = require("./routes/userRouter.js");
 const areaRouter = require("./routes/areaRouter");
 const workshopRouter = require("./routes/workshopRouter");
-const kitMenuRouter = require("./routes/kitMenuRoute")
+const kitMenuRouter = require("./routes/kitMenuRoute");
+const addonsRouter = require("./routes/addonsRouter")
 const jwt = require('jsonwebtoken');
 
 
@@ -29,6 +30,7 @@ app.use(userRouter);
 app.use(areaRouter);
 app.use(workshopRouter);
 app.use(kitMenuRouter);
+app.use(addonsRouter)
 
 app.listen(config.port, () => console.log(config.serverStartMessage, config.host, config.port));
 
