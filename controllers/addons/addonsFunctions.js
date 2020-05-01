@@ -27,3 +27,16 @@ exports.removeIngredient = (id, callback) => {
     });
     connection.end();
 }
+
+exports.addDecor = (name, callback)=>{
+    connection.connect();
+    const sql=`INSERT INTO decoration (name) VALUES (?)`;
+    connection.query(sql,[name], function(error,results,fields){
+        if(error) callback(error);
+        callback(null,{
+            success:true,
+            message:"Decoration Added!"
+        });
+    });
+    connection.end();
+}

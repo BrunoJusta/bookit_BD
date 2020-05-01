@@ -8,24 +8,36 @@ function addIngredient(req, result) {
         if (error) {
             throw error;
             return;
-        }
+        };
         result.json(success)
-    })
-}
+    });
+};
 
 //Remove Ingredient
-function removeIngredient(req,result){
+function removeIngredient(req, result) {
     let id = req.body.id
-    addonsFunctions.removeIngredient(id,(error,success)=>{
-        if(error){
+    addonsFunctions.removeIngredient(id, (error, success) => {
+        if (error) {
             throw error;
             return;
-        }
+        };
+        result.json(success)
+    });
+};
+
+function addDecor(req, result) {
+    let name = req.body.name
+    addonsFunctions.addDecor(name, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
         result.json(success)
     })
 }
 
 module.exports = {
     addIngredient: addIngredient,
-    removeIngredient: removeIngredient
+    removeIngredient: removeIngredient,
+    addDecor: addDecor
 }

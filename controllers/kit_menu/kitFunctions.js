@@ -16,7 +16,7 @@ exports.addKitMenu = (name, menuType, img, callback) => {
             if (error) callback(error);
             callback(null, {
                 success: true,
-            message: "results"
+            message: "Kit Menu Added!"
             })
         });
         connection.end();
