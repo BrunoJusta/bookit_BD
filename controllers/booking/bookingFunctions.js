@@ -6,8 +6,8 @@ var connection = mysql.createConnection(dbConfig);
 
 exports.addBooking = (userID, menu, reason, date, time, numberPeople, school, outfit, observations, img, extras, decor, ing, callback) => {
     connection.connect();
-    const sql = `INSERT INTO booking (user_id, kit_id, reason, date, duration, numberPeople, school_id, outfit_id, state_id, observations, img) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    connection.query(sql, [userID, menu, reason, date, time, numberPeople, school, outfit, 0, observations, img], function (error, results) {
+    const sql = `INSERT INTO booking (user_id, kit_id, reason, date, duration, numberPeople, school_id, outfit_id, state_id, observations, img, decline_txt) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    connection.query(sql, [userID, menu, reason, date, time, numberPeople, school, outfit, 0, observations, img, ""], function (error, results) {
         if (error) {
             callback(error);
         } else {
@@ -78,11 +78,11 @@ exports.approveBooking = (id, callback) => {
 }
 
 
-exports.refuseBooking = (id, callback) => {
+exports.refuseBooking = (id, decline, callback) => {
 
     connection.connect();
-    const sql = `UPDATE booking SET state_id = ? WHERE booking_id = ?`
-    connection.query(sql, [2, id], function (error, results) {
+    const sql = `UPDATE booking SET state_id = ?, decline_txt = ? WHERE booking_id = ?`
+    connection.query(sql, [2,decline, id], function (error, results) {
         if (error) callback(error);
         callback(null, {
             success: true,

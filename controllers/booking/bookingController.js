@@ -1,6 +1,12 @@
 const bookingFunctions = require("./bookingFunctions")
 
-//Register User
+
+
+//ADICIONAR FUNÇÃO DE ESTADO CONCLUÍDO 
+
+
+
+//Fazer Reserva
 function newBooking(req, result) {
     //Variaveis
     let reason = req.body.reason
@@ -29,9 +35,7 @@ function newBooking(req, result) {
     })
 }
 
-
-
-
+//Aprovar Reserva
 function approved(req, result){
     let id = req.params.id
 
@@ -45,10 +49,11 @@ function approved(req, result){
 
 }
 
-
+//Recusar Reserva
 function refuse(req, result){
     let id = req.params.id
-    bookingFunctions.refuseBooking(id, (error, success) => {
+    let decline = req.body.decline
+    bookingFunctions.refuseBooking(id, decline, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -58,6 +63,7 @@ function refuse(req, result){
 
 }
 
+//Remover Reserva
 function removeBooking(req, result){
     let id  = req.params.id
     bookingFunctions.removeBooking(id, (error,success)=>{
@@ -68,9 +74,6 @@ function removeBooking(req, result){
         result.json(success)
     })
 }
-
-
-
 
 module.exports = {
     newBooking: newBooking,
