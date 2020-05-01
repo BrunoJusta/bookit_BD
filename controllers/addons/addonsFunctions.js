@@ -40,3 +40,16 @@ exports.addDecor = (name, callback)=>{
     });
     connection.end();
 }
+
+exports.removeDecor = (id, callback) => {
+    connection.connect();
+    const sql = `DELETE FROM decoration WHERE decoration_id = ?`;
+    connection.query(sql,[id], function(error,results,fields){
+        if(error) callback(error);
+        callback(null,{
+            success:true,
+            message:"Decoration Deleted!"
+        });
+    });
+    connection.end();
+}

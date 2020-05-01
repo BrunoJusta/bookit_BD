@@ -34,10 +34,22 @@ function addDecor(req, result) {
         };
         result.json(success)
     })
+};
+
+function removeDecor(req, result){
+    let id = req.params.id
+    addonsFunctions.removeDecor(id,(error,success)=>{
+        if(error){
+            throw error;
+            return
+        };
+        result.json(success)
+    })
 }
 
 module.exports = {
     addIngredient: addIngredient,
     removeIngredient: removeIngredient,
-    addDecor: addDecor
+    addDecor: addDecor,
+    removeDecor: removeDecor,
 }
