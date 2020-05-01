@@ -95,3 +95,20 @@ exports.changeNumber = (id, newNumber, callback) => {
     })
     connection.end()
 }
+
+
+exports.deleteUser = (id, callback) => {
+    connection.connect()
+    console.log("Connected!");
+    var sql = `DELETE FROM user WHERE user_id = ?`;
+    connection.query(sql, [id], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            success: true,
+            message: "Deleted!"
+        })
+    });
+    connection.end()
+}
+
+
