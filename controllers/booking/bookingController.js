@@ -1,7 +1,7 @@
 const bookingFunctions = require("./bookingFunctions")
 
 //Register User
-function Newbooking(req, result) {
+function newBooking(req, result) {
     //Variaveis
     let reason = req.body.reason
     let date = req.body.date
@@ -10,10 +10,6 @@ function Newbooking(req, result) {
     let endHour = req.body.endHour
     let time = initHour + "-" + endHour
     let numberPeople = req.body.numberPeople
-    // let drinks = req.body.drinks
-    // let foods = req.body.foods
-    // let extras = req.body.extras
-    // let decor = req.body.decor
     let img = ""
     let outfit = req.body.outfit
     let observations = req.body.observations
@@ -21,9 +17,10 @@ function Newbooking(req, result) {
     let userID = req.body.userID
     let decor = req.body.decor
     let extras = req.body.extras
+    let ing = req.body.ing
 
 
-    bookingFunctions.addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, img, extras, decor, (error, success) => {
+    bookingFunctions.addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, img, extras, decor,ing, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -35,8 +32,51 @@ function Newbooking(req, result) {
 
 
 
+function approved(req, result){
+    let id = req.params.id
+
+    bookingFunctions.approveBooking(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+
+}
+
+
+function refuse(req, result){
+    let id = req.params.id
+    bookingFunctions.refuseBooking(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+
+}
+
+function removeBooking(req, result){
+    let id  = req.params.id
+    bookingFunctions.removeBooking(id, (error,success)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
+
+
+
+
 module.exports = {
-    Newbooking: Newbooking,
+    newBooking: newBooking,
+    approved: approved,
+    refuse: refuse,
+    removeBooking: removeBooking
 }
 
 

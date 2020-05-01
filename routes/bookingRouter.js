@@ -7,7 +7,13 @@ const bookingController = require("../controllers/booking/bookingController");
 
 
 
-router.post("/booking", bookingController.Newbooking)
+router.post("/bookings", bookingController.newBooking)
+
+router.put("/bookings/app/:id", bookingController.approved)
+router.put("/bookings/ref/:id", bookingController.refuse)
+
+router.delete("/bookings/:id", bookingController.removeBooking)
+
 
 
 
