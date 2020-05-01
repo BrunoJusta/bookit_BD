@@ -1,6 +1,6 @@
 //Express
-const Router=require("express").Router;
-var router=Router();
+const Router = require("express").Router;
+var router = Router();
 
 //Import DB
 const userController = require("../controllers/user/userController");
@@ -13,11 +13,14 @@ router.post("/users/register", userController.insertUser)
 
 router.get("/users/", userController.tableUser);
 
-router.delete("/users/", userController.deleteUser)
+router.delete("/users/:id", userController.deleteUser)
 
 router.post('/login', validate.login)
 
 router.get('/', middleware.checkToken, validate.index);
 
+router.put("/users/p/:id", userController.changePassword)
 
-module.exports=router;
+router.put("/users/num/:id", userController.changeNumber)
+
+module.exports = router;

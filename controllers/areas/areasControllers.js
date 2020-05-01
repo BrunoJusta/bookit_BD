@@ -9,8 +9,8 @@ function addArea(req, result) {
     let description = req.body.description;
     let img = "";
 
-    areasFunctions.addArea(name, description, img,(error,success)=>{
-        if(error){
+    areasFunctions.addArea(name, description, img, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -20,11 +20,25 @@ function addArea(req, result) {
 
 }
 
-function removeArea(req, result){
-    let id  = req.body.id
+function removeArea(req, result) {
+    let id = req.params.id
 
-    areasFunctions.removeArea(id, (error,success)=>{
-        if(error){
+    areasFunctions.removeArea(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+};
+
+function updateArea(req, result) {
+    let id = req.params.id
+    let name = req.body.name
+    let description = req.body.description
+
+    areasFunctions.updateArea(name, description, id, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -34,5 +48,6 @@ function removeArea(req, result){
 
 module.exports = {
     addArea: addArea,
-    removeArea:removeArea,
+    removeArea: removeArea,
+    updateArea: updateArea
 }

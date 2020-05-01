@@ -26,7 +26,7 @@ function addWorkshop(req, result) {
 
 //Eliminar Workshop
 function removeWorkshop(req, result) {
-    let id = req.body.id;
+    let id = req.params.id;
 
     workshopFunctions.removeWorkshop(id, (error, success) => {
         if (error) {

@@ -15,7 +15,7 @@ function addIngredient(req, result) {
 
 //Remove Ingredient
 function removeIngredient(req, result) {
-    let id = req.body.id
+    let id = req.params.id
     addonsFunctions.removeIngredient(id, (error, success) => {
         if (error) {
             throw error;
