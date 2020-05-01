@@ -50,15 +50,28 @@ function getDetails(req, result) {
     let id = req.params.id
     areasFunctions.getDetails(id, (error, success) => {
         if (error) {
-            throw error
-            return
+            throw error;
+            return;
         };
         result.json(success)
     })
+}
+
+function searchArea(req, result) {
+    let search = req.body.search
+    areasFunctions.searchArea(search, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
 }
 module.exports = {
     addArea: addArea,
     removeArea: removeArea,
     updateArea: updateArea,
     getDetails: getDetails,
+    searchArea: searchArea,
+    
 }
