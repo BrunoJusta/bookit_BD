@@ -25,7 +25,20 @@ exports.removeArea = (id, callback) => {
         callback(null, {
             success: true,
             message: "Deleted!"
-        })
+        });
     });
     connection.end()
+}
+
+exports.updateArea = (name, description, id, callback) => {
+    connection.connect()
+    let sql = `UPDATE area SET name = ?, description = ? WHERE area_id = ?`;
+    connection.query(sql,[name,description,id], function(err,result){
+        if (err) callback(error);
+        callback(null,{
+            success:true,
+            message:"Area Updated!"
+        });
+    });
+    connection.end();
 }

@@ -5,8 +5,8 @@ var router = Router();
 //Import DB
 const areasController = require("../controllers/areas/areasControllers");
 
-router.post("/areas/add", areasController.addArea)
-
-router.delete("/areas/", areasController.removeArea)
+router.post("/areas/add", areasController.addArea);
+router.delete("/areas/:id", areasController.removeArea);
+router.put("/areas/:id", areasController.updateArea)
 
 module.exports = router

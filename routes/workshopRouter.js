@@ -7,6 +7,6 @@ const workshopController = require("../controllers/workshops/workshopsController
 
 router.post("/workshops/add", workshopController.addWorkshop)
 
-router.delete("/workshops/delete", workshopController.removeWorkshop)
+router.delete("/workshops/:id", workshopController.removeWorkshop)
 
 module.exports=router;
