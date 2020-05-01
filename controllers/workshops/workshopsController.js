@@ -37,7 +37,29 @@ function removeWorkshop(req, result) {
     })
 }
 
+//Editar workshop
+function updateWorkshop(req, result) {
+    let id = req.params.id
+    let name = req.body.name;
+    let teacher = req.body.teacher;
+    let date = req.body.date;
+    let description = req.body.description;
+    let hi = req.body.hi; //Hora inicio
+    let hf = req.body.hf; //Hora final
+    let time = hi + "-" + hf
+    let vacancies = req.body.vacancies;
+
+    workshopFunctions.updateWorkshop(id, name, date, teacher, description, vacancies, time, (error, success) => {
+        if(error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
+
 module.exports = {
     addWorkshop: addWorkshop,
-    removeWorkshop: removeWorkshop
+    removeWorkshop: removeWorkshop,
+    updateWorkshop: updateWorkshop
 }

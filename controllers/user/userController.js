@@ -58,61 +58,22 @@ class LoginValidation {
 }
 
 
-module.exports = {
-    insertUser: insertUser,
-    tableUser: tableUser,
-    deleteUser: deleteUser,
-    changePassword: changePassword,
-    changeNumber: changeNumber,
-    LoginValidation: LoginValidation,
-}
 
 
 
-
-
-//Table User
-function tableUser(req, res) {
-    connection.connect()
-    console.log("Connected! Get!");
-    var sql = "SELECT * from user";
-    connection.query(sql, function (err, rows, fields) {
-        if (!err) {
-            let txt = "<h1>USER TABLE</h1>"
-            txt += "<table border='1'>"
-            txt += "<tr><td>ID</td><td>Name</td><td>Password</td></tr>";
-            for (x = 0; x < rows.length; x++) {
-                txt += "<tr><td>" + rows[x].id + "</td><td>" + rows[x].name + "</td><td>" + rows[x].email + "</td></tr>";
-            }
-            txt += "</table>";
-            res.writeHead(200, {
-                "Content-Type": "text/html"
-            });
-            res.write("<html><body>");
-            res.write(txt);
-            res.write("</body></html>");
-            res.end();
-
-        } else
-            console.log('Error while performing QUERY')
-    });
-    connection.end()
-}
 
 //Remove User
-function deleteUser(req, res) {
-    let idToDelete = req.params.id
-    connection.connect()
-    console.log("Connected!");
-    var sql = `DELETE FROM user WHERE user_id = ?`;
-    connection.query(sql, [idToDelete], function (err, result) {
-        if (!err) {
-            console.log('Deleted!')
-        } else
-            console.log('Error while performing QUERY')
-        console.log(err)
-    });
-    connection.end()
+function deleteUser(req, result) {
+    let id= req.params.id
+
+    userFunctions.deleteUser(id, (error,success) =>{
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+    
 }
 
 function changePassword(req, res) {
@@ -141,4 +102,13 @@ function changeNumber(req, res) {
         }
         res.json(success)
     })
+}
+
+
+module.exports = {
+    insertUser: insertUser,
+    deleteUser: deleteUser,
+    changePassword: changePassword,
+    changeNumber: changeNumber,
+    LoginValidation: LoginValidation,
 }
