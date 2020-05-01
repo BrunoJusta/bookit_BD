@@ -11,8 +11,6 @@ let validate = new userController.LoginValidation();
 
 router.post("/users/register", userController.insertUser)
 
-router.get("/users/", userController.tableUser);
-
 router.delete("/users/:id", userController.deleteUser)
 
 router.post('/login', validate.login)
