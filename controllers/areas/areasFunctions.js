@@ -20,8 +20,8 @@ exports.addArea = (name, description, img, callback) => {
 exports.removeArea = (id, callback) => {
     connection.connect()
     let sql = `DELETE FROM area WHERE area_id = ?`;
-    connection.query(sql, [id], function (err, result) {
-        if (err) callback(error);
+    connection.query(sql, [id], function (error, result) {
+        if (error) callback(error);
         callback(null, {
             success: true,
             message: "Deleted!"
@@ -33,12 +33,25 @@ exports.removeArea = (id, callback) => {
 exports.updateArea = (name, description, id, callback) => {
     connection.connect()
     let sql = `UPDATE area SET name = ?, description = ? WHERE area_id = ?`;
-    connection.query(sql,[name,description,id], function(err,result){
-        if (err) callback(error);
-        callback(null,{
-            success:true,
-            message:"Area Updated!"
+    connection.query(sql, [name, description, id], function (error, result) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Area Updated!"
         });
     });
     connection.end();
+};
+
+exports.getDetails = (id, callback) => {
+    connection.connect();
+    let sql = `SELECT name, description, img FROM area WHERE area_id = ?`;
+    connection.query(sql, [id], function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows)
+        callback(null, {
+            success: true,
+            message: "Get Details!"
+        })
+    })
 }

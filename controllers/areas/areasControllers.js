@@ -27,9 +27,9 @@ function removeArea(req, result) {
         if (error) {
             throw error;
             return;
-        }
+        };
         result.json(success)
-    })
+    });
 };
 
 function updateArea(req, result) {
@@ -41,13 +41,24 @@ function updateArea(req, result) {
         if (error) {
             throw error;
             return;
-        }
+        };
+        result.json(success);
+    });
+};
+
+function getDetails(req, result) {
+    let id = req.params.id
+    areasFunctions.getDetails(id, (error, success) => {
+        if (error) {
+            throw error
+            return
+        };
         result.json(success)
     })
 }
-
 module.exports = {
     addArea: addArea,
     removeArea: removeArea,
-    updateArea: updateArea
+    updateArea: updateArea,
+    getDetails: getDetails,
 }
