@@ -36,15 +36,39 @@ function addDecor(req, result) {
     })
 };
 
-function removeDecor(req, result){
+function removeDecor(req, result) {
     let id = req.params.id
-    addonsFunctions.removeDecor(id,(error,success)=>{
-        if(error){
+    addonsFunctions.removeDecor(id, (error, success) => {
+        if (error) {
             throw error;
-            return
+            return;
         };
         result.json(success)
-    })
+    });
+};
+
+function addOutfit(req, result) {
+    let img = "";
+    let name = req.body.name;
+
+    addonsFunctions.addOutfit(img, name, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success);
+    });
+}
+
+function removeOutfit(req, result) {
+    let id = req.params.id
+    addonsFunctions.removeOutfit(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
 }
 
 module.exports = {
@@ -52,4 +76,6 @@ module.exports = {
     removeIngredient: removeIngredient,
     addDecor: addDecor,
     removeDecor: removeDecor,
+    addOutfit: addOutfit,
+    removeOutfit: removeOutfit,
 }
