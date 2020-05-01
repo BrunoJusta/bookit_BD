@@ -8,6 +8,6 @@ router.post("/kitsmenu/add", kitMenuController.addKit)
 
 router.post("/kitsmenu/type", kitMenuController.addKitMenuType)
 
-/* router.delete("/areas/", areasController.removeArea) */
+router.get("/kitsmenu/popular", kitMenuController.orderByPopularity)
 
 module.exports = router
