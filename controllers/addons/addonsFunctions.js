@@ -18,25 +18,62 @@ exports.addIngredient = (name, type, callback) => {
 exports.removeIngredient = (id, callback) => {
     connection.connect();
     const sql = `DELETE FROM Ingredient WHERE ingredient_id = ?`;
-    connection.query(sql,[id], function(error,results,fields){
-        if(error) callback(error);
-        callback(null,{
-            success:true,
-            message:"Ingredient Deleted!"
+    connection.query(sql, [id], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Ingredient Deleted!"
         });
     });
     connection.end();
 }
 
-exports.addDecor = (name, callback)=>{
+exports.addDecor = (name, callback) => {
     connection.connect();
-    const sql=`INSERT INTO decoration (name) VALUES (?)`;
-    connection.query(sql,[name], function(error,results,fields){
-        if(error) callback(error);
-        callback(null,{
-            success:true,
-            message:"Decoration Added!"
+    const sql = `INSERT INTO decoration (name) VALUES (?)`;
+    connection.query(sql, [name], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Decoration Added!"
         });
     });
     connection.end();
+};
+
+exports.removeDecor = (id, callback) => {
+    connection.connect();
+    const sql = `DELETE FROM decoration WHERE decoration_id = ?`;
+    connection.query(sql, [id], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Decoration Deleted!"
+        });
+    });
+    connection.end();
+};
+
+exports.addOutfit = (img, name, callback) => {
+    connection.connect();
+    const sql = `INSERT INTO outfit (img, name) VALUES (?, ?)`;
+    connection.query(sql, [img, name], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Outfit Added!"
+        })
+    })
+};
+
+exports.removeOutfit = (id, callback) => {
+    connection.connect();
+    const sql = `DELETE FROM outfit WHERE outfit_id = ?`;
+    connection.query(sql, [id], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Outfit Deleted!"
+        })
+    })
 }

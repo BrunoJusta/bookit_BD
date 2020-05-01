@@ -30,3 +30,17 @@ exports.removeWorkshop = (id, callback) => {
     })
     connection.end()
 }
+
+exports.updateWorkshop = (id, name, date, teacher, description, vacancies, time, callback) => {
+    connection.connect();
+    const sql = `UPDATE workshop SET name = ?, date = ?, teacher = ?, description = ?, vacancies = ?, time = ? WHERE workshop_id = ?`
+
+    connection.query(sql, [name, date, teacher, description, vacancies, time, id], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            success: true,
+            message: "Workshop Updated"
+        })
+    })
+    connection.end()
+}
