@@ -69,6 +69,28 @@ function removeOutfit(req, result) {
         };
         result.json(success)
     });
+};
+
+function addExtra(req, result) {
+    let name = req.body.name
+    addonsFunctions.addExtra(name, (error, success) => {
+        if (error) {
+            throw error;
+            return
+        }
+        result.json(success)
+    });
+};
+
+function removeExtra(req, result) {
+    let id = req.params.id;
+    addonsFunctions.removeExtra(id,(error,success)=>{
+        if(error){
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
 }
 
 module.exports = {
@@ -78,4 +100,6 @@ module.exports = {
     removeDecor: removeDecor,
     addOutfit: addOutfit,
     removeOutfit: removeOutfit,
+    addExtra: addExtra,
+    removeExtra: removeExtra,
 }
