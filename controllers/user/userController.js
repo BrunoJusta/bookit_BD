@@ -6,7 +6,7 @@ const userFunctions = require("./userFunctions")
 
 
 //Register User
-function insertUser(req,result) {
+function insertUser(req, result) {
     //Variaveis
     let name = req.body.name
     let lastName = req.body.lastName
@@ -21,8 +21,8 @@ function insertUser(req,result) {
     if (req.body.password === req.body.password2) {
         //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
-            userFunctions.register(name,lastName, email, hash, number,img, userType_id, school, birthDate, (error, success) =>{
-                if (error){
+            userFunctions.register(name, lastName, email, hash, number, img, userType_id, school, birthDate, (error, success) => {
+                if (error) {
                     throw error;
                     return;
                 }
@@ -41,8 +41,8 @@ class LoginValidation {
         //Variaveis
         let email = req.body.email;
         let password = req.body.password;
-        userFunctions.login(email, password, (error, success) =>{
-            if (error){
+        userFunctions.login(email, password, (error, success) => {
+            if (error) {
                 throw error;
                 return;
             }
@@ -62,6 +62,8 @@ module.exports = {
     insertUser: insertUser,
     tableUser: tableUser,
     deleteUser: deleteUser,
+    changePassword: changePassword,
+    changeNumber: changeNumber,
     LoginValidation: LoginValidation,
 }
 
@@ -98,12 +100,12 @@ function tableUser(req, res) {
 }
 
 //Remove User
-function deleteUser() {
-    let idToDelete = req.body.id
+function deleteUser(req, res) {
+    let idToDelete = req.params.id
     connection.connect()
     console.log("Connected!");
     var sql = `DELETE FROM user WHERE user_id = ?`;
-    connection.query(sql,[idToDelete], function (err, result) {
+    connection.query(sql, [idToDelete], function (err, result) {
         if (!err) {
             console.log('Deleted!')
         } else
@@ -111,4 +113,32 @@ function deleteUser() {
         console.log(err)
     });
     connection.end()
+}
+
+function changePassword(req, res) {
+    let idToChange = req.params.id
+    let newPassword = req.body.newPassword
+
+    bcrypt.hash(newPassword, 10, function (err, hash) {
+        userFunctions.changePassword(idToChange, hash, (error, success) => {
+            if (error) {
+                throw error;
+                return;
+            }
+            res.json(success)
+        })
+    })
+}
+
+function changeNumber(req, res) {
+    let idToChange = req.params.id
+    let newNumber = req.body.newNumber
+
+    userFunctions.changeNumber(idToChange, newNumber, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        res.json(success)
+    })
 }

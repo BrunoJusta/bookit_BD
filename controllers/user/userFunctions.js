@@ -65,7 +65,33 @@ exports.register = (name, lastName, email, hash, number, img, userType_id, schoo
             });
             connection.end();
         } else {
-          callback(error)
+            callback(error)
         }
     });
+}
+
+exports.changePassword = (id, newPassword, callback) => {
+    connection.connect();
+    var sql = `UPDATE user SET password = ? WHERE user_id = ?`
+    connection.query(sql, [newPassword, id], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            success: true,
+            message: "Password changed!"
+        })
+    })
+    connection.end()
+}
+
+exports.changeNumber = (id, newNumber, callback) => {
+    connection.connect();
+    var sql = `UPDATE user SET number = ? WHERE user_id = ?`
+    connection.query(sql, [newNumber, id], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            success: true,
+            message: "Number changed!"
+        })
+    })
+    connection.end()
 }
