@@ -2,7 +2,7 @@
 const Router = require("express").Router;
 var router = Router();
 
-//Import DB
+//Import
 const workshopController = require("../controllers/workshops/workshopsController");
 
 router.post("/workshops/add", workshopController.addWorkshop)

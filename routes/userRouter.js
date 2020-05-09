@@ -2,12 +2,11 @@
 const Router = require("express").Router;
 var router = Router();
 
-//Import DB
+//Import
 const userController = require("../controllers/user/userController");
 const middleware = require("../middleware.js");
 
 let validate = new userController.LoginValidation();
-
 
 router.post("/users/register", userController.insertUser)
 

@@ -3,24 +3,24 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 var connection = mysql.createConnection(dbConfig);
 
 
-//KIT_MENU
-exports.addKitMenu = (name, menuType, img, callback) => {
+//MENU
+exports.addMenu = (name, menuType, img, callback) => {
     connection.connect();
-    const sql = `INSERT INTO Kit_Menu (name, kit_menu_type_id , img, popularity) VALUES(?,?,?,?)`;
+    const sql = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
     connection.query(sql, [name, menuType, img, 0], function (error, results, fields) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Kit Menu Added!"
+            message: "Menu Added!"
         })
     });
     connection.end();
 };
 
-//KIT_MENU_TYPE
-exports.addKitMenuType = (description, callback) => {
+//MENU_TYPE
+exports.addMenuType = (description, callback) => {
     connection.connect();
-    const sql = `INSERT INTO kit_Menu_Type (description) VALUES(?)`;
+    const sql = `INSERT INTO menu_Type (description) VALUES(?)`;
     connection.query(sql, [description], function (error, results, fields) {
         if (error) callback(error);
         callback(null, {
@@ -34,7 +34,7 @@ exports.addKitMenuType = (description, callback) => {
 //ordenar por popularidade
 exports.orderByPopularity = (callback) => {
     connection.connect();
-    const sql = `SELECT * FROM Kit_Menu ORDER BY popularity DESC;`;
+    const sql = `SELECT * FROM menu ORDER BY popularity DESC;`;
     connection.query(sql, function (error, rows, results, fields) {
         if (error) {
             callback(error);

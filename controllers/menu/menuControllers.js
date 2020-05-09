@@ -1,9 +1,9 @@
-const kitFunctions = require("./kitFunctions")
+const menuFunctions = require("./menuFunctions")
 
 //Add Area
-function addKitMenuType(req, result) {
+function addMenuType(req, result) {
     let description = req.body.description;
-    kitFunctions.addKitMenuType(description, (error, success) => {
+    menuFunctions.addMenuType(description, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -12,12 +12,12 @@ function addKitMenuType(req, result) {
     })
 }
 
-function addKit(req, result) {
+function addMenu(req, result) {
     let name = req.body.name;
     let menuType = req.body.menuType;
     let img = ""
 
-    kitFunctions.addKitMenu(name, menuType, img, (error, success) => {
+    menuFunctions.addMenu(name, menuType, img, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -28,7 +28,7 @@ function addKit(req, result) {
 }
 
 function orderByPopularity(req, result) {
-    kitFunctions.orderByPopularity((error, success) => {
+    menuFunctions.orderByPopularity((error, success) => {
         if (error) {
             throw error;
             return;
@@ -38,7 +38,7 @@ function orderByPopularity(req, result) {
 }
 
 module.exports = {
-    addKit: addKit,
-    addKitMenuType: addKitMenuType,
+    addMenu: addMenu,
+    addMenuType: addMenuType,
     orderByPopularity: orderByPopularity
 }
