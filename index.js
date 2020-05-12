@@ -6,9 +6,8 @@ const config = require("./config.json");
 const userRouter = require("./routes/userRouter.js");
 const areaRouter = require("./routes/areaRouter")
 const workshopRouter = require("./routes/workshopRouter")
-const kitMenuRouter = require("./routes/kitMenuRoute");
+const menuRouter = require("./routes/menuRouter");
 const addonsRouter = require("./routes/addonsRouter")
-const areasBookingRouter = require("./routes/areasBookingRouter")
 const jwt = require('jsonwebtoken');
 const app = express();
 
@@ -32,9 +31,7 @@ app.use(areaRouter);
 
 app.use(workshopRouter);
 
-app.use(areasBookingRouter);
-
-app.use(kitMenuRouter);
+app.use(menuRouter);
 
 app.use(addonsRouter);
 

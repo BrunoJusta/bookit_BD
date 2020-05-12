@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const config = require("../../config.json");
 var connection = mysql.createConnection(dbConfig);
 
-
-
 exports.login = (email, password, callback) => {
 
     connection.connect();
@@ -47,7 +45,7 @@ exports.login = (email, password, callback) => {
     });
 }
 
-exports.register = (name, lastName, email, hash, number, img, userType_id, school, birthDate, callback) => {
+exports.register = (name, lastName, email, hash, number, img, userType_id, school, birthDate, genre, callback) => {
     connection.connect();
     //Get School from mail
     const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
@@ -55,8 +53,8 @@ exports.register = (name, lastName, email, hash, number, img, userType_id, schoo
         if (!error) {
             school = rows[0].school_id
             //Insert user into DB
-            const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?)`;
-            connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate], function (error, results, fields) {
+            const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate, genre) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {
                 if (error) callback(error);
                 callback(null, {
                     success: true,
@@ -96,6 +94,31 @@ exports.changeNumber = (id, newNumber, callback) => {
     connection.end()
 }
 
+exports.changeType = (id, newType, callback) => {
+    connection.connect();
+    var sql = `UPDATE user SET userType_id = ? WHERE user_id = ?`
+    connection.query(sql, [newType, id], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            success: true,
+            message: "Type changed!"
+        })
+    })
+    connection.end()
+}
+
+exports.changeAvatar = (id, newImg, callback) => {
+    connection.connect();
+    var sql = `UPDATE user SET img = ? WHERE user_id = ?`
+    connection.query(sql, [newImg, id], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            success: true,
+            message: "Avatar changed!"
+        })
+    })
+    connection.end()
+}
 
 exports.deleteUser = (id, callback) => {
     connection.connect()

@@ -1,10 +1,8 @@
-const bookingAreasFunctions = require("./bookingAreasFunctions")
+const bookingAreasFunctions = require("./areasBookingFunctions")
 
 
 
 //ADICIONAR FUNÇÃO DE ESTADO CONCLUÍDO 
-
-
 
 //Fazer Reserva
 function newAreaBooking(req, result) {
@@ -14,11 +12,10 @@ function newAreaBooking(req, result) {
     let initHour = req.body.initHour
     let endHour = req.body.endHour
     let time = initHour + "-" + endHour
-    let img = ""
     let area = req.body.area
     let userID = req.body.userID
   
-    bookingAreasFunctions.addAreaBooking(userID, area, reason, date, time, img, (error, success) => {
+    bookingAreasFunctions.addAreaBooking(userID, area, reason, date, time, (error, success) => {
         if (error) {
             throw error;
             return;

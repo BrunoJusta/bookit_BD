@@ -1,11 +1,5 @@
 const bookingFunctions = require("./bookingFunctions")
 
-
-
-//ADICIONAR FUNÇÃO DE ESTADO CONCLUÍDO 
-
-
-
 //Fazer Reserva
 function newBooking(req, result) {
     //Variaveis
@@ -16,7 +10,6 @@ function newBooking(req, result) {
     let endHour = req.body.endHour
     let time = initHour + "-" + endHour
     let numberPeople = req.body.numberPeople
-    let img = ""
     let outfit = req.body.outfit
     let observations = req.body.observations
     let menu = req.body.menu
@@ -26,7 +19,7 @@ function newBooking(req, result) {
     let ing = req.body.ing
 
 
-    bookingFunctions.addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, img, extras, decor,ing, (error, success) => {
+    bookingFunctions.addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor,ing, (error, success) => {
         if (error) {
             throw error;
             return;

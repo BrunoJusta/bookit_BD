@@ -13,9 +13,9 @@ function addWorkshop(req, result) {
     let hf = req.body.hf; //Hora final
     let time = hi + "-" + hf
     let vacancies = req.body.vacancies;
-    let img = "";
+    let img = req.file;
 
-    workshopFunctions.addWorkshop(name, date, teacher, description, img, vacancies, time, (error, success) => {
+    workshopFunctions.addWorkshop(name, date, teacher, description, img.path, vacancies, time, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -58,8 +58,21 @@ function updateWorkshop(req, result) {
     })
 }
 
+
+function search(req, result) {
+    let search = req.body.search
+    workshopFunctions.search(search, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
+}
+
 module.exports = {
     addWorkshop: addWorkshop,
     removeWorkshop: removeWorkshop,
-    updateWorkshop: updateWorkshop
+    updateWorkshop: updateWorkshop,
+    search: search
 }

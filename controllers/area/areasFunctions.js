@@ -58,9 +58,9 @@ exports.getDetails = (id, callback) => {
 
 exports.searchArea = (search, callback) => {
     connection.connect();
-    if (search != '') {
-        let sql = `SELECT name, img FROM area WHERE name LIKE '%?%'`;
-        connection.query(sql, [search], function (error, rows, result) {
+    if (search != '' || search != undefined) {
+        let sql = `SELECT name, img FROM area WHERE name LIKE '%${search}%'`;
+        connection.query(sql, function (error, rows, result) {
             if (error) callback(error);
             console.log(rows);
             callback(null, {
@@ -79,4 +79,5 @@ exports.searchArea = (search, callback) => {
             })
         })
     }
+    connection.end();
 }

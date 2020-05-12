@@ -48,10 +48,10 @@ function removeDecor(req, result) {
 };
 
 function addOutfit(req, result) {
-    let img = "";
+    let img = req.file;
     let name = req.body.name;
 
-    addonsFunctions.addOutfit(img, name, (error, success) => {
+    addonsFunctions.addOutfit(img.path, name, (error, success) => {
         if (error) {
             throw error;
             return;

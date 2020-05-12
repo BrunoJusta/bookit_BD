@@ -4,10 +4,10 @@ var connection = mysql.createConnection(dbConfig);
 
 
 
-exports.addAreasBooking = (userID, area, reason, date, time,img, callback) => {
+exports.addAreasBooking = (userID, area, reason, date, time, callback) => {
     connection.connect();
-    const sql = `INSERT INTO area_Booking (user_id, area_id, reason, date, duration, state_id, img, decline_txt) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?)`
-    connection.query(sql, [userID, area, reason, date, time, 0, img, ""], function (error, results) {
+    const sql = `INSERT INTO area_Booking (user_id, area_id, reason, date, duration, state_id, decline_txt) VALUES ( ? , ?, ?, ?, ?, ?, ?)`
+    connection.query(sql, [userID, area, reason, date, time, 0, ""], function (error, results) {
         if (error) {
             callback(error);
         } else {

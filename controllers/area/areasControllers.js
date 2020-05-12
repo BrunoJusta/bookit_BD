@@ -1,15 +1,12 @@
-const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
-const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection(dbConfig);
 const areasFunctions = require("./areasFunctions")
 
 //Add Area
 function addArea(req, result) {
     let name = req.body.name;
     let description = req.body.description;
-    let img = "";
+    let img = req.file;
 
-    areasFunctions.addArea(name, description, img, (error, success) => {
+    areasFunctions.addArea(name, description, img.path, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -75,3 +72,4 @@ module.exports = {
     searchArea: searchArea,
     
 }
+

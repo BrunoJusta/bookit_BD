@@ -1,6 +1,6 @@
 const menuFunctions = require("./menuFunctions")
 
-//Add Area
+//ADAPTAR
 function addMenuType(req, result) {
     let description = req.body.description;
     menuFunctions.addMenuType(description, (error, success) => {
@@ -15,9 +15,9 @@ function addMenuType(req, result) {
 function addMenu(req, result) {
     let name = req.body.name;
     let menuType = req.body.menuType;
-    let img = ""
+    let img = req.file
 
-    menuFunctions.addMenu(name, menuType, img, (error, success) => {
+    menuFunctions.addMenu(name, menuType, img.path, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -37,8 +37,24 @@ function orderByPopularity(req, result) {
     })
 }
 
+function searchMenu(req, result) {
+    let search = req.body.search
+    menuFunctions.searchMenu(search, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
+}
+
+//FUNÇÃO SEARCH BY TYPE
+
+//FUNÇÃO UPDATE MENU
+
 module.exports = {
     addMenu: addMenu,
     addMenuType: addMenuType,
-    orderByPopularity: orderByPopularity
+    orderByPopularity: orderByPopularity,
+    searchMenu:searchMenu
 }
