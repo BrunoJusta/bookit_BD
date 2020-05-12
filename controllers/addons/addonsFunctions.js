@@ -62,8 +62,8 @@ exports.addOutfit = (img, name, callback) => {
         callback(null, {
             success: true,
             message: "Outfit Added!"
-        })
-    })
+        });
+    });
 };
 
 exports.removeOutfit = (id, callback) => {
@@ -74,6 +74,30 @@ exports.removeOutfit = (id, callback) => {
         callback(null, {
             success: true,
             message: "Outfit Deleted!"
+        });
+    });
+};
+
+exports.addExtra = (name ,callback)=>{
+    connection.connect();
+    const sql = `INSERT INTO extra (name) VALUES (?)`;
+    connection.query(sql,[name], function(error,results,fields){
+        if(error) callback(error);
+        callback(null,{
+            success: true,
+            message: "Extra Added!"
+        });
+    });
+};
+
+exports.removeExtra = (id, callback)=>{
+    connection.connect();
+    const sql = `DELETE FROM extra WHERE extra_id = ?`;
+    connection.query(sql,[id], function(error, results, fields){
+        if(error) callback(error);
+        callback(null,{
+            success: true,
+            message: "Extra Deleted!"
         })
     })
 }

@@ -15,6 +15,8 @@ router.delete("/decors/:id", addonsController.removeDecor)
 router.post("/outfits/", addonsController.addOutfit)
 
 router.delete("/outfits/:id", addonsController.removeOutfit)
+router.post("/extras/", addonsController.addExtra)
+router.delete("/extras/:id", addonsController.removeExtra)
 
 
 module.exports = router
