@@ -132,7 +132,7 @@ exports.getMotive = (id, callback) => {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "Deleted!"
+            message: "motive!"
         })
     });
     connection.end()

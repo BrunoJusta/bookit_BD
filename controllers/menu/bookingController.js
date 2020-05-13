@@ -83,7 +83,7 @@ function getBookings(req, result){
 
 function getMotive(req, result){
     let id  = req.params.id
-    bookingFunctions.removeBooking(id, (error,success)=>{
+    bookingFunctions.getMotive(id, (error,success)=>{
         if(error){
             throw error;
             return;
