@@ -14,9 +14,29 @@ exports.addMenu = (name, menuType, img,ing, callback) => {
             message: "Menu Added!"
         })
         let id = results.insertId
+        newMenuNotification(id)
         menuIng(ing, id)
+        
     });
 };
+
+function newMenuNotification(id) {
+    const sqlMenu = "Select menu.name, menu_Type.description from menu, menu_Type where menu.menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id"
+    connection.query(sqlMenu, [id], function (error, rows, fields) {
+        if (!error) {
+            let menu = rows[0].name
+            let type = rows[0].description
+            console.log(menu + " " + type)
+            let description = "Adicionou um novo menu " + type + " " + menu +"."
+            const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
+            connection.query(sqlNote,[description,0,0],function(error){
+                if(!error){
+                }
+            })
+
+        }
+    })
+}
 
 
 exports.addMenuPlusType = (name, newType, img,ing, callback) => {
@@ -49,6 +69,40 @@ function menuIng(ing, id){
         });
     }
 
+}
+
+exports.removeMenu = (id, callback) => {
+    connection.connect()
+    removeMenuNotification(id)
+    let sql = `DELETE FROM menu WHERE menu_id = ?`;
+    connection.query(sql, [id], function (err, result) {
+        if (err) callback(error);
+        callback(null, {
+            success: true,
+            message: "Deleted!"
+        })
+        connection.end()
+    });
+   
+}
+
+function removeMenuNotification(id) {
+    const sqlMenu = "Select menu.name, menu_Type.description from menu, menu_Type where menu.menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id"
+    connection.query(sqlMenu, [id], function (error, rows, fields) {
+        if (!error) {
+            let menu = rows[0].name
+            let type = rows[0].description
+            console.log(menu + " " + type)
+            let description = "Removeu o menu " + type + " " + menu +"."
+            const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
+            connection.query(sqlNote,[description,0,0],function(error){
+                if(!error){
+                    
+                }
+            })
+
+        }
+    })
 }
 
 

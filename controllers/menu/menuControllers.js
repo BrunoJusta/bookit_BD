@@ -33,6 +33,18 @@ function addMenu(req, result) {
 
 }
 
+function removeMenu(req, result) {
+    let id = req.params.id
+
+    menuFunctions.removeMenu(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
+};
+
 function orderByPopularity(req, result) {
     menuFunctions.orderByPopularity((error, success) => {
         if (error) {
@@ -62,4 +74,5 @@ module.exports = {
     addMenu: addMenu,
     orderByPopularity: orderByPopularity,
     searchMenu:searchMenu,
+    removeMenu: removeMenu,
 }

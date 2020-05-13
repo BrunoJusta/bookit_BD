@@ -21,5 +21,6 @@ router.put("/menus/bookings/ref/:id", bookingController.refuse)
 router.put("/menus/bookings/opinion/:id", bookingController.giveOpinion)
 
 router.delete("/menus/bookings/:id", bookingController.removeBooking)
+router.delete("/menus/del/:id", menuController.removeMenu)
 
 module.exports = router
