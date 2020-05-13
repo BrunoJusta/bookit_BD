@@ -4,6 +4,7 @@ const config = require("../../config.json");
 var connection = mysql.createConnection(dbConfig);
 
 exports.addArea = (name, description, img, callback) => {
+    let id
     connection.connect();
     const sql = `INSERT INTO area (name, description, img) VALUES(?,?,?)`;
     connection.query(sql, [name, description, img], function (error, results, fields) {
@@ -12,13 +13,32 @@ exports.addArea = (name, description, img, callback) => {
             success: true,
             message: "results"
         })
+        id = results.insertId;
+        addAreaNotification(id)
     });
-    connection.end();
+}
 
+function addAreaNotification(id) {
+    const sqlArea = "Select area.name from area where area_id = ?"
+    connection.query(sqlArea, [id], function (error, rows, fields) {
+        if (!error) {
+            let areaName = rows[0].name
+            let description = "A área " + areaName + " foi adicionada."
+            const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ? or user.userType_id = ?;`
+            connection.query(sqlNote, [description, 0, 0, 1], function (error) {
+                if (!error) {
+                    connection.end();
+                } else {
+                    console.log(error)
+                }
+            })
+        }
+    })
 }
 
 exports.removeArea = (id, callback) => {
     connection.connect()
+    removeAreaNotification(id);
     let sql = `DELETE FROM area WHERE area_id = ?`;
     connection.query(sql, [id], function (error, result) {
         if (error) callback(error);
@@ -26,8 +46,23 @@ exports.removeArea = (id, callback) => {
             success: true,
             message: "Deleted!"
         });
+        connection.end()
     });
-    connection.end()
+
+}
+
+function removeAreaNotification(id) {
+    const sqlArea = "Select area.name from area where area_id = ?"
+    connection.query(sqlArea, [id], function (error, rows, fields) {
+        if (!error) {
+            let areaName = rows[0].name
+            let description = "A área " + areaName + " foi eliminada."
+            const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ? or user.userType_id = ?;`
+            connection.query(sqlNote, [description, 0, 0, 1], function (error) {
+                if (!error) {}
+            })
+        }
+    })
 }
 
 exports.updateArea = (name, description, id, callback) => {
