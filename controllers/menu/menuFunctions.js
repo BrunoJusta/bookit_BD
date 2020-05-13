@@ -4,7 +4,7 @@ var connection = mysql.createConnection(dbConfig);
 
 
 //MENU
-exports.addMenu = (name, menuType, img, callback) => {
+exports.addMenu = (name, menuType, img,ing, callback) => {
     connection.connect();
     const sql = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
     connection.query(sql, [name, menuType, img, 0], function (error, results, fields) {
@@ -13,23 +13,45 @@ exports.addMenu = (name, menuType, img, callback) => {
             success: true,
             message: "Menu Added!"
         })
+        let id = results.insertId
+        menuIng(ing, id)
     });
-    connection.end();
 };
 
-//MENU_TYPE
-exports.addMenuType = (description, callback) => {
+
+exports.addMenuPlusType = (name, newType, img,ing, callback) => {
     connection.connect();
     const sql = `INSERT INTO menu_Type (description) VALUES(?)`;
-    connection.query(sql, [description], function (error, results, fields) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "results",
-        })
+    connection.query(sql, [newType], function (error, result, fields) {
+        if(!error){
+            const sql2 = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
+            connection.query(sql2, [name, result.insertId, img, 0], function (error, results, fields) {
+                if (error) callback(error);
+                callback(null, {
+                    success: true,
+                    message: "Menu Added!"
+                })
+                let id = results.insertId
+                menuIng(ing, id)
+            });
+        }
     });
-    connection.end();
+};
+
+
+function menuIng(ing, id){
+    for (let i = 0; i < ing.length; i++) {
+        const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
+        connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
+            if (i === ing.length) {
+                connection.end();
+            }
+        });
+    }
+
 }
+
+
 
 //ordenar por popularidade
 exports.orderByPopularity = (callback) => {

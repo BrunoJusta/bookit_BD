@@ -9,7 +9,6 @@ const menuController = require("../controllers/menu/menuControllers");
 const bookingController = require("../controllers/menu/bookingController");
 
 router.post("/menus/add",upload.single('img'),menuController.addMenu)
-router.post("/menus/type", menuController.addMenuType)
 router.post("/menus/bookings/add", bookingController.newBooking)
 
 router.get("/menus/", menuController.searchMenu)
@@ -19,6 +18,7 @@ router.get("/menus/bookings/motive:id", bookingController.getMotive)
 
 router.put("/menus/bookings/app/:id", bookingController.approved)
 router.put("/menus/bookings/ref/:id", bookingController.refuse)
+router.put("/menus/bookings/opinion/:id", bookingController.giveOpinion)
 
 router.delete("/menus/bookings/:id", bookingController.removeBooking)
 
