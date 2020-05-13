@@ -8,15 +8,18 @@ var upload = multer({dest: 'assets/outfits/'})
 const addonsController = require("../controllers/addons/addonsControllers");
 
 router.post("/ingredients/", addonsController.addIngredient)
-router.delete("/ingredients/:id",addonsController.removeIngredient)
 router.post("/decors/", addonsController.addDecor)
-router.delete("/decors/:id", addonsController.removeDecor)
 router.post("/outfits/", upload.single('img'),addonsController.addOutfit)
-router.delete("/outfits/:id", addonsController.removeOutfit)
 router.post("/extras/", addonsController.addExtra)
+
+router.get("/ingredients/table", addonsController.getIngredients)
+router.get("/decors/table", addonsController.getDecors)
+router.get("/outfits/table", addonsController.getOutfits)
+router.get("/extras/table", addonsController.getExtras)
+
 router.delete("/extras/:id", addonsController.removeExtra)
-
-//GET PARA AS TABELAS
-
+router.delete("/ingredients/:id",addonsController.removeIngredient)
+router.delete("/decors/:id", addonsController.removeDecor)
+router.delete("/outfits/:id", addonsController.removeOutfit)
 
 module.exports = router

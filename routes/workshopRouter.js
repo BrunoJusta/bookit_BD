@@ -10,12 +10,11 @@ const workshopController = require("../controllers/workshops/workshopsController
 
 router.post("/workshops/add",upload.single('img'),workshopController.addWorkshop)
 
-router.delete("/workshops/del/:id", workshopController.removeWorkshop)
+router.get("/workshops/", workshopController.search)
+router.get("/workshops/table",workshopController.getWorkshops)
 
 router.put("/workshops/edit/:id", workshopController.updateWorkshop)
 
-router.get("/workshops/", workshopController.search)
-
-//GET WORKSHOPS TABLE
+router.delete("/workshops/del/:id", workshopController.removeWorkshop)
 
 module.exports=router;

@@ -84,8 +84,48 @@ function addExtra(req, result) {
 
 function removeExtra(req, result) {
     let id = req.params.id;
-    addonsFunctions.removeExtra(id,(error,success)=>{
-        if(error){
+    addonsFunctions.removeExtra(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function getIngredients(req, result) {
+    addonsFunctions.getIngredients((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function getDecors(req, result) {
+    addonsFunctions.getDecors((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function getOutfits(req, result) {
+    addonsFunctions.getOutfits((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function getExtras(req, result) {
+    addonsFunctions.getExtras((error, success) => {
+        if (error) {
             throw error;
             return;
         };
@@ -102,4 +142,8 @@ module.exports = {
     removeOutfit: removeOutfit,
     addExtra: addExtra,
     removeExtra: removeExtra,
+    getIngredients: getIngredients,
+    getDecors: getDecors,
+    getOutfits: getOutfits,
+    getExtras: getExtras
 }
