@@ -29,9 +29,4 @@ router.get("/menus/bookings", bookingController.getBookings)
 router.get("/menus/bookings/motive:id", bookingController.getMotive)
 
 
-
-//GET BOOKINGS TABELAS
-
-//GET MOTIVE
-
 module.exports = router
