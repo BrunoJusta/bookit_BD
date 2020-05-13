@@ -14,7 +14,7 @@ function newAreaBooking(req, result) {
     let time = initHour + "-" + endHour
     let area = req.body.area
     let userID = req.body.userID
-  
+
     bookingAreasFunctions.addAreasBooking(userID, area, reason, date, time, (error, success) => {
         if (error) {
             throw error;
@@ -25,7 +25,7 @@ function newAreaBooking(req, result) {
 }
 
 //Aprovar Reserva
-function approved(req, result){
+function approved(req, result) {
     let id = req.params.id
 
     bookingAreasFunctions.approveAreaBooking(id, (error, success) => {
@@ -39,7 +39,7 @@ function approved(req, result){
 }
 
 //Recusar Reserva
-function refuse(req, result){
+function refuse(req, result) {
     let id = req.params.id
     let decline = req.body.decline
     bookingAreasFunctions.refuseAreaBooking(id, decline, (error, success) => {
@@ -53,10 +53,10 @@ function refuse(req, result){
 }
 
 //Remover Reserva
-function removeAreaBooking(req, result){
-    let id  = req.params.id
-    bookingAreasFunctions.removeAreaBooking(id, (error,success)=>{
-        if(error){
+function removeAreaBooking(req, result) {
+    let id = req.params.id
+    bookingAreasFunctions.removeAreaBooking(id, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -65,21 +65,34 @@ function removeAreaBooking(req, result){
 }
 
 //Tabela das Reservas
-function tableAreaBooking(req, result){
-    bookingAreasFunctions.tableAreaBooking((error,sucess)=>{
-        if(error){
+function tableAreaBooking(req, result) {
+    bookingAreasFunctions.tableAreaBooking((error, sucess) => {
+        if (error) {
             throw error;
             return;
         }
         result.json(sucess)
     })
 }
+
+function giveOpinion(req, result) {
+    let id = req.params.id
+    let opinion = req.body.opinion
+    bookingAreasFunctions.giveOpinion(id, opinion, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+
+}
+
 module.exports = {
     newAreaBooking: newAreaBooking,
     approved: approved,
     refuse: refuse,
     removeAreaBooking: removeAreaBooking,
-    tableAreaBooking: tableAreaBooking
+    tableAreaBooking: tableAreaBooking,
+    giveOpinion: giveOpinion,
 }
-
-
