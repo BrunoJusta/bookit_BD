@@ -1,30 +1,36 @@
 const menuFunctions = require("./menuFunctions")
 
 //ADAPTAR
-function addMenuType(req, result) {
-    let description = req.body.description;
-    menuFunctions.addMenuType(description, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        result.json(success)
-    })
-}
-
 function addMenu(req, result) {
     let name = req.body.name;
     let menuType = req.body.menuType;
+    let newType = req.body.newType
     let img = req.file
+    let ing = req.body.ing
 
-    menuFunctions.addMenu(name, menuType, img.path, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        result.json(success)
+    if(menuType === "" || menuType === undefined){
+        menuFunctions.addMenuPlusType(name, newType, img.path, ing, (error, success) => {
+            if (error) {
+                throw error;
+                return;
+            }
+            result.json(success)
+    
+        })
+    }
+    else{
+        menuFunctions.addMenu(name, menuType, img.path, ing, (error, success) => {
+            if (error) {
+                throw error;
+                return;
+            }
+            result.json(success)
+    
+        })
 
-    })
+    }
+
+
 }
 
 function orderByPopularity(req, result) {
@@ -54,7 +60,6 @@ function searchMenu(req, result) {
 
 module.exports = {
     addMenu: addMenu,
-    addMenuType: addMenuType,
     orderByPopularity: orderByPopularity,
-    searchMenu:searchMenu
+    searchMenu:searchMenu,
 }

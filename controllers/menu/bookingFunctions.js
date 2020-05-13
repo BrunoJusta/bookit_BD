@@ -82,7 +82,7 @@ exports.refuseBooking = (id, decline, callback) => {
 
     connection.connect();
     const sql = `UPDATE booking SET state_id = ?, decline_txt = ? WHERE booking_id = ?`
-    connection.query(sql, [2,decline, id], function (error, results) {
+    connection.query(sql, [2, decline, id], function (error, results) {
         if (error) callback(error);
         callback(null, {
             success: true,
@@ -114,7 +114,7 @@ exports.getBookings = (callback) => {
                 inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
                 inner join user on booking.user_id = user.user_id
                 inner join state_booking on booking.state_id = state_booking.state_id`;
-    connection.query(sql, function (err, rows, fields,result) {
+    connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
@@ -136,4 +136,39 @@ exports.getMotive = (id, callback) => {
         })
     });
     connection.end()
+}
+
+
+exports.opinionBooking = (id, opinion, callback) => {
+    connection.connect();
+    const sql = `UPDATE booking SET opinion = ?  WHERE booking_id = ?`
+    connection.query(sql, [opinion, id], function (error, results) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "results",
+        })
+        opinionNotification(id)
+
+    })
+
+}
+
+function opinionNotification(id) {
+    const sqlMenu = "Select menu.name, menu_Type.description from menu, booking, menu_Type where  booking_id = ? and menu.menu_id = booking.menu_id and menu.menu_type_id = menu_Type.menu_type_id"
+    connection.query(sqlMenu, [id], function (error, rows, fields) {
+        if (!error) {
+            let menu = rows[0].name
+            let type = rows[0].description
+            console.log(menu + " " + type)
+            let description = "Recebeu uma nova opiniao no menu " + type + " " + menu +"."
+            const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ?;`
+            connection.query(sqlNote,[description,0,0],function(error){
+                if(!error){
+                    connection.end()
+                }
+            })
+
+        }
+    })
 }

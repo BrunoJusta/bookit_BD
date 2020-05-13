@@ -56,6 +56,19 @@ function refuse(req, result){
 
 }
 
+function giveOpinion(req, result){
+    let id = req.params.id
+    let opinion = req.body.opinion
+    bookingFunctions.opinionBooking(id, opinion, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+
+}
+
 //Remover Reserva
 function removeBooking(req, result){
     let id  = req.params.id
@@ -98,7 +111,8 @@ module.exports = {
     refuse: refuse,
     removeBooking: removeBooking,
     getBookings: getBookings,
-    getMotive: getMotive
+    getMotive: getMotive,
+    giveOpinion: giveOpinion,
     
 }
 
