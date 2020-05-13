@@ -15,7 +15,7 @@ function newAreaBooking(req, result) {
     let area = req.body.area
     let userID = req.body.userID
   
-    bookingAreasFunctions.addAreaBooking(userID, area, reason, date, time, (error, success) => {
+    bookingAreasFunctions.addAreasBooking(userID, area, reason, date, time, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -64,11 +64,22 @@ function removeAreaBooking(req, result){
     })
 }
 
+//Tabela das Reservas
+function tableAreaBooking(req, result){
+    bookingAreasFunctions.tableAreaBooking((error,sucess)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(sucess)
+    })
+}
 module.exports = {
     newAreaBooking: newAreaBooking,
     approved: approved,
     refuse: refuse,
-    removeAreaBooking: removeAreaBooking
+    removeAreaBooking: removeAreaBooking,
+    tableAreaBooking: tableAreaBooking
 }
 
 
