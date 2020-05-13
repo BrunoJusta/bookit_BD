@@ -31,15 +31,29 @@ exports.approveAreaBooking = (id, callback) => {
             success: true,
             message: "results",
         })
-        connection.end();
-
+        aproveAreaNotification(id)
     })
+}
 
+function aproveAreaNotification(id) {
+    const sqlMenu = "Select area.name, area_Booking.user_id from area, area_Booking where  area_booking_id = ? and area.area_id = area_Booking.area_id"
+    connection.query(sqlMenu, [id], function (error, rows, fields) {
+        if (!error) {
+            let area = rows[0].name
+            let user_id = rows[0].user_id
+            let description = "A sua reverva da " + area +" foi aceite." 
+            const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
+            connection.query(sqlNote,[user_id,description,0],function(error){
+                if(!error){
+                    connection.end()
+                }
+            })
+        }
+    })
 }
 
 
 exports.refuseAreaBooking = (id, decline, callback) => {
-
     connection.connect();
     const sql = `UPDATE area_Booking SET state_id = ?, decline_txt = ? WHERE area_booking_id = ?`
     connection.query(sql, [2, decline, id], function (error, results) {
@@ -50,9 +64,7 @@ exports.refuseAreaBooking = (id, decline, callback) => {
         })
         refuseNotification(id)
     })
-
 }
-
 
 function refuseNotification(id) {
     const sqlMenu = "Select area.name, area_Booking.user_id from area, area_Booking where  area_booking_id = ? and area.area_id = area_Booking.area_id"
@@ -67,7 +79,6 @@ function refuseNotification(id) {
                     connection.end()
                 }
             })
-
         }
     })
 }
@@ -115,7 +126,5 @@ exports.giveOpinion = (id, opinion, callback) => {
             message: "results",
         })
         connection.end();
-
     })
-
 }
