@@ -78,26 +78,82 @@ exports.removeOutfit = (id, callback) => {
     });
 };
 
-exports.addExtra = (name ,callback)=>{
+exports.addExtra = (name, callback) => {
     connection.connect();
     const sql = `INSERT INTO extra (name) VALUES (?)`;
-    connection.query(sql,[name], function(error,results,fields){
-        if(error) callback(error);
-        callback(null,{
+    connection.query(sql, [name], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
             success: true,
             message: "Extra Added!"
         });
     });
 };
 
-exports.removeExtra = (id, callback)=>{
+exports.removeExtra = (id, callback) => {
     connection.connect();
     const sql = `DELETE FROM extra WHERE extra_id = ?`;
-    connection.query(sql,[id], function(error, results, fields){
-        if(error) callback(error);
-        callback(null,{
+    connection.query(sql, [id], function (error, results, fields) {
+        if (error) callback(error);
+        callback(null, {
             success: true,
             message: "Extra Deleted!"
         })
     })
+}
+
+exports.getIngredients = (callback) => {
+    connection.connect();
+    let sql = `SELECT name from Ingredient`;
+    connection.query(sql, function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            message: "Ingredients Table!"
+        })
+    })
+    connection.end();
+}
+
+exports.getDecors = (callback) => {
+    connection.connect();
+    let sql = `SELECT name from decoration`;
+    connection.query(sql, function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            message: "Decors Table!"
+        })
+    })
+    connection.end();
+}
+
+exports.getOutfits = (callback) => {
+    connection.connect();
+    let sql = `SELECT name from outfit`;
+    connection.query(sql, function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            message: "Outfits Table!"
+        })
+    })
+    connection.end();
+}
+
+exports.getExtras = (callback) => {
+    connection.connect();
+    let sql = `SELECT name from extra`;
+    connection.query(sql, function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            message: "Extras Table!"
+        })
+    })
+    connection.end();
 }

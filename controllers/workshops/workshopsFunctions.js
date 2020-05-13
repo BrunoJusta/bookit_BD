@@ -72,3 +72,17 @@ exports.search = (search, callback) => {
     }
     connection.end();
 }
+
+exports.getWorkshops = (callback) => {
+    connection.connect();
+    let sql = `SELECT name, filled, vacancies from workshop`;
+    connection.query(sql, function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            message: "Workshops Tabledadasdadsdsa!"
+        })
+    })
+    connection.end();
+}
