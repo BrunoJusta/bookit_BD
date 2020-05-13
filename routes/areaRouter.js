@@ -26,6 +26,8 @@ router.put("/areas/bookings/app/:id", areasBookingController.approved)
 
 router.put("/areas/bookings/ref/:id", areasBookingController.refuse)
 
+router.put("/areas/bookings/opinion/:id", areasBookingController.giveOpinion)
+
 router.delete("/areas/bookings/:id", areasBookingController.removeAreaBooking)
 
 
