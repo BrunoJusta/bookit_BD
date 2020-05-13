@@ -14,7 +14,7 @@ router.post("/menus/type", menuController.addMenuType)
 
 router.get("/menus/popular", menuController.orderByPopularity)
 
-router.post("/menus/bookings", bookingController.newBooking)
+router.post("/menus/bookings/add", bookingController.newBooking)
 
 router.put("/menus/bookings/app/:id", bookingController.approved)
 
@@ -23,6 +23,12 @@ router.put("/menus/bookings/ref/:id", bookingController.refuse)
 router.delete("/menus/bookings/:id", bookingController.removeBooking)
 
 router.get("/menus/", menuController.searchMenu)
+
+router.get("/menus/bookings", bookingController.getBookings)
+
+router.get("/menus/bookings/motive:id", bookingController.getMotive)
+
+
 
 //GET BOOKINGS TABELAS
 

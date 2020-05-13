@@ -68,11 +68,38 @@ function removeBooking(req, result){
     })
 }
 
+
+function getBookings(req, result){
+    bookingFunctions.getBookings((error,success)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
+
+
+
+function getMotive(req, result){
+    let id  = req.params.id
+    bookingFunctions.removeBooking(id, (error,success)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
+
 module.exports = {
     newBooking: newBooking,
     approved: approved,
     refuse: refuse,
-    removeBooking: removeBooking
+    removeBooking: removeBooking,
+    getBookings: getBookings,
+    getMotive: getMotive
+    
 }
 
 
