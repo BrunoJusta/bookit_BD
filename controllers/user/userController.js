@@ -132,6 +132,94 @@ function changeAvatar(req, res) {
     })
 }
 
+function getUsers(req, result) {
+    userFunctions.getUsers((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function menuBookingsById(req, result) {
+    let idToChange = req.params.id
+    userFunctions.menuBookingsById(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function areaBookingsById(req, result) {
+    let idToChange = req.params.id
+    userFunctions.areaBookingsById(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function workshopBookingsById(req, result) {
+    let idToChange = req.params.id
+    userFunctions.workshopBookingsById(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function notificationsById(req, result) {
+    let idToChange = req.params.id
+    userFunctions.notificationsById(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function archivationsById(req, result) {
+    let idToChange = req.params.id
+    userFunctions.archivationsById(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function archive(req, result) {
+    let idToChange = req.params.id
+    userFunctions.archive(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+function deleteNotification(req, result) {
+    let idToChange = req.params.id
+    userFunctions.deleteNotification(idToChange,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
+
 //LOGOUT
 
 module.exports = {
@@ -141,5 +229,13 @@ module.exports = {
     changeNumber: changeNumber,
     changeAvatar: changeAvatar,
     changeType: changeType,
+    getUsers: getUsers,
+    menuBookingsById: menuBookingsById,
+    areaBookingsById: areaBookingsById,
+    workshopBookingsById: workshopBookingsById,
+    notificationsById: notificationsById,
+    archivationsById: archivationsById,
+    archive: archive, 
+    deleteNotification: deleteNotification,
     LoginValidation: LoginValidation,
 }

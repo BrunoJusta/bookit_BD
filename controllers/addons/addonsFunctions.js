@@ -4,7 +4,7 @@ var connection = mysql.createConnection(dbConfig);
 
 exports.addIngredient = (name, type, callback) => {
     connection.connect();
-    const sql = `INSERT INTO Ingredient (name, type) VALUES(?, ?)`;
+    const sql = `INSERT INTO ingredient (name, type) VALUES(?, ?)`;
     connection.query(sql, [name, type], function (error, results, fields) {
         if (error) callback(error);
         callback(null, {
@@ -17,7 +17,7 @@ exports.addIngredient = (name, type, callback) => {
 
 exports.removeIngredient = (id, callback) => {
     connection.connect();
-    const sql = `DELETE FROM Ingredient WHERE ingredient_id = ?`;
+    const sql = `DELETE FROM ingredient WHERE ingredient_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
         if (error) callback(error);
         callback(null, {
@@ -104,7 +104,7 @@ exports.removeExtra = (id, callback) => {
 
 exports.getIngredients = (callback) => {
     connection.connect();
-    let sql = `SELECT name from Ingredient`;
+    let sql = `SELECT name from ingredient`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
