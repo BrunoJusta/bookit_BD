@@ -208,7 +208,6 @@ function opinionNotification(id) {
                     connection.end()
                 }
             })
-
         }
     })
 }
