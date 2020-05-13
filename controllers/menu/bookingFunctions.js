@@ -106,3 +106,34 @@ exports.removeBooking = (id, callback) => {
     });
     connection.end()
 }
+
+exports.getBookings = (callback) => {
+    connection.connect()
+    let sql = `select  menu_Type.description,menu.name, date, duration, user.name, user.lastName, user.email, state_booking.description from booking 
+                inner join menu on menu.menu_id = booking.menu_id
+                inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
+                inner join user on booking.user_id = user.user_id
+                inner join state_booking on booking.state_id = state_booking.state_id`;
+    connection.query(sql, function (err, rows, fields,result) {
+        if (err) callback(error);
+        callback(null, {
+            success: true,
+            message: "results!"
+        })
+        console.log(rows)
+    });
+    connection.end()
+}
+
+exports.getMotive = (id, callback) => {
+    connection.connect()
+    let sql = `SELECT decline_txt FROM booking WHERE booking_id = ?`;
+    connection.query(sql, [id], function (err, result) {
+        if (err) callback(error);
+        callback(null, {
+            success: true,
+            message: "Deleted!"
+        })
+    });
+    connection.end()
+}

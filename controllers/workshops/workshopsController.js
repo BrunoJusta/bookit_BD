@@ -70,9 +70,20 @@ function search(req, result) {
     });
 }
 
+function getWorkshops (req, result) {
+    workshopFunctions.getWorkshops((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
+}
+
 module.exports = {
     addWorkshop: addWorkshop,
     removeWorkshop: removeWorkshop,
     updateWorkshop: updateWorkshop,
-    search: search
+    search: search,
+    getWorkshops: getWorkshops
 }
