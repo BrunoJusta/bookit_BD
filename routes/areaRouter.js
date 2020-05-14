@@ -22,7 +22,7 @@ router.put("/areas/bookings/app/:id",middleware.checkToken, areasBookingControll
 router.put("/areas/bookings/ref/:id",middleware.checkToken, areasBookingController.refuse)
 router.put("/areas/bookings/opinion/:id",middleware.checkToken, areasBookingController.giveOpinion)
 
-router.delete("/areas/bookings/:id",middleware.checkToken, areasBookingController.removeAreaBooking)
+router.delete("/areas/bookings/del/:id",middleware.checkToken, areasBookingController.removeAreaBooking)
 router.delete("/areas/del/:id",middleware.checkToken, areasController.removeArea);
 
 module.exports = router
