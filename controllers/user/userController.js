@@ -11,25 +11,24 @@ function insertUser(req, result) {
     let lastName = req.body.lastName
     let number = req.body.number
     let imgMale = "../../assets/userImgs/male.svg"
-    let imgFemale ="../../assets/userImgs/female.svg"
+    let imgFemale = "../../assets/userImgs/female.svg"
     let email = req.body.email
     let birthDate = req.body.birthDate
     let school = 0
     let userType_id = 1
     let genre = req.body.genre
 
-    
-    if(genre == "male"){
+
+    if (genre == "male") {
         img = imgMale
-    }
-    else{
+    } else {
         img = imgFemale
     }
     //verify Password = 123AvesChines
     if (req.body.password === req.body.password2) {
         //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
-            userFunctions.register(name, lastName, email, hash, number, img, userType_id, school, birthDate,genre, (error, success) => {
+            userFunctions.register(name, lastName, email, hash, number, img, userType_id, school, birthDate, genre, (error, success) => {
                 if (error) {
                     throw error;
                     return;
@@ -41,8 +40,6 @@ function insertUser(req, result) {
         console.log("Passwords nao coincidem!")
     }
 }
-
-let token
 
 
 //Login User
@@ -58,7 +55,7 @@ class LoginValidation {
                 return;
             }
             result.json(success)
-            token = result.json(success.token)
+
         })
     }
     index(req, res) {
@@ -70,35 +67,36 @@ class LoginValidation {
 }
 
 
-function logout(req, result){
-
-    
-
-
-    let email = req.body.email
-    token = jwt.sign({
-        email: email,
-    },
-    config.secret, {
-        expiresIn: Math.floor(Date.now() / 1000) - 30000000000000 
+function logout(req, result) {
+    let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+    console.log(token)
+    if (token.startsWith('Bearer ')) {
+        // Remove Bearer from string
+        token = token.slice(7, token.length);
     }
-);
-    
-}
-
-
-//Remove User
-function deleteUser(req, result) {
-    let id= req.params.id
-
-    userFunctions.deleteUser(id, (error,success) =>{
+    userFunctions.logout(token, (error, success) => {
         if (error) {
             throw error;
             return;
         }
         result.json(success)
     })
-    
+
+}
+
+
+//Remove User
+function deleteUser(req, result) {
+    let id = req.params.id
+
+    userFunctions.deleteUser(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+
 }
 
 function changePassword(req, res) {
@@ -168,7 +166,7 @@ function getUsers(req, result) {
 
 function menuBookingsById(req, result) {
     let idToChange = req.params.id
-    userFunctions.menuBookingsById(idToChange,(error, success) => {
+    userFunctions.menuBookingsById(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -179,7 +177,7 @@ function menuBookingsById(req, result) {
 
 function areaBookingsById(req, result) {
     let idToChange = req.params.id
-    userFunctions.areaBookingsById(idToChange,(error, success) => {
+    userFunctions.areaBookingsById(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -190,7 +188,7 @@ function areaBookingsById(req, result) {
 
 function workshopBookingsById(req, result) {
     let idToChange = req.params.id
-    userFunctions.workshopBookingsById(idToChange,(error, success) => {
+    userFunctions.workshopBookingsById(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -201,7 +199,7 @@ function workshopBookingsById(req, result) {
 
 function notificationsById(req, result) {
     let idToChange = req.params.id
-    userFunctions.notificationsById(idToChange,(error, success) => {
+    userFunctions.notificationsById(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -212,7 +210,7 @@ function notificationsById(req, result) {
 
 function archivationsById(req, result) {
     let idToChange = req.params.id
-    userFunctions.archivationsById(idToChange,(error, success) => {
+    userFunctions.archivationsById(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -223,7 +221,7 @@ function archivationsById(req, result) {
 
 function archive(req, result) {
     let idToChange = req.params.id
-    userFunctions.archive(idToChange,(error, success) => {
+    userFunctions.archive(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -234,7 +232,7 @@ function archive(req, result) {
 
 function deleteNotification(req, result) {
     let idToChange = req.params.id
-    userFunctions.deleteNotification(idToChange,(error, success) => {
+    userFunctions.deleteNotification(idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -259,7 +257,7 @@ module.exports = {
     workshopBookingsById: workshopBookingsById,
     notificationsById: notificationsById,
     archivationsById: archivationsById,
-    archive: archive, 
+    archive: archive,
     deleteNotification: deleteNotification,
     logout: logout,
     LoginValidation: LoginValidation,

@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require("./config.json");
-
+const dbConfig = require("./database/db-config.json"); //Importar configuração da base de dados
+const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
+var connection = mysql.createConnection(dbConfig);
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
@@ -10,7 +12,39 @@ let checkToken = (req, res, next) => {
     token = token.slice(7, token.length);
   }
 
-  if (token) {
+
+  const sql = `SELECT token FROM blacklist WHERE token = ?`
+  connection.connect();
+  console.log(token)
+  connection.query(sql, [token], function (error, rows, fields) {
+    console.log(rows.length)
+    console.log(error)
+    if (rows.length !== 0) {
+      return res.json({
+        success: false,
+        message: 'Auth token is not supplied'
+      });
+    } else if(rows.length === 0){
+
+      console.log("entrou")
+      jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: 'Token is not valid'
+          });
+        } else {
+          console.log("entrou 2")
+          req.decoded = decoded;
+          next();
+        }
+      });
+    }
+  })
+  connection.end()
+}
+
+/* if (token) {
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {
         return res.json({
@@ -28,7 +62,7 @@ let checkToken = (req, res, next) => {
       message: 'Auth token is not supplied'
     });
   }
-};
+}; */
 
 module.exports = {
   checkToken: checkToken

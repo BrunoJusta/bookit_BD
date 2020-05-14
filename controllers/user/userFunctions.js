@@ -120,6 +120,19 @@ exports.changeAvatar = (id, newImg, callback) => {
     connection.end()
 }
 
+exports.logout = (token, callback) =>{
+
+    connection.connect();
+    let sql = `INSERT INTO blacklist(token) VALUES(?)`
+    connection.query(sql, [token], function (err, result) {
+        if (err) callback(err);
+        callback(null, {
+            sucess: true,
+            message: "Logout!"
+        })
+    });
+    connection.end();
+}
 exports.deleteUser = (id, callback) => {
     connection.connect()
     console.log("Connected!");
@@ -149,7 +162,7 @@ exports.getUsers = (callback) => {
     connection.end();
 }
 
-exports.menuBookingsById = (id,callback) => {
+exports.menuBookingsById = (id, callback) => {
     connection.connect();
     let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description 
     from booking, menu, menu_Type, school, state_booking
@@ -168,7 +181,7 @@ exports.menuBookingsById = (id,callback) => {
     connection.end();
 }
 
-exports.areaBookingsById = (id,callback) => {
+exports.areaBookingsById = (id, callback) => {
     connection.connect();
     let sql = `select  area_booking_id, area.name, date, duration, state_booking.description 
     from area_Booking, area, state_booking
@@ -186,7 +199,7 @@ exports.areaBookingsById = (id,callback) => {
 }
 
 
-exports.workshopBookingsById = (id,callback) => {
+exports.workshopBookingsById = (id, callback) => {
     connection.connect();
     let sql = `select workshop.workshop_id, name, date, duration from workshop, inscription
     where workshop.workshop_id = inscription.workshop_id and inscription.user_id = ?;`;
@@ -201,7 +214,7 @@ exports.workshopBookingsById = (id,callback) => {
     connection.end();
 }
 
-exports.notificationsById = (id,callback) => {
+exports.notificationsById = (id, callback) => {
     connection.connect();
     let sql = `select notification_id, user_id, description from notification
     where notification.user_id = ? and notification.type = 0;`;
@@ -216,7 +229,7 @@ exports.notificationsById = (id,callback) => {
     connection.end();
 }
 
-exports.archivationsById = (id,callback) => {
+exports.archivationsById = (id, callback) => {
     connection.connect();
     let sql = `select notification_id, user_id, description from notification
     where notification.user_id = ? and notification.type = 1;`;
@@ -231,7 +244,7 @@ exports.archivationsById = (id,callback) => {
     connection.end();
 }
 
-exports.archive = (id,callback) => {
+exports.archive = (id, callback) => {
     connection.connect();
     let sql = `update notification set type = 1 where notification_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -245,7 +258,7 @@ exports.archive = (id,callback) => {
     connection.end();
 }
 
-exports.deleteNotification = (id,callback) => {
+exports.deleteNotification = (id, callback) => {
     connection.connect();
     let sql = `delete from notification where notification_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
