@@ -4,9 +4,9 @@ var connection = mysql.createConnection(dbConfig);
 
 exports.addWorkshop = (name, date, teacher, description, img, vacancies, time, callback) => {
     connection.connect();
-    const sql = `INSERT INTO workshop (name, date, teacher, description, img, vacancies, time) VALUES(?,?,?,?,?,?,?)`;
+    const sql = `INSERT INTO workshop (name, date, teacher, description, img, vacancies, duration, filled) VALUES(?,?,?,?,?,?,?,?)`;
 
-    connection.query(sql, [name, date, teacher, description, img, vacancies, time], function (error, results, fields) {
+    connection.query(sql, [name, date, teacher, description, img, vacancies, time,0], function (error, results, fields) {
         if (error) callback(error);
         callback(null, {
             success: true,
@@ -74,7 +74,7 @@ function deleteNotification(id) {
 
 exports.updateWorkshop = (id, name, date, teacher, description, vacancies, time, callback) => {
     connection.connect();
-    const sql = `UPDATE workshop SET name = ?, date = ?, teacher = ?, description = ?, vacancies = ?, time = ? WHERE workshop_id = ?`
+    const sql = `UPDATE workshop SET name = ?, date = ?, teacher = ?, description = ?, vacancies = ?, duration = ? WHERE workshop_id = ?`
 
     connection.query(sql, [name, date, teacher, description, vacancies, time, id], function (err, result) {
         if (err) callback(err);

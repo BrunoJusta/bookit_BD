@@ -101,16 +101,23 @@ function deleteUser(req, result) {
 function changePassword(req, res) {
     let idToChange = req.params.id
     let newPassword = req.body.newPassword
+    let newPassword2 = req.body.newPassword2
 
-    bcrypt.hash(newPassword, 10, function (err, hash) {
-        userFunctions.changePassword(idToChange, hash, (error, success) => {
-            if (error) {
-                throw error;
-                return;
-            }
-            res.json(success)
+    if(newPassword === newPassword2){
+        bcrypt.hash(newPassword, 10, function (err, hash) {
+            userFunctions.changePassword(idToChange, hash, (error, success) => {
+                if (error) {
+                    throw error;
+                    return;
+                }
+                res.json(success)
+            })
         })
-    })
+    }
+    else{
+        console.log("Passwords não coincidem")
+    }
+    
 }
 
 function changeNumber(req, res) {

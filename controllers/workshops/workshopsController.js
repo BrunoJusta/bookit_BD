@@ -1,6 +1,3 @@
-const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
-const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection(dbConfig);
 const workshopFunctions = require("./workshopsFunctions")
 
 //Adicionar Workshop
