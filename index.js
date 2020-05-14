@@ -8,7 +8,6 @@ const areaRouter = require("./routes/areaRouter")
 const workshopRouter = require("./routes/workshopRouter")
 const menuRouter = require("./routes/menuRouter");
 const addonsRouter = require("./routes/addonsRouter")
-const jwt = require('jsonwebtoken');
 const app = express();
 
 app.use(validator());
