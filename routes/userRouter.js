@@ -12,6 +12,8 @@ let validate = new userController.LoginValidation();
 
 router.post("/users/register",userController.insertUser)
 router.post('/login', validate.login)
+router.post('/logout',userController.logout)
+
 
 router.get('/', middleware.checkToken, validate.index);
 router.get("/users/table", userController.getUsers)

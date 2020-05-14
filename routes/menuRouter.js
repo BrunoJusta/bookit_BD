@@ -2,6 +2,7 @@ const Router = require("express").Router;
 var router = Router();
 const multer = require("multer");
 var upload = multer({dest: 'assets/menuImgs/'})
+const middleware = require("../middleware")
 
 
 //Imports
@@ -18,7 +19,7 @@ router.get("/menus/bookings/motive:id", bookingController.getMotive)
 
 router.put("/menus/bookings/app/:id", bookingController.approved)
 router.put("/menus/bookings/ref/:id", bookingController.refuse)
-router.put("/menus/bookings/opinion/:id", bookingController.giveOpinion)
+router.put("/menus/bookings/opinion/:id",middleware.checkToken, bookingController.giveOpinion)
 
 router.delete("/menus/bookings/:id", bookingController.removeBooking)
 router.delete("/menus/del/:id", menuController.removeMenu)

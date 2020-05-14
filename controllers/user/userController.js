@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const userFunctions = require("./userFunctions")
+const jwt = require('jsonwebtoken')
+const config = require("../../config.json")
 
 //Register User
 function insertUser(req, result) {
@@ -40,6 +42,9 @@ function insertUser(req, result) {
     }
 }
 
+let token
+
+
 //Login User
 class LoginValidation {
     //FLogin
@@ -53,6 +58,7 @@ class LoginValidation {
                 return;
             }
             result.json(success)
+            token = result.json(success.token)
         })
     }
     index(req, res) {
@@ -62,6 +68,24 @@ class LoginValidation {
         });
     }
 }
+
+
+function logout(req, result){
+
+    
+
+
+    let email = req.body.email
+    token = jwt.sign({
+        email: email,
+    },
+    config.secret, {
+        expiresIn: Math.floor(Date.now() / 1000) - 30000000000000 
+    }
+);
+    
+}
+
 
 //Remove User
 function deleteUser(req, result) {
@@ -237,5 +261,6 @@ module.exports = {
     archivationsById: archivationsById,
     archive: archive, 
     deleteNotification: deleteNotification,
+    logout: logout,
     LoginValidation: LoginValidation,
 }

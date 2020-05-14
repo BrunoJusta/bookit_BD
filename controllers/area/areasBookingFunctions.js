@@ -110,12 +110,6 @@ exports.tableAreaBooking = (callback) => {
 }
 
 
-//Accept  booking e area booking notification
-
-//Delete area, menu e workshop notification
-
-//add area, menu e workshop notification
-
 exports.giveOpinion = (id, opinion, callback) => {
     connection.connect();
     const sql = `UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?`
