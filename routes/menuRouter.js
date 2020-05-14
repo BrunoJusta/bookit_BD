@@ -9,19 +9,16 @@ const middleware = require("../middleware")
 const menuController = require("../controllers/menu/menuControllers");
 const bookingController = require("../controllers/menu/bookingController");
 
-router.post("/menus/add",upload.single('img'),menuController.addMenu)
-router.post("/menus/bookings/add", bookingController.newBooking)
-
+router.post("/menus/add",middleware.checkToken,upload.single('img'),menuController.addMenu)
+router.post("/menus/bookings/add",middleware.checkToken, bookingController.newBooking)
 router.get("/menus/", menuController.searchMenu)
-router.get("/menus/popular", menuController.orderByPopularity)
-router.get("/menus/bookings", bookingController.getBookings)
-router.get("/menus/bookings/motive:id", bookingController.getMotive)
-
-router.put("/menus/bookings/app/:id", bookingController.approved)
-router.put("/menus/bookings/ref/:id", bookingController.refuse)
+router.get("/menus/popular",middleware.checkToken, menuController.orderByPopularity)
+router.get("/menus/bookings",middleware.checkToken, bookingController.getBookings)
+router.get("/menus/bookings/motive:id",middleware.checkToken, bookingController.getMotive)
+router.put("/menus/bookings/app/:id",middleware.checkToken, bookingController.approved)
+router.put("/menus/bookings/ref/:id",middleware.checkToken, bookingController.refuse)
 router.put("/menus/bookings/opinion/:id",middleware.checkToken, bookingController.giveOpinion)
-
-router.delete("/menus/bookings/:id", bookingController.removeBooking)
-router.delete("/menus/del/:id", menuController.removeMenu)
+router.delete("/menus/bookings/:id",middleware.checkToken, bookingController.removeBooking)
+router.delete("/menus/del/:id",middleware.checkToken, menuController.removeMenu)
 
 module.exports = router

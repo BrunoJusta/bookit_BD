@@ -3,18 +3,19 @@ const Router = require("express").Router;
 var router = Router();
 const multer = require("multer");
 var upload = multer({dest: 'assets/workshops/'})
+const middleware = require("../middleware.js");
 
 
 //Import
 const workshopController = require("../controllers/workshops/workshopsController");
 
-router.post("/workshops/add",upload.single('img'),workshopController.addWorkshop)
+router.post("/workshops/add",middleware.checkToken,upload.single('img'),workshopController.addWorkshop)
 
 router.get("/workshops/", workshopController.search)
-router.get("/workshops/table",workshopController.getWorkshops)
+router.get("/workshops/table",middleware.checkToken,workshopController.getWorkshops)
 
-router.put("/workshops/edit/:id", workshopController.updateWorkshop)
+router.put("/workshops/edit/:id",middleware.checkToken, workshopController.updateWorkshop)
 
-router.delete("/workshops/del/:id", workshopController.removeWorkshop)
+router.delete("/workshops/del/:id",middleware.checkToken, workshopController.removeWorkshop)
 
 module.exports=router;
