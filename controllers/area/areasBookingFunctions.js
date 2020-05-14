@@ -96,9 +96,9 @@ exports.removeAreaBooking = (id, callback) => {
     connection.end()
 }
 
-exports.tableAreaBooking = (callback) => {
+exports.areasBooking = (callback) => {
     connection.connect()
-    let sql = `SELECT user.name, user.lastName user.email, area.area_id, date, duration, state_booking.description FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id `
+    let sql = `SELECT area_booking_id, user.name, user.lastName, user.email, area.name, date, duration, state_booking.description FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
     connection.query(sql, function (error, rows, fields) {
         if (error) callback(error);
         console.log(rows)

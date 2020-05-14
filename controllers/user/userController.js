@@ -14,7 +14,6 @@ function insertUser(req, result) {
     let imgFemale = "../../assets/userImgs/female.svg"
     let email = req.body.email
     let birthDate = req.body.birthDate
-    let school = 0
     let userType_id = 1
     let genre = req.body.genre
 
@@ -28,7 +27,7 @@ function insertUser(req, result) {
     if (req.body.password === req.body.password2) {
         //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
-            userFunctions.register(name, lastName, email, hash, number, img, userType_id, school, birthDate, genre, (error, success) => {
+            userFunctions.register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, (error, success) => {
                 if (error) {
                     throw error;
                     return;

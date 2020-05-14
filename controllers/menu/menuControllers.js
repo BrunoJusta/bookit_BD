@@ -45,8 +45,8 @@ function removeMenu(req, result) {
     });
 };
 
-function orderByPopularity(req, result) {
-    menuFunctions.orderByPopularity((error, success) => {
+function getMenus(req, result) {
+    menuFunctions.getMenus((error, success) => {
         if (error) {
             throw error;
             return;
@@ -55,24 +55,10 @@ function orderByPopularity(req, result) {
     })
 }
 
-function searchMenu(req, result) {
-    let search = req.body.search
-    menuFunctions.searchMenu(search, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
-    });
-}
 
-//FUNÇÃO SEARCH BY TYPE
-
-//FUNÇÃO UPDATE MENU
 
 module.exports = {
     addMenu: addMenu,
-    orderByPopularity: orderByPopularity,
-    searchMenu:searchMenu,
+    getMenus: getMenus,
     removeMenu: removeMenu,
 }

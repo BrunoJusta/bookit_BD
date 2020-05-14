@@ -108,9 +108,9 @@ function removeMenuNotification(id) {
 
 
 //ordenar por popularidade
-exports.orderByPopularity = (callback) => {
+exports.getMenus = (callback) => {
     connection.connect();
-    const sql = `SELECT * FROM menu ORDER BY popularity DESC;`;
+    const sql = `SELECT * FROM menu;`;
     connection.query(sql, function (error, rows, results, fields) {
         if (error) {
             callback(error);
@@ -125,29 +125,3 @@ exports.orderByPopularity = (callback) => {
     connection.end();
 }
 
-
-exports.searchMenu = (search, callback) => {
-    connection.connect();
-    if (search != '' || search != undefined) {
-        let sql = `SELECT name, img, description from menu INNER JOIN menu_Type ON menu.name LIKE '%${search}%' AND menu.menu_type_id = menu_Type.menu_type_id `;
-        connection.query(sql, function (error, rows, result) {
-            if (error) callback(error);
-            console.log(rows);
-            callback(null, {
-                success: true,
-                message: "Search!"
-            });
-        });
-    } else {
-        let sql = `SELECT name, img, description from menu INNER JOIN menu_Type ON menu.menu_type_id = menu_Type.menu_type_id `;
-        connection.query(sql, function (error, rows, result) {
-            if (error) callback(error);
-            console.log(rows);
-            callback(null, {
-                success: true,
-                message: "All Menus!"
-            })
-        })
-    }
-    connection.end();
-}

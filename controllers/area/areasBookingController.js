@@ -65,8 +65,8 @@ function removeAreaBooking(req, result) {
 }
 
 //Tabela das Reservas
-function tableAreaBooking(req, result) {
-    bookingAreasFunctions.tableAreaBooking((error, sucess) => {
+function areasBooking(req, result) {
+    bookingAreasFunctions.areasBooking((error, sucess) => {
         if (error) {
             throw error;
             return;
@@ -93,6 +93,6 @@ module.exports = {
     approved: approved,
     refuse: refuse,
     removeAreaBooking: removeAreaBooking,
-    tableAreaBooking: tableAreaBooking,
+    areasBooking: areasBooking,
     giveOpinion: giveOpinion,
 }

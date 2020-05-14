@@ -88,41 +88,16 @@ exports.updateWorkshop = (id, name, date, teacher, description, vacancies, time,
 
 
 
-exports.search = (search, callback) => {
-    connection.connect();
-    if (search != '' || search != undefined) {
-        let sql = `SELECT name, img from workshop WHERE name LIKE '%${search}%'`;
-        connection.query(sql, function (error, rows, result) {
-            if (error) callback(error);
-            console.log(rows);
-            callback(null, {
-                success: true,
-                message: "Search!"
-            });
-        });
-    } else {
-        let sql = `SELECT name, img from workshop`;
-        connection.query(sql, function (error, rows, result) {
-            if (error) callback(error);
-            console.log(rows);
-            callback(null, {
-                success: true,
-                message: "All Workshops!"
-            })
-        })
-    }
-    connection.end();
-}
 
 exports.getWorkshops = (callback) => {
     connection.connect();
-    let sql = `SELECT name, filled, vacancies from workshop`;
+    let sql = `SELECT* from workshop`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Workshops Tabledadasdadsdsa!"
+            message: "Workshops!"
         })
     })
     connection.end();

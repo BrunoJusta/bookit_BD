@@ -149,11 +149,13 @@ exports.removeBooking = (id, callback) => {
 
 exports.getBookings = (callback) => {
     connection.connect()
-    let sql = `select  menu_Type.description,menu.name, date, duration, user.name, user.lastName, user.email, state_booking.description from booking 
-                inner join menu on menu.menu_id = booking.menu_id
-                inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
-                inner join user on booking.user_id = user.user_id
-                inner join state_booking on booking.state_id = state_booking.state_id`;
+    let sql = `select booking.booking_id as "id", menu_Type.description as"menuType",menu.name as "menuName", date, duration,reason, numberPeople, school.school, outfit.name as "outfit", concat(user.name," ", user.lastName) as "userName", user.email, state_booking.description as "state", booking.decline_txt as "motive", booking.opinion from booking 
+    inner join menu on menu.menu_id = booking.menu_id
+    inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
+    inner join user on booking.user_id = user.user_id
+    inner join state_booking on booking.state_id = state_booking.state_id
+    inner join school on booking.school_id = school.school_id
+    inner join outfit on booking.outfit_id = outfit.outfit_id`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
@@ -165,15 +167,45 @@ exports.getBookings = (callback) => {
     connection.end()
 }
 
-exports.getMotive = (id, callback) => {
+exports.getBookingsDecor = (callback) => {
     connection.connect()
-    let sql = `SELECT decline_txt FROM booking WHERE booking_id = ?`;
-    connection.query(sql, [id], function (err, result) {
+    let sql = `SELECT * FROM booking_Decor`;
+    connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "motive!"
+            message: "results!"
         })
+        console.log(rows)
+    });
+    connection.end()
+}
+
+exports.getBookingsExtra = (callback) => {
+    connection.connect()
+    let sql = `SELECT * FROM booking_Extra`;
+    connection.query(sql, function (err, rows, fields, result) {
+        if (err) callback(error);
+        callback(null, {
+            success: true,
+            message: "results!"
+        })
+        console.log(rows)
+    });
+    connection.end()
+}
+
+
+exports.getBookingsAddOn = (callback) => {
+    connection.connect()
+    let sql = `SELECT * FROM addOn`;
+    connection.query(sql, function (err, rows, fields, result) {
+        if (err) callback(error);
+        callback(null, {
+            success: true,
+            message: "results!"
+        })
+        console.log(rows)
     });
     connection.end()
 }

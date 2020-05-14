@@ -104,7 +104,7 @@ exports.removeExtra = (id, callback) => {
 
 exports.getIngredients = (callback) => {
     connection.connect();
-    let sql = `SELECT name from ingredient`;
+    let sql = `SELECT * from ingredient`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
@@ -118,7 +118,7 @@ exports.getIngredients = (callback) => {
 
 exports.getDecors = (callback) => {
     connection.connect();
-    let sql = `SELECT name from decoration`;
+    let sql = `SELECT * from decoration`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
@@ -132,7 +132,7 @@ exports.getDecors = (callback) => {
 
 exports.getOutfits = (callback) => {
     connection.connect();
-    let sql = `SELECT name from outfit`;
+    let sql = `SELECT * from outfit`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
@@ -146,7 +146,7 @@ exports.getOutfits = (callback) => {
 
 exports.getExtras = (callback) => {
     connection.connect();
-    let sql = `SELECT name from extra`;
+    let sql = `SELECT * from extra`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);

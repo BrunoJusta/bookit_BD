@@ -11,8 +11,7 @@ const workshopController = require("../controllers/workshops/workshopsController
 
 router.post("/workshops/add",middleware.checkToken,upload.single('img'),workshopController.addWorkshop)
 
-router.get("/workshops/", workshopController.search)
-router.get("/workshops/table",middleware.checkToken,workshopController.getWorkshops)
+router.get("/workshops/", workshopController.getWorkshops)
 
 router.put("/workshops/edit/:id",middleware.checkToken, workshopController.updateWorkshop)
 

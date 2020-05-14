@@ -94,9 +94,8 @@ function getBookings(req, result){
 
 
 
-function getMotive(req, result){
-    let id  = req.params.id
-    bookingFunctions.getMotive(id, (error,success)=>{
+function getBookingsDecor(req, result){
+    bookingFunctions.getBookingsDecor((error,success)=>{
         if(error){
             throw error;
             return;
@@ -105,13 +104,36 @@ function getMotive(req, result){
     })
 }
 
+function getBookingsExtra(req, result){
+    bookingFunctions.getBookingsExtra((error,success)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
+
+function getBookingsAddOn(req, result){
+    bookingFunctions.getBookingsExtra((error,success)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
+
+
 module.exports = {
     newBooking: newBooking,
     approved: approved,
     refuse: refuse,
     removeBooking: removeBooking,
     getBookings: getBookings,
-    getMotive: getMotive,
+    getBookingsDecor: getBookingsDecor,
+    getBookingsExtra:getBookingsExtra,
+    getBookingsAddOn: getBookingsAddOn,
     giveOpinion: giveOpinion,
     
 }

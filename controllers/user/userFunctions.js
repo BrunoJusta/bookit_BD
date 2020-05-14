@@ -45,13 +45,15 @@ exports.login = (email, password, callback) => {
     });
 }
 
-exports.register = (name, lastName, email, hash, number, img, userType_id, school, birthDate, genre, callback) => {
+exports.register = (name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) => {
     connection.connect();
     //Get School from mail
     const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
         if (!error) {
-            school = rows[0].school_id
+            console.log(rows)
+            let school = rows[0].school_id
+
             //Insert user into DB
             const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate, genre) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {

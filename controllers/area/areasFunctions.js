@@ -78,41 +78,41 @@ exports.updateArea = (name, description, id, callback) => {
     connection.end();
 };
 
-exports.getDetails = (id, callback) => {
+exports.getAreas = (callback) => {
     connection.connect();
-    let sql = `SELECT name, description, img FROM area WHERE area_id = ?`;
-    connection.query(sql, [id], function (error, rows, result) {
+    let sql = `SELECT * FROM area`;
+    connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows)
         callback(null, {
             success: true,
-            message: "Get Details!"
+            message: "Get areas!"
         });
     });
 };
 
-exports.searchArea = (search, callback) => {
-    connection.connect();
-    if (search != '' || search != undefined) {
-        let sql = `SELECT name, img FROM area WHERE name LIKE '%${search}%'`;
-        connection.query(sql, function (error, rows, result) {
-            if (error) callback(error);
-            console.log(rows);
-            callback(null, {
-                success: true,
-                message: "Search!"
-            });
-        });
-    } else {
-        let sql = `SELECT name, img FROM area`;
-        connection.query(sql, function (error, rows, result) {
-            if (error) callback(error);
-            console.log(rows);
-            callback(null, {
-                success: true,
-                message: "All Areas!"
-            })
-        })
-    }
-    connection.end();
-}
+// exports.searchArea = (search, callback) => {
+//     connection.connect();
+//     if (search != '' || search != undefined) {
+//         let sql = `SELECT name, img FROM area WHERE name LIKE '%${search}%'`;
+//         connection.query(sql, function (error, rows, result) {
+//             if (error) callback(error);
+//             console.log(rows);
+//             callback(null, {
+//                 success: true,
+//                 message: "Search!"
+//             });
+//         });
+//     } else {
+//         let sql = `SELECT name, img FROM area`;
+//         connection.query(sql, function (error, rows, result) {
+//             if (error) callback(error);
+//             console.log(rows);
+//             callback(null, {
+//                 success: true,
+//                 message: "All Areas!"
+//             })
+//         })
+//     }
+//     connection.end();
+// }

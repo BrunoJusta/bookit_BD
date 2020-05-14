@@ -59,17 +59,6 @@ function updateWorkshop(req, result) {
 }
 
 
-function search(req, result) {
-    let search = req.body.search
-    workshopFunctions.search(search, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
-    });
-}
-
 function getWorkshops (req, result) {
     workshopFunctions.getWorkshops((error, success) => {
         if (error) {
@@ -84,6 +73,5 @@ module.exports = {
     addWorkshop: addWorkshop,
     removeWorkshop: removeWorkshop,
     updateWorkshop: updateWorkshop,
-    search: search,
     getWorkshops: getWorkshops
 }
