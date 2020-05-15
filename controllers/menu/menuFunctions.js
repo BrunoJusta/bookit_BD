@@ -117,8 +117,7 @@ exports.getMenus = (callback) => {
         } else {
             console.log(rows)
             callback(null, {
-                success: true,
-                message: "Ordered!",
+                rows
             })
         }
     });
