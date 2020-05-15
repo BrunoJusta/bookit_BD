@@ -15,18 +15,13 @@ let checkToken = (req, res, next) => {
 
   const sql = `SELECT token FROM blacklist WHERE token = ?`
   connection.connect();
-  console.log(token)
   connection.query(sql, [token], function (error, rows, fields) {
-    console.log(rows.length)
-    console.log(error)
     if (rows.length !== 0) {
       return res.json({
         success: false,
         message: 'Auth token is not supplied'
       });
     } else if(rows.length === 0){
-
-      console.log("entrou")
       jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
           return res.json({
@@ -34,7 +29,6 @@ let checkToken = (req, res, next) => {
             message: 'Token is not valid'
           });
         } else {
-          console.log("entrou 2")
           req.decoded = decoded;
           next();
         }

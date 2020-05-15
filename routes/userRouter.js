@@ -15,7 +15,7 @@ router.post('/login', validate.login)
 router.post('/logout',userController.logout)
 
 
-router.get('/', middleware.checkToken, validate.index);
+router.get('/', validate.index);
 router.get("/users/",middleware.checkToken, userController.getUsers)
 router.get("/users/menuBookings/table/:id",middleware.checkToken, userController.menuBookingsById)
 router.get("/users/areaBookings/table/:id",middleware.checkToken, userController.areaBookingsById)
