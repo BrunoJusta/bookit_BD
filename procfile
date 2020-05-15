@@ -1,1 +1,1 @@
-npm start
+node: npm start
