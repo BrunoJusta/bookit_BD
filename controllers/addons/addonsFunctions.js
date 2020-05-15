@@ -2,7 +2,7 @@ const dbConfig = require("../../database/db-config.json"); //Importar configuraÃ
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
 var connection = mysql.createConnection(dbConfig);
 
-exports.addIngredient = (name, type, callback) => {
+function addIngredient(name, type, callback) {
     connection.connect();
     const sql = `INSERT INTO ingredient (name, type) VALUES(?, ?)`;
     connection.query(sql, [name, type], function (error, results, fields) {
@@ -15,7 +15,7 @@ exports.addIngredient = (name, type, callback) => {
     connection.end();
 }
 
-exports.removeIngredient = (id, callback) => {
+function removeIngredient(id, callback) {
     connection.connect();
     const sql = `DELETE FROM ingredient WHERE ingredient_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
@@ -28,7 +28,7 @@ exports.removeIngredient = (id, callback) => {
     connection.end();
 }
 
-exports.addDecor = (name, callback) => {
+function addDecor(name, callback) {
     connection.connect();
     const sql = `INSERT INTO decoration (name) VALUES (?)`;
     connection.query(sql, [name], function (error, results, fields) {
@@ -41,7 +41,7 @@ exports.addDecor = (name, callback) => {
     connection.end();
 };
 
-exports.removeDecor = (id, callback) => {
+function removeDecor(id, callback) {
     connection.connect();
     const sql = `DELETE FROM decoration WHERE decoration_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
@@ -54,7 +54,7 @@ exports.removeDecor = (id, callback) => {
     connection.end();
 };
 
-exports.addOutfit = (img, name, callback) => {
+function addOutfit(img, name, callback) {
     connection.connect();
     const sql = `INSERT INTO outfit (img, name) VALUES (?, ?)`;
     connection.query(sql, [img, name], function (error, results, fields) {
@@ -66,7 +66,7 @@ exports.addOutfit = (img, name, callback) => {
     });
 };
 
-exports.removeOutfit = (id, callback) => {
+function removeOutfit(id, callback) {
     connection.connect();
     const sql = `DELETE FROM outfit WHERE outfit_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
@@ -78,7 +78,7 @@ exports.removeOutfit = (id, callback) => {
     });
 };
 
-exports.addExtra = (name, callback) => {
+function addExtra(name, callback) {
     connection.connect();
     const sql = `INSERT INTO extra (name) VALUES (?)`;
     connection.query(sql, [name], function (error, results, fields) {
@@ -90,7 +90,7 @@ exports.addExtra = (name, callback) => {
     });
 };
 
-exports.removeExtra = (id, callback) => {
+function removeExtra(id, callback) {
     connection.connect();
     const sql = `DELETE FROM extra WHERE extra_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
@@ -102,7 +102,7 @@ exports.removeExtra = (id, callback) => {
     })
 }
 
-exports.getIngredients = (callback) => {
+function getIngredients(callback) {
     connection.connect();
     let sql = `SELECT * from ingredient`;
     connection.query(sql, function (error, rows, result) {
@@ -116,7 +116,7 @@ exports.getIngredients = (callback) => {
     connection.end();
 }
 
-exports.getDecors = (callback) => {
+function getDecors(callback) {
     connection.connect();
     let sql = `SELECT * from decoration`;
     connection.query(sql, function (error, rows, result) {
@@ -130,7 +130,7 @@ exports.getDecors = (callback) => {
     connection.end();
 }
 
-exports.getOutfits = (callback) => {
+function getOutfits(callback) {
     connection.connect();
     let sql = `SELECT * from outfit`;
     connection.query(sql, function (error, rows, result) {
@@ -144,7 +144,7 @@ exports.getOutfits = (callback) => {
     connection.end();
 }
 
-exports.getExtras = (callback) => {
+function getExtras(callback) {
     connection.connect();
     let sql = `SELECT * from extra`;
     connection.query(sql, function (error, rows, result) {
@@ -156,4 +156,17 @@ exports.getExtras = (callback) => {
         })
     })
     connection.end();
+}
+
+module.exports = {
+    addIngredient: addIngredient,
+    removeIngredient: removeIngredient,
+    addDecor: addDecor,
+    removeDecor: removeDecor,
+    addOutfit: addOutfit,
+    removeOutfit: removeOutfit,
+    getIngredients: getIngredients,
+    getDecors: getDecors,
+    getExtras: getExtras,
+    getOutfits: getOutfits
 }

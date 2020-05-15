@@ -4,7 +4,7 @@ var connection = mysql.createConnection(dbConfig);
 
 
 //MENU
-exports.addMenu = (name, menuType, img,ing, callback) => {
+function addMenu(name, menuType, img, ing, callback) {
     connection.connect();
     const sql = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
     connection.query(sql, [name, menuType, img, 0], function (error, results, fields) {
@@ -16,7 +16,6 @@ exports.addMenu = (name, menuType, img,ing, callback) => {
         let id = results.insertId
         newMenuNotification(id)
         menuIng(ing, id)
-        
     });
 };
 
@@ -27,23 +26,20 @@ function newMenuNotification(id) {
             let menu = rows[0].name
             let type = rows[0].description
             console.log(menu + " " + type)
-            let description = "Adicionou um novo menu " + type + " " + menu +"."
+            let description = "Adicionou um novo menu " + type + " " + menu + "."
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
-            connection.query(sqlNote,[description,0,0],function(error){
-                if(!error){
-                }
+            connection.query(sqlNote, [description, 0, 0], function (error) {
+                if (!error) {}
             })
-
         }
     })
 }
 
-
-exports.addMenuPlusType = (name, newType, img,ing, callback) => {
+function addMenuPlusType(name, newType, img, ing, callback) {
     connection.connect();
     const sql = `INSERT INTO menu_Type (description) VALUES(?)`;
     connection.query(sql, [newType], function (error, result, fields) {
-        if(!error){
+        if (!error) {
             const sql2 = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
             connection.query(sql2, [name, result.insertId, img, 0], function (error, results, fields) {
                 if (error) callback(error);
@@ -58,8 +54,7 @@ exports.addMenuPlusType = (name, newType, img,ing, callback) => {
     });
 };
 
-
-function menuIng(ing, id){
+function menuIng(ing, id) {
     for (let i = 0; i < ing.length; i++) {
         const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
@@ -68,10 +63,9 @@ function menuIng(ing, id){
             }
         });
     }
-
 }
 
-exports.removeMenu = (id, callback) => {
+function removeMenu(id, callback) {
     connection.connect()
     removeMenuNotification(id)
     let sql = `DELETE FROM menu WHERE menu_id = ?`;
@@ -83,7 +77,6 @@ exports.removeMenu = (id, callback) => {
         })
         connection.end()
     });
-   
 }
 
 function removeMenuNotification(id) {
@@ -93,22 +86,17 @@ function removeMenuNotification(id) {
             let menu = rows[0].name
             let type = rows[0].description
             console.log(menu + " " + type)
-            let description = "Removeu o menu " + type + " " + menu +"."
+            let description = "Removeu o menu " + type + " " + menu + "."
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
-            connection.query(sqlNote,[description,0,0],function(error){
-                if(!error){
-                    
-                }
+            connection.query(sqlNote, [description, 0, 0], function (error) {
+                if (!error) {}
             })
-
         }
     })
 }
 
-
-
 //ordenar por popularidade
-exports.getMenus = (callback) => {
+function getMenus(callback) {
     connection.connect();
     const sql = `SELECT * FROM menu;`;
     connection.query(sql, function (error, rows, results, fields) {
@@ -124,3 +112,9 @@ exports.getMenus = (callback) => {
     connection.end();
 }
 
+module.exports = {
+    addMenu: addMenu,
+    addMenuPlusType: addMenuPlusType,
+    removeMenu: removeMenu,
+    getMenus: getMenus
+}

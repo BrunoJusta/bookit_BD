@@ -1,8 +1,5 @@
 const inscriptionFunctions = require("./inscriptionFunctions")
 
-
-
-
 //Eliminar Workshop
 function addInscription(req, result) {
     let idUser = req.body.idUser;

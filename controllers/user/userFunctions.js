@@ -5,8 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require("../../config.json");
 var connection = mysql.createConnection(dbConfig);
 
-exports.login = (email, password, callback) => {
-
+function login(email, password, callback) {
     connection.connect();
     //Get info from user
     const sql2 = `SELECT name, email, password FROM user WHERE email = ?;`
@@ -45,7 +44,7 @@ exports.login = (email, password, callback) => {
     });
 }
 
-exports.register = (name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) => {
+function register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) {
     connection.connect();
     //Get School from mail
     const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
@@ -70,7 +69,7 @@ exports.register = (name, lastName, email, hash, number, img, userType_id, birth
     });
 }
 
-exports.changePassword = (id, newPassword, callback) => {
+function changePassword(id, newPassword, callback) {
     connection.connect();
     var sql = `UPDATE user SET password = ? WHERE user_id = ?`
     connection.query(sql, [newPassword, id], function (err, result) {
@@ -83,7 +82,7 @@ exports.changePassword = (id, newPassword, callback) => {
     connection.end()
 }
 
-exports.changeNumber = (id, newNumber, callback) => {
+function changeNumber(id, newNumber, callback) {
     connection.connect();
     var sql = `UPDATE user SET number = ? WHERE user_id = ?`
     connection.query(sql, [newNumber, id], function (err, result) {
@@ -96,7 +95,7 @@ exports.changeNumber = (id, newNumber, callback) => {
     connection.end()
 }
 
-exports.changeType = (id, newType, callback) => {
+function changeType(id, newType, callback) {
     connection.connect();
     var sql = `UPDATE user SET userType_id = ? WHERE user_id = ?`
     connection.query(sql, [newType, id], function (err, result) {
@@ -109,7 +108,7 @@ exports.changeType = (id, newType, callback) => {
     connection.end()
 }
 
-exports.changeAvatar = (id, newImg, callback) => {
+function changeAvatar(id, newImg, callback) {
     connection.connect();
     var sql = `UPDATE user SET img = ? WHERE user_id = ?`
     connection.query(sql, [newImg, id], function (err, result) {
@@ -122,8 +121,7 @@ exports.changeAvatar = (id, newImg, callback) => {
     connection.end()
 }
 
-exports.logout = (token, callback) =>{
-
+function logout(token, callback) {
     connection.connect();
     let sql = `INSERT INTO blacklist(token) VALUES(?)`
     connection.query(sql, [token], function (err, result) {
@@ -135,7 +133,8 @@ exports.logout = (token, callback) =>{
     });
     connection.end();
 }
-exports.deleteUser = (id, callback) => {
+
+function deleteUser(id, callback) {
     connection.connect()
     console.log("Connected!");
     var sql = `DELETE FROM user WHERE user_id = ?`;
@@ -150,7 +149,7 @@ exports.deleteUser = (id, callback) => {
 }
 
 
-exports.getUsers = (callback) => {
+function getUsers(callback) {
     connection.connect();
     let sql = `SELECT name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id;`;
     connection.query(sql, function (error, rows, result) {
@@ -164,7 +163,7 @@ exports.getUsers = (callback) => {
     connection.end();
 }
 
-exports.menuBookingsById = (id, callback) => {
+function menuBookingsById(id, callback) {
     connection.connect();
     let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description 
     from booking, menu, menu_Type, school, state_booking
@@ -183,7 +182,7 @@ exports.menuBookingsById = (id, callback) => {
     connection.end();
 }
 
-exports.areaBookingsById = (id, callback) => {
+function areaBookingsById(id, callback) {
     connection.connect();
     let sql = `select  area_booking_id, area.name, date, duration, state_booking.description 
     from area_Booking, area, state_booking
@@ -201,7 +200,7 @@ exports.areaBookingsById = (id, callback) => {
 }
 
 
-exports.workshopBookingsById = (id, callback) => {
+function workshopBookingsById(id, callback) {
     connection.connect();
     let sql = `select workshop.workshop_id, name, date, duration from workshop, inscription
     where workshop.workshop_id = inscription.workshop_id and inscription.user_id = ?;`;
@@ -216,7 +215,7 @@ exports.workshopBookingsById = (id, callback) => {
     connection.end();
 }
 
-exports.notificationsById = (id, callback) => {
+function notificationsById(id, callback) {
     connection.connect();
     let sql = `select notification_id, user_id, description from notification
     where notification.user_id = ? and notification.type = 0;`;
@@ -231,7 +230,7 @@ exports.notificationsById = (id, callback) => {
     connection.end();
 }
 
-exports.archivationsById = (id, callback) => {
+function archivationsById(id, callback) {
     connection.connect();
     let sql = `select notification_id, user_id, description from notification
     where notification.user_id = ? and notification.type = 1;`;
@@ -246,7 +245,7 @@ exports.archivationsById = (id, callback) => {
     connection.end();
 }
 
-exports.archive = (id, callback) => {
+function archive(id, callback) {
     connection.connect();
     let sql = `update notification set type = 1 where notification_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -260,7 +259,7 @@ exports.archive = (id, callback) => {
     connection.end();
 }
 
-exports.deleteNotification = (id, callback) => {
+function deleteNotification(id, callback) {
     connection.connect();
     let sql = `delete from notification where notification_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -272,4 +271,23 @@ exports.deleteNotification = (id, callback) => {
         })
     })
     connection.end();
+}
+
+module.exports = {
+    login: login,
+    register: register,
+    changePassword: changePassword,
+    changeNumber: changeNumber,
+    changeType: changeType,
+    changeAvatar: changeAvatar,
+    logout: logout,
+    deleteUser: deleteUser,
+    getUsers: getUsers,
+    menuBookingsById: menuBookingsById,
+    areaBookingsById: areaBookingsById,
+    workshopBookingsById: workshopBookingsById,
+    notificationsById: notificationsById,
+    archivationsById: archivationsById,
+    archive: archive,
+    deleteNotification: deleteNotification
 }

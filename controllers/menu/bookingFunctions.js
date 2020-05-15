@@ -4,7 +4,7 @@ var connection = mysql.createConnection(dbConfig);
 
 
 
-exports.addBooking = (userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, callback) => {
+function addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, callback) {
     connection.connect();
     const sql = `INSERT INTO booking (user_id, menu_id, reason, date, duration, numberPeople, school_id, outfit_id, state_id, observations,decline_txt, opinion) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     connection.query(sql, [userID, menu, reason, date, time, numberPeople, school, outfit, 0, observations, "", ""], function (error, results) {
@@ -22,7 +22,6 @@ exports.addBooking = (userID, menu, reason, date, time, numberPeople, school, ou
 }
 
 function DecorBooking(booking_id, decor, extras, ing) {
-
     for (let d = 0; d < decor.length; d++) {
         const sqlDecor = `INSERT INTO booking_Decor (decoration_id, booking_id) VALUES ( ? , ?)`
         connection.query(sqlDecor, [decor[d], booking_id], function (error, rows, results, fields) {
@@ -30,26 +29,20 @@ function DecorBooking(booking_id, decor, extras, ing) {
                 ExtrasBooking(booking_id, extras, ing)
             } else(error)
         });
-
     }
 }
 
 function ExtrasBooking(booking_id, extras, ing) {
-
     for (let e = 0; e < extras.length; e++) {
         const sqlExtra = `INSERT INTO booking_Extra (booking_id, extra_id) VALUES ( ? , ?)`
         connection.query(sqlExtra, [booking_id, extras[e]], function (error, rows, results, fields) {
             if (error)
                 AddOnsBooking(booking_id, ing)
-
         });
     }
-
 }
 
-
 function AddOnsBooking(booking_id, ing) {
-
     for (let i = 0; i < ing.length; i++) {
         const sqlIng = `INSERT INTO addOn (booking_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [booking_id, ing[i]], function (error, rows, results, fields) {
@@ -58,11 +51,9 @@ function AddOnsBooking(booking_id, ing) {
             }
         });
     }
-
 }
 
-exports.approveBooking = (id, callback) => {
-
+function approveBooking(id, callback) {
     connection.connect();
     const sql = `UPDATE booking SET state_id = ? WHERE booking_id = ?`
     connection.query(sql, [1, id], function (error, results) {
@@ -72,9 +63,7 @@ exports.approveBooking = (id, callback) => {
             message: "results",
         })
         approveNotification(id)
-
     })
-
 }
 
 function approveNotification(id) {
@@ -85,20 +74,18 @@ function approveNotification(id) {
             let type = rows[0].description
             let user_id = rows[0].user_id
             console.log(menu + " " + type)
-            let description = "A sua reverva do menu " + type + " " + menu +" foi aceite."
+            let description = "A sua reverva do menu " + type + " " + menu + " foi aceite."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
-            connection.query(sqlNote,[user_id,description,0],function(error){
-                if(!error){
+            connection.query(sqlNote, [user_id, description, 0], function (error) {
+                if (!error) {
                     connection.end()
                 }
             })
-
         }
     })
 }
 
-exports.refuseBooking = (id, decline, callback) => {
-
+function refuseBooking(id, decline, callback) {
     connection.connect();
     const sql = `UPDATE booking SET state_id = ?, decline_txt = ? WHERE booking_id = ?`
     connection.query(sql, [2, decline, id], function (error, results) {
@@ -107,10 +94,8 @@ exports.refuseBooking = (id, decline, callback) => {
             success: true,
             message: "results",
         })
-      refuseNotification(id)
-
+        refuseNotification(id)
     })
-
 }
 
 
@@ -122,19 +107,18 @@ function refuseNotification(id) {
             let type = rows[0].description
             let user_id = rows[0].user_id
             console.log(menu + " " + type)
-            let description = "A sua reverva do menu " + type + " " + menu +" foi recusada."
+            let description = "A sua reverva do menu " + type + " " + menu + " foi recusada."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
-            connection.query(sqlNote,[user_id,description,0],function(error){
-                if(!error){
+            connection.query(sqlNote, [user_id, description, 0], function (error) {
+                if (!error) {
                     connection.end()
                 }
             })
-
         }
     })
 }
 
-exports.removeBooking = (id, callback) => {
+function removeBooking(id, callback) {
     connection.connect()
     let sql = `DELETE FROM booking WHERE booking_id = ?`;
     connection.query(sql, [id], function (err, result) {
@@ -147,7 +131,7 @@ exports.removeBooking = (id, callback) => {
     connection.end()
 }
 
-exports.getBookings = (callback) => {
+function getBookings(callback) {
     connection.connect()
     let sql = `select booking.booking_id as "id", menu_Type.description as"menuType",menu.name as "menuName", date, duration,reason, numberPeople, school.school, outfit.name as "outfit", concat(user.name," ", user.lastName) as "userName", user.email, state_booking.description as "state", booking.decline_txt as "motive", booking.opinion from booking 
     inner join menu on menu.menu_id = booking.menu_id
@@ -167,7 +151,7 @@ exports.getBookings = (callback) => {
     connection.end()
 }
 
-exports.getBookingsDecor = (callback) => {
+function getBookingsDecor(callback) {
     connection.connect()
     let sql = `SELECT * FROM booking_Decor`;
     connection.query(sql, function (err, rows, fields, result) {
@@ -181,7 +165,7 @@ exports.getBookingsDecor = (callback) => {
     connection.end()
 }
 
-exports.getBookingsExtra = (callback) => {
+function getBookingsExtra(callback) {
     connection.connect()
     let sql = `SELECT * FROM booking_Extra`;
     connection.query(sql, function (err, rows, fields, result) {
@@ -196,7 +180,7 @@ exports.getBookingsExtra = (callback) => {
 }
 
 
-exports.getBookingsAddOn = (callback) => {
+function getBookingsAddOn(callback) {
     connection.connect()
     let sql = `SELECT * FROM addOn`;
     connection.query(sql, function (err, rows, fields, result) {
@@ -211,7 +195,7 @@ exports.getBookingsAddOn = (callback) => {
 }
 
 
-exports.opinionBooking = (id, opinion, callback) => {
+function opinionBooking(id, opinion, callback) {
     connection.connect();
     const sql = `UPDATE booking SET opinion = ?  WHERE booking_id = ?`
     connection.query(sql, [opinion, id], function (error, results) {
@@ -221,9 +205,7 @@ exports.opinionBooking = (id, opinion, callback) => {
             message: "results",
         })
         opinionNotification(id)
-
     })
-
 }
 
 function opinionNotification(id) {
@@ -233,13 +215,25 @@ function opinionNotification(id) {
             let menu = rows[0].name
             let type = rows[0].description
             console.log(menu + " " + type)
-            let description = "Recebeu uma nova opiniao no menu " + type + " " + menu +"."
+            let description = "Recebeu uma nova opiniao no menu " + type + " " + menu + "."
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ?;`
-            connection.query(sqlNote,[description,0,0],function(error){
-                if(!error){
+            connection.query(sqlNote, [description, 0, 0], function (error) {
+                if (!error) {
                     connection.end()
                 }
             })
         }
     })
+}
+
+module.exports = {
+    addBooking: addBooking,
+    approveBooking: approveBooking,
+    refuseBooking: refuseBooking,
+    removeBooking: removeBooking,
+    getBookings: getBookings,
+    getBookingsDecor: getBookingsDecor,
+    getBookingsExtra: getBookingsExtra,
+    getBookingsAddOn: getBookingsAddOn,
+    opinionBooking: opinionBooking
 }

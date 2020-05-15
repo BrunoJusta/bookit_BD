@@ -3,7 +3,7 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 const config = require("../../config.json");
 var connection = mysql.createConnection(dbConfig);
 
-exports.addArea = (name, description, img, callback) => {
+function addArea(name, description, img, callback) {
     let id
     connection.connect();
     const sql = `INSERT INTO area (name, description, img) VALUES(?,?,?)`;
@@ -36,7 +36,7 @@ function addAreaNotification(id) {
     })
 }
 
-exports.removeArea = (id, callback) => {
+function removeArea(id, callback) {
     connection.connect()
     removeAreaNotification(id);
     let sql = `DELETE FROM area WHERE area_id = ?`;
@@ -48,7 +48,6 @@ exports.removeArea = (id, callback) => {
         });
         connection.end()
     });
-
 }
 
 function removeAreaNotification(id) {
@@ -65,7 +64,7 @@ function removeAreaNotification(id) {
     })
 }
 
-exports.updateArea = (name, description, id, callback) => {
+function updateArea(name, description, id, callback) {
     connection.connect()
     let sql = `UPDATE area SET name = ?, description = ? WHERE area_id = ?`;
     connection.query(sql, [name, description, id], function (error, result) {
@@ -78,7 +77,7 @@ exports.updateArea = (name, description, id, callback) => {
     connection.end();
 };
 
-exports.getAreas = (callback) => {
+function getAreas(callback) {
     connection.connect();
     let sql = `SELECT * FROM area`;
     connection.query(sql, function (error, rows, result) {
@@ -90,6 +89,14 @@ exports.getAreas = (callback) => {
         });
     });
 };
+
+module.exports = {
+    addArea: addArea,
+    removeArea: removeArea,
+    updateArea: updateArea,
+    getAreas: getAreas
+}
+
 
 // exports.searchArea = (search, callback) => {
 //     connection.connect();

@@ -4,7 +4,7 @@ var connection = mysql.createConnection(dbConfig);
 
 
 
-exports.addAreasBooking = (userID, area, reason, date, time, callback) => {
+function addAreasBooking(userID, area, reason, date, time, callback) {
     connection.connect();
     const sql = `INSERT INTO area_Booking (user_id, area_id, reason, date, duration, state_id, decline_txt) VALUES ( ? , ?, ?, ?, ?, ?, ?)`
     connection.query(sql, [userID, area, reason, date, time, 0, ""], function (error, results) {
@@ -21,8 +21,7 @@ exports.addAreasBooking = (userID, area, reason, date, time, callback) => {
 }
 
 
-exports.approveAreaBooking = (id, callback) => {
-
+function approveAreaBooking(id, callback) {
     connection.connect();
     const sql = `UPDATE area_Booking SET state_id = ? WHERE area_booking_id = ?`
     connection.query(sql, [1, id], function (error, results) {
@@ -41,10 +40,10 @@ function aproveAreaNotification(id) {
         if (!error) {
             let area = rows[0].name
             let user_id = rows[0].user_id
-            let description = "A sua reverva da " + area +" foi aceite." 
+            let description = "A sua reverva da " + area + " foi aceite."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
-            connection.query(sqlNote,[user_id,description,0],function(error){
-                if(!error){
+            connection.query(sqlNote, [user_id, description, 0], function (error) {
+                if (!error) {
                     connection.end()
                 }
             })
@@ -53,7 +52,7 @@ function aproveAreaNotification(id) {
 }
 
 
-exports.refuseAreaBooking = (id, decline, callback) => {
+function refuseAreaBooking(id, decline, callback) {
     connection.connect();
     const sql = `UPDATE area_Booking SET state_id = ?, decline_txt = ? WHERE area_booking_id = ?`
     connection.query(sql, [2, decline, id], function (error, results) {
@@ -72,10 +71,10 @@ function refuseNotification(id) {
         if (!error) {
             let area = rows[0].name
             let user_id = rows[0].user_id
-            let description = "A sua reverva da " + area +" foi recusada." 
+            let description = "A sua reverva da " + area + " foi recusada."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
-            connection.query(sqlNote,[user_id,description,0],function(error){
-                if(!error){
+            connection.query(sqlNote, [user_id, description, 0], function (error) {
+                if (!error) {
                     connection.end()
                 }
             })
@@ -83,7 +82,7 @@ function refuseNotification(id) {
     })
 }
 
-exports.removeAreaBooking = (id, callback) => {
+function removeAreaBooking(id, callback) {
     connection.connect()
     let sql = `DELETE FROM area_Booking WHERE area_booking_id = ?`;
     connection.query(sql, [id], function (err, result) {
@@ -96,7 +95,7 @@ exports.removeAreaBooking = (id, callback) => {
     connection.end()
 }
 
-exports.areasBooking = (callback) => {
+function areasBooking(callback) {
     connection.connect()
     let sql = `SELECT area_booking_id, user.name, user.lastName, user.email, area.name, date, duration, state_booking.description FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
     connection.query(sql, function (error, rows, fields) {
@@ -110,7 +109,7 @@ exports.areasBooking = (callback) => {
 }
 
 
-exports.giveOpinion = (id, opinion, callback) => {
+function giveOpinion(id, opinion, callback) {
     connection.connect();
     const sql = `UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?`
     connection.query(sql, [opinion, id], function (error, results) {
@@ -121,4 +120,13 @@ exports.giveOpinion = (id, opinion, callback) => {
         })
         connection.end();
     })
+}
+
+module.exports = {
+    addAreasBooking: addAreasBooking,
+    approveAreaBooking: approveAreaBooking,
+    refuseAreaBooking: refuseAreaBooking,
+    removeAreaBooking: removeAreaBooking,
+    areasBooking: areasBooking,
+    giveOpinion: giveOpinion
 }

@@ -2,8 +2,7 @@ const dbConfig = require("../../database/db-config.json"); //Importar configuraÃ
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
 var connection = mysql.createConnection(dbConfig);
 
-
-exports.addInscription = (idUser, idWorkshop, callback) => {
+function addInscription(idUser, idWorkshop, callback) {
     connection.connect();
     const sql = `SELECT filled from workshop WHERE workshop_id = ?`;
     connection.query(sql, [idWorkshop], function (error, rows, fields) {
@@ -26,4 +25,8 @@ exports.addInscription = (idUser, idWorkshop, callback) => {
             });
         }
     });
+}
+
+module.exports = {
+    addInscription: addInscription
 }
