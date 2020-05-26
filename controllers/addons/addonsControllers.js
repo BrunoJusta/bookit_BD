@@ -109,6 +109,7 @@ function getDecors(req, result) {
             throw error;
             return;
         };
+        
         result.json(success)
     })
 }
