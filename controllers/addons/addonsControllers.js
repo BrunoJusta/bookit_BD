@@ -109,7 +109,7 @@ function getDecors(req, result) {
             throw error;
             return;
         };
-        
+
         result.json(success)
     })
 }
@@ -125,6 +125,7 @@ function getOutfits(req, result) {
 }
 
 function getExtras(req, result) {
+    
     addonsFunctions.getExtras((error, success) => {
         if (error) {
             throw error;
