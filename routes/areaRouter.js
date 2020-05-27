@@ -10,19 +10,19 @@ const middleware = require("../middleware.js");
 const areasController = require("../controllers/area/areasControllers");
 const areasBookingController = require("../controllers/area/areasBookingController");
 
-router.post("/areas/add",middleware.checkToken, upload.single('img'), areasController.addArea);
-router.post("/areas/bookings/add",middleware.checkToken, areasBookingController.newAreaBooking)
+router.post("/areas/",middleware.checkToken, upload.single('img'), areasController.addArea);
+router.post("/areas/bookings/",middleware.checkToken, areasBookingController.newAreaBooking)
 
 router.get("/areas/", areasController.getAreas)
 // router.get("/areas/", areasController.searchArea)
 router.get("/areas/bookings/",middleware.checkToken, areasBookingController.areasBooking)
 
-router.put("/areas/edit/:id",middleware.checkToken, areasController.updateArea)
-router.put("/areas/bookings/app/:id",middleware.checkToken, areasBookingController.approved)
-router.put("/areas/bookings/ref/:id",middleware.checkToken, areasBookingController.refuse)
+router.put("/areas/:id",middleware.checkToken, areasController.updateArea)
+router.put("/areas/bookings/a/:id",middleware.checkToken, areasBookingController.approved)
+router.put("/areas/bookings/r/:id",middleware.checkToken, areasBookingController.refuse)
 router.put("/areas/bookings/opinion/:id",middleware.checkToken, areasBookingController.giveOpinion)
 
-router.delete("/areas/bookings/del/:id",middleware.checkToken, areasBookingController.removeAreaBooking)
-router.delete("/areas/del/:id",middleware.checkToken, areasController.removeArea);
+router.delete("/areas/bookings/:id",middleware.checkToken, areasBookingController.removeAreaBooking)
+router.delete("/areas/:id",middleware.checkToken, areasController.removeArea);
 
 module.exports = router
