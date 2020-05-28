@@ -93,7 +93,7 @@ function getBookingsExtra(req, result){
 }
 
 function getBookingsAddOn(req, result){
-    bookingFunctions.getBookingsExtra((error,success)=>{
+    bookingFunctions.getBookingsAddOn((error,success)=>{
         if(error){
             throw error;
             return;
