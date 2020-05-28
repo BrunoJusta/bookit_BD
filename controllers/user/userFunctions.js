@@ -29,7 +29,7 @@ function login(email, password, callback) {
                     );
                     callback(null, {
                         success: true,
-                        message: 'Authentication successful!',
+                        message: 'Sessão Iniciada',
                         token: token
                     })
                 } else {
@@ -59,7 +59,7 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
                 if (error) callback(error);
                 callback(null, {
                     success: true,
-                    message: "results"
+                    message: "Conta criada com sucesso!"
                 })
             });
             connection.end();
@@ -99,7 +99,7 @@ function editUser(id, newPassword, newNumber, newType, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: results,
+            message: "Dados Atualizados!",
         })
 
     })
@@ -113,7 +113,7 @@ function changeAvatar(id, newImg, callback) {
         if (err) callback(err);
         callback(null, {
             success: true,
-            message: "Avatar changed!"
+            message: "Imagem de Perfil Atualizada!"
         })
     })
     connection.end()
@@ -126,7 +126,7 @@ function logout(token, callback) {
         if (err) callback(err);
         callback(null, {
             sucess: true,
-            message: "Logout!"
+            message: "Sessão Terminada!"
         })
     });
     connection.end();
@@ -140,7 +140,7 @@ function deleteUser(id, callback) {
         if (err) callback(err);
         callback(null, {
             success: true,
-            message: "Deleted!"
+            message: "Utilizador Eliminado!"
         })
     });
     connection.end()
@@ -155,7 +155,7 @@ function getUsers(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Users Table!"
+            data:rows
         })
     })
     connection.end();
@@ -174,7 +174,7 @@ function menuBookingsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "menu bookings by id Table!"
+            data:rows
         })
     })
     connection.end();
@@ -191,7 +191,7 @@ function areaBookingsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "area bookings by id Table!"
+            data:rows
         })
     })
     connection.end();
@@ -207,7 +207,7 @@ function workshopBookingsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "workshop bookings by id Table!"
+            data:rows
         })
     })
     connection.end();
@@ -222,7 +222,7 @@ function notificationsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "notifications by id Table!"
+            data:rows
         })
     })
     connection.end();
@@ -234,38 +234,37 @@ function archivationsById(id, callback) {
     where notification.user_id = ? and notification.type = 1;`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
-        console.log(rows);
         callback(null, {
             success: true,
-            message: "archivations by id Table!"
+            data:rows
         })
     })
     connection.end();
 }
 
-function archive(id, callback) {
+function archive(idUser, id, callback) {
     connection.connect();
-    let sql = `update notification set type = 1 where notification_id = ?;`;
-    connection.query(sql, [id], function (error, rows, result) {
+    let sql = `update notification set type = 1 where notification_id = ? and user_id=?;`;
+    connection.query(sql, [id, idUser], function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Archived!"
+            message: "Notificação Arquivada!"
         })
     })
     connection.end();
 }
 
-function deleteNotification(id, callback) {
+function deleteNotification(idUser, id, callback) {
     connection.connect();
-    let sql = `delete from notification where notification_id = ?;`;
-    connection.query(sql, [id], function (error, rows, result) {
+    let sql = `delete from notification where notification_id = ? and user_id=?;`;
+    connection.query(sql, [id, idUser], function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
         callback(null, {
             success: true,
-            message: "notification deleted!"
+            message: "Notificação Eliminda!"
         })
     })
     connection.end();

@@ -9,7 +9,7 @@ function addIngredient(name, type, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Ingredient Added!",
+            message: "Ingrediente Adicionado!",
         });
     });
     connection.end();
@@ -22,7 +22,7 @@ function removeIngredient(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Ingredient Deleted!"
+            message: "Ingrediente Removido!"
         });
     });
     connection.end();
@@ -35,7 +35,7 @@ function addDecor(name, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Decoration Added!"
+            message: "Decoração Adicionada!"
         });
     });
     connection.end();
@@ -48,7 +48,7 @@ function removeDecor(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Decoration Deleted!"
+            message: "Decoração Removida!"
         });
     });
     connection.end();
@@ -61,7 +61,7 @@ function addOutfit(img, name, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Outfit Added!"
+            message: "Farda Adicionada!"
         });
     });
 };
@@ -73,7 +73,7 @@ function removeOutfit(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Outfit Deleted!"
+            message: "Farda Removida!"
         });
     });
 };
@@ -85,7 +85,7 @@ function addExtra(name, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Extra Added!"
+            message: "Extra Adicionado!"
         });
     });
 };
@@ -97,7 +97,7 @@ function removeExtra(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Extra Deleted!"
+            message: "Extra Removido!"
         })
     })
 }
@@ -110,8 +110,9 @@ function getIngredients(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Ingredients Table!"
+            data: rows
         })
+        
     })
     connection.end();
 }
@@ -124,7 +125,7 @@ function getDecors(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Decors Table!"
+            data: rows
         })
     })
     connection.end();
@@ -138,7 +139,7 @@ function getOutfits(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Outfits Table!"
+            data: rows
         })
     })
     connection.end();
@@ -152,7 +153,7 @@ function getExtras(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Extras Table!"
+            data: rows
         })
     })
     connection.end();
@@ -168,5 +169,7 @@ module.exports = {
     getIngredients: getIngredients,
     getDecors: getDecors,
     getExtras: getExtras,
-    getOutfits: getOutfits
+    getOutfits: getOutfits,
+    addExtra: addExtra,
+    removeExtra: removeExtra
 }

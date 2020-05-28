@@ -11,7 +11,7 @@ function addArea(name, description, img, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "results"
+            message: "Espaço Adicionado!"
         })
         id = results.insertId;
         addAreaNotification(id)
@@ -44,7 +44,7 @@ function removeArea(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Deleted!"
+            message: "Espaço Removido!"
         });
         connection.end()
     });
@@ -71,7 +71,7 @@ function updateArea(name, description, id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Area Updated!"
+            message: "Espaço Atualizado!"
         });
     });
     connection.end();
@@ -85,7 +85,7 @@ function getAreas(callback) {
         console.log(rows)
         callback(null, {
             success: true,
-            message: "Get areas!"
+            data: rows
         });
     });
 };
@@ -96,30 +96,3 @@ module.exports = {
     updateArea: updateArea,
     getAreas: getAreas
 }
-
-
-// exports.searchArea = (search, callback) => {
-//     connection.connect();
-//     if (search != '' || search != undefined) {
-//         let sql = `SELECT name, img FROM area WHERE name LIKE '%${search}%'`;
-//         connection.query(sql, function (error, rows, result) {
-//             if (error) callback(error);
-//             console.log(rows);
-//             callback(null, {
-//                 success: true,
-//                 message: "Search!"
-//             });
-//         });
-//     } else {
-//         let sql = `SELECT name, img FROM area`;
-//         connection.query(sql, function (error, rows, result) {
-//             if (error) callback(error);
-//             console.log(rows);
-//             callback(null, {
-//                 success: true,
-//                 message: "All Areas!"
-//             })
-//         })
-//     }
-//     connection.end();
-// }

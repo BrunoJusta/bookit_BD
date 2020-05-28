@@ -13,7 +13,7 @@ function addBooking(userID, menu, reason, date, time, numberPeople, school, outf
         } else {
             callback(null, {
                 success: true,
-                message: "results"
+                message: "Pedido de Reserva Enviado"
             })
             let lastId = results.insertId
             DecorBooking(lastId, decor, extras, ing)
@@ -84,7 +84,7 @@ function editBooking(id, state, decline, opinion, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: results,
+            message: "Reserva Atualizada",
         })
 
     })
@@ -165,7 +165,7 @@ function removeBooking(id, callback) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "Deleted!"
+            message: "Reserva Removida!"
         })
     });
     connection.end()
@@ -181,12 +181,13 @@ function getBookings(callback) {
     inner join school on booking.school_id = school.school_id
     inner join outfit on booking.outfit_id = outfit.outfit_id`;
     connection.query(sql, function (err, rows, fields, result) {
-        if (err) callback(error);
+        if (err){
+            callback(err);
+        } 
         callback(null, {
             success: true,
-            message: "results!"
+            data: rows
         })
-        console.log(rows)
     });
     connection.end()
 }
@@ -198,7 +199,7 @@ function getBookingsDecor(callback) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "results!"
+            data: rows
         })
         console.log(rows)
     });
@@ -212,7 +213,7 @@ function getBookingsExtra(callback) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "results!"
+            data: rows
         })
         console.log(rows)
     });
@@ -227,7 +228,7 @@ function getBookingsAddOn(callback) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "results!"
+            data: rows
         })
         console.log(rows)
     });

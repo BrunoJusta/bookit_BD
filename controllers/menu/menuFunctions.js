@@ -11,7 +11,7 @@ function addMenu(name, menuType, img, ing, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Menu Added!"
+            message: "Menu Adicionado!"
         })
         let id = results.insertId
         newMenuNotification(id)
@@ -45,7 +45,7 @@ function addMenuPlusType(name, newType, img, ing, callback) {
                 if (error) callback(error);
                 callback(null, {
                     success: true,
-                    message: "Menu Added!"
+                    message: "Menu Adicionado"
                 })
                 let id = results.insertId
                 menuIng(ing, id)
@@ -73,7 +73,7 @@ function removeMenu(id, callback) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "Deleted!"
+            message: "Menu Removido!"
         })
         connection.end()
     });
@@ -105,7 +105,8 @@ function getMenus(callback) {
         } else {
             console.log(rows)
             callback(null, {
-                rows
+                success: true,
+                data: rows
             })
         }
     });

@@ -16,7 +16,7 @@ router.get("/menus", menuController.getMenus)
 router.get("/menuBookings",middleware.checkToken, bookingController.getBookings)
 router.get("/menuBookings/decor",middleware.checkToken, bookingController.getBookingsDecor)
 router.get("/menuBookings/extra",middleware.checkToken, bookingController.getBookingsExtra)
-router.get("/menuBookings/addOn",middleware.checkToken, bookingController.getBookingsAddOn)
+router.get("/menuBookings/addOns",middleware.checkToken, bookingController.getBookingsAddOn)
 
 router.put("/menuBookings/:id",middleware.checkToken, bookingController.edit)
 

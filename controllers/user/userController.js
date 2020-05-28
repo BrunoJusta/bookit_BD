@@ -200,7 +200,8 @@ function archivationsById(req, result) {
 
 function archive(req, result) {
     let idToChange = req.params.id
-    userFunctions.archive(idToChange, (error, success) => {
+    let idUser = req.params.userID
+    userFunctions.archive(idUser, idToChange, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -211,7 +212,8 @@ function archive(req, result) {
 
 function deleteNotification(req, result) {
     let idToChange = req.params.id
-    userFunctions.deleteNotification(idToChange, (error, success) => {
+    let idUser = req.params.userID
+    userFunctions.deleteNotification(idUser, idToChange, (error, success) => {
         if (error) {
             throw error;
             return;

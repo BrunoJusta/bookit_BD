@@ -13,7 +13,7 @@ function addAreasBooking(userID, area, reason, date, time, callback) {
         } else {
             callback(null, {
                 success: true,
-                message: "results"
+                message: "Pedido de Reserva Enviado!"
             })
             connection.end();
         }
@@ -49,7 +49,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: results,
+            message: "Reserva Atualizada",
         })
 
     })
@@ -106,7 +106,7 @@ function removeAreaBooking(id, callback) {
         if (err) callback(error);
         callback(null, {
             success: true,
-            message: "Deleted!"
+            message: "Reserva Removida!"
         })
     });
     connection.end()
@@ -114,13 +114,12 @@ function removeAreaBooking(id, callback) {
 
 function areasBooking(callback) {
     connection.connect()
-    let sql = `SELECT area_booking_id, user.name, user.lastName, user.email, area.name, date, duration, state_booking.description FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
+    let sql = `SELECT area_booking_id, user.name as username, user.lastName, user.email, area.name, date, duration, state_booking.description FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
     connection.query(sql, function (error, rows, fields) {
         if (error) callback(error);
-        console.log(rows)
         callback(null, {
             sucess: true,
-            message: "All Areas Booking"
+            data: rows
         })
     })
 }

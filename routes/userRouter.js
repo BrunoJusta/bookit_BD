@@ -25,10 +25,10 @@ router.get("/users/:id/archivations",middleware.checkToken, userController.archi
 
 router.put("/users/:id",middleware.checkToken, userController.edit)
 router.put("/users/:id/avatar",middleware.checkToken,upload.single('newImg'), userController.changeAvatar)
-router.put("/notifications/:id",middleware.checkToken, userController.archive)
+router.put("/users/:userID/notifications/:id",middleware.checkToken, userController.archive)
 
 router.delete("/users/:id",middleware.checkToken, userController.deleteUser)
-router.delete("/notifications/:id",middleware.checkToken, userController.deleteNotification)
-router.delete("/archivations/:id",middleware.checkToken, userController.deleteNotification)
+router.delete("/users/:userID/notifications/:id",middleware.checkToken, userController.deleteNotification)
+router.delete("/users/:userID/archivations/:id",middleware.checkToken, userController.deleteNotification)
 
 module.exports = router;

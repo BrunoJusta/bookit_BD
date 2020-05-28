@@ -9,7 +9,7 @@ function addWorkshop(name, date, teacher, description, img, vacancies, time, cal
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Added"
+            message: "Workshop Adicionado!"
         })
         let id = results.insertId
         addNotification(id)
@@ -40,7 +40,7 @@ function removeWorkshop(id, callback) {
         if (err) callback(err);
         callback(null, {
             success: true,
-            message: "Deleted"
+            message: "Workshop Removido"
         })
         connection.end()
     })
@@ -67,7 +67,7 @@ function updateWorkshop(id, name, date, teacher, description, vacancies, time, c
         if (err) callback(err);
         callback(null, {
             success: true,
-            message: "Workshop Updated"
+            message: "Workshop Atualizado!"
         })
     })
     connection.end()
@@ -81,7 +81,7 @@ function getWorkshops(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            message: "Workshops!"
+            data: rows
         })
     })
     connection.end();

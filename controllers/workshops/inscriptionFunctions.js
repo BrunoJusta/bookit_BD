@@ -18,7 +18,7 @@ function addInscription(idUser, idWorkshop, callback) {
                         if (error) callback(error);
                         callback(null, {
                             success: true,
-                            message: "Added"
+                            message: "Inscrito no Workshop!"
                         })
                     });
                 }
