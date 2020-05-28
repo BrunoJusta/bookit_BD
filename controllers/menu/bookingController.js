@@ -29,37 +29,14 @@ function newBooking(req, result) {
 }
 
 //Aprovar Reserva
-function approved(req, result){
+function edit(req, result){
     let id = req.params.id
-
-    bookingFunctions.approveBooking(id, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        result.json(success)
-    })
-
-}
-
-//Recusar Reserva
-function refuse(req, result){
-    let id = req.params.id
+    let state = req.body.state
     let decline = req.body.decline
-    bookingFunctions.refuseBooking(id, decline, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        result.json(success)
-    })
-
-}
-
-function giveOpinion(req, result){
-    let id = req.params.id
     let opinion = req.body.opinion
-    bookingFunctions.opinionBooking(id, opinion, (error, success) => {
+
+
+    bookingFunctions.editBooking(id,state, decline, opinion, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -68,6 +45,7 @@ function giveOpinion(req, result){
     })
 
 }
+
 
 //Remover Reserva
 function removeBooking(req, result){
@@ -127,14 +105,12 @@ function getBookingsAddOn(req, result){
 
 module.exports = {
     newBooking: newBooking,
-    approved: approved,
-    refuse: refuse,
     removeBooking: removeBooking,
     getBookings: getBookings,
     getBookingsDecor: getBookingsDecor,
     getBookingsExtra:getBookingsExtra,
     getBookingsAddOn: getBookingsAddOn,
-    giveOpinion: giveOpinion,
+    edit: edit,
     
 }
 

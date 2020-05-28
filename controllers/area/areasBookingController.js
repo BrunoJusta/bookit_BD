@@ -25,24 +25,15 @@ function newAreaBooking(req, result) {
 }
 
 //Aprovar Reserva
-function approved(req, result) {
+function edit(req, result) {
     let id = req.params.id
-
-    bookingAreasFunctions.approveAreaBooking(id, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        result.json(success)
-    })
-
-}
-
-//Recusar Reserva
-function refuse(req, result) {
-    let id = req.params.id
+    let state = req.body.state
     let decline = req.body.decline
-    bookingAreasFunctions.refuseAreaBooking(id, decline, (error, success) => {
+    let opinion = req.body.opinion
+
+
+
+    bookingAreasFunctions.editAreaBooking(id, state, decline,opinion, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -51,6 +42,7 @@ function refuse(req, result) {
     })
 
 }
+
 
 //Remover Reserva
 function removeAreaBooking(req, result) {
@@ -75,24 +67,10 @@ function areasBooking(req, result) {
     })
 }
 
-function giveOpinion(req, result) {
-    let id = req.params.id
-    let opinion = req.body.opinion
-    bookingAreasFunctions.giveOpinion(id, opinion, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        result.json(success)
-    })
-
-}
 
 module.exports = {
     newAreaBooking: newAreaBooking,
-    approved: approved,
-    refuse: refuse,
+    edit: edit,
     removeAreaBooking: removeAreaBooking,
     areasBooking: areasBooking,
-    giveOpinion: giveOpinion,
 }

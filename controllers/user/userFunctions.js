@@ -69,44 +69,42 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
     });
 }
 
-function changePassword(id, newPassword, callback) {
+
+
+function editUser(id, newPassword, newNumber, newType, callback) {
+    let sql
+    var context = {
+        "newPassword": newPassword,
+        "newNumber": newNumber,
+        "newType": newType,
+    }
+
+    var columns = {
+        "newPassword": "password",
+        "newNumber": "number",
+        "newType": "userType_id",
+    }
+
     connection.connect();
-    var sql = `UPDATE user SET password = ? WHERE user_id = ?`
-    connection.query(sql, [newPassword, id], function (err, result) {
-        if (err) callback(err);
+    sql = "UPDATE  user SET ";
+    Object.keys(context).forEach(function (key) {
+        if (!(context[key] === null || context[key] === "" || context[key] === undefined))
+            sql += columns[key] + "='" + context[key] + "',";
+    });
+    sql += " WHERE  user_id  = ?";
+    var n = sql.lastIndexOf(",");
+    sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
+
+    connection.query(sql, [id], function (error, results) {
+        if (error) callback(error);
         callback(null, {
             success: true,
-            message: "Password changed!"
+            message: results,
         })
+
     })
-    connection.end()
 }
 
-function changeNumber(id, newNumber, callback) {
-    connection.connect();
-    var sql = `UPDATE user SET number = ? WHERE user_id = ?`
-    connection.query(sql, [newNumber, id], function (err, result) {
-        if (err) callback(err);
-        callback(null, {
-            success: true,
-            message: "Number changed!"
-        })
-    })
-    connection.end()
-}
-
-function changeType(id, newType, callback) {
-    connection.connect();
-    var sql = `UPDATE user SET userType_id = ? WHERE user_id = ?`
-    connection.query(sql, [newType, id], function (err, result) {
-        if (err) callback(err);
-        callback(null, {
-            success: true,
-            message: "Type changed!"
-        })
-    })
-    connection.end()
-}
 
 function changeAvatar(id, newImg, callback) {
     connection.connect();
@@ -276,9 +274,7 @@ function deleteNotification(id, callback) {
 module.exports = {
     login: login,
     register: register,
-    changePassword: changePassword,
-    changeNumber: changeNumber,
-    changeType: changeType,
+    editUser: editUser,
     changeAvatar: changeAvatar,
     logout: logout,
     deleteUser: deleteUser,

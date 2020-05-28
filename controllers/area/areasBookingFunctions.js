@@ -21,22 +21,50 @@ function addAreasBooking(userID, area, reason, date, time, callback) {
 }
 
 
-function approveAreaBooking(id, callback) {
+function editAreaBooking(id, state, decline, opinion, callback) {
+    let sql
+    var context = {
+        "state": state,
+        "decline": decline,
+        "opinion": opinion
+    }
+
+    var columns = {
+        "state": "state_id",
+        "decline": "decline_txt",
+        "opinion": "opinion"
+    }
+
     connection.connect();
-    const sql = `UPDATE area_Booking SET state_id = ? WHERE area_booking_id = ?`
-    connection.query(sql, [1, id], function (error, results) {
+    sql = "UPDATE area_Booking SET ";
+    Object.keys(context).forEach(function (key) {
+        if (!(context[key] === null || context[key] === "" || context[key] === undefined))
+            sql += columns[key] + "='" + context[key] + "',";
+    });
+    sql += " WHERE area_booking_id = ?";
+    var n = sql.lastIndexOf(",");
+    sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
+
+    connection.query(sql, [id], function (error, results) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            message: "results",
+            message: results,
         })
-        aproveAreaNotification(id)
+
     })
+    console.log(state)
+    if (state == 1) {
+        aproveAreaNotification(id)
+    } else if (state == 2) {
+        refuseNotification(id)
+    }
 }
 
 function aproveAreaNotification(id) {
     const sqlMenu = "Select area.name, area_Booking.user_id from area, area_Booking where  area_booking_id = ? and area.area_id = area_Booking.area_id"
     connection.query(sqlMenu, [id], function (error, rows, fields) {
+        console.log(rows)
         if (!error) {
             let area = rows[0].name
             let user_id = rows[0].user_id
@@ -52,18 +80,7 @@ function aproveAreaNotification(id) {
 }
 
 
-function refuseAreaBooking(id, decline, callback) {
-    connection.connect();
-    const sql = `UPDATE area_Booking SET state_id = ?, decline_txt = ? WHERE area_booking_id = ?`
-    connection.query(sql, [2, decline, id], function (error, results) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "results",
-        })
-        refuseNotification(id)
-    })
-}
+
 
 function refuseNotification(id) {
     const sqlMenu = "Select area.name, area_Booking.user_id from area, area_Booking where  area_booking_id = ? and area.area_id = area_Booking.area_id"
@@ -109,24 +126,10 @@ function areasBooking(callback) {
 }
 
 
-function giveOpinion(id, opinion, callback) {
-    connection.connect();
-    const sql = `UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?`
-    connection.query(sql, [opinion, id], function (error, results) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "results",
-        })
-        connection.end();
-    })
-}
 
 module.exports = {
     addAreasBooking: addAreasBooking,
-    approveAreaBooking: approveAreaBooking,
-    refuseAreaBooking: refuseAreaBooking,
     removeAreaBooking: removeAreaBooking,
     areasBooking: areasBooking,
-    giveOpinion: giveOpinion
+    editAreaBooking: editAreaBooking
 }

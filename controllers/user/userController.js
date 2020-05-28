@@ -98,14 +98,16 @@ function deleteUser(req, result) {
 
 }
 
-function changePassword(req, res) {
+
+function edit(req, res) {
     let idToChange = req.params.id
     let newPassword = req.body.newPassword
     let newPassword2 = req.body.newPassword2
-
+    let newNumber = req.body.newNumber
+    let newType = req.body.type
     if(newPassword === newPassword2){
         bcrypt.hash(newPassword, 10, function (err, hash) {
-            userFunctions.changePassword(idToChange, hash, (error, success) => {
+            userFunctions.editUser(idToChange, hash,newNumber,newType, (error, success) => {
                 if (error) {
                     throw error;
                     return;
@@ -117,40 +119,11 @@ function changePassword(req, res) {
     else{
         console.log("Passwords não coincidem")
     }
-    
 }
-
-function changeNumber(req, res) {
-    let idToChange = req.params.id
-    let newNumber = req.body.newNumber
-
-    userFunctions.changeNumber(idToChange, newNumber, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        res.json(success)
-    })
-}
-
-function changeType(req, res) {
-    let idToChange = req.params.id
-    let newType = req.body.type
-
-    userFunctions.changeType(idToChange, newType, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        }
-        res.json(success)
-    })
-}
-
 
 function changeAvatar(req, res) {
     let idToChange = req.params.id
     let newImg = req.file
-
     userFunctions.changeAvatar(idToChange, newImg.path, (error, success) => {
         if (error) {
             throw error;
@@ -253,10 +226,8 @@ function deleteNotification(req, result) {
 module.exports = {
     insertUser: insertUser,
     deleteUser: deleteUser,
-    changePassword: changePassword,
-    changeNumber: changeNumber,
+    edit: edit,
     changeAvatar: changeAvatar,
-    changeType: changeType,
     getUsers: getUsers,
     menuBookingsById: menuBookingsById,
     areaBookingsById: areaBookingsById,

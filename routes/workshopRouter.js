@@ -11,11 +11,11 @@ const workshopController = require("../controllers/workshops/workshopsController
 const inscriptionController = require("../controllers/workshops/inscriptionController");
 
 
-router.post("/workshops/",middleware.checkToken,upload.single('img'),workshopController.addWorkshop)
+router.post("/workshops",middleware.checkToken,upload.single('img'),workshopController.addWorkshop)
 
 router.post("/workshops/inscription",middleware.checkToken,inscriptionController.addInscription)
 
-router.get("/workshops/", workshopController.getWorkshops)
+router.get("/workshops", workshopController.getWorkshops)
 
 router.put("/workshops/:id",middleware.checkToken, workshopController.updateWorkshop)
 
