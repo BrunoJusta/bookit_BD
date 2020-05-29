@@ -115,7 +115,7 @@ function getMenus(callback) {
 
 function getMenuType(callback) {
     connection.connect();
-    const sql =`SELECT * FROM menu_Types;`;
+    const sql =`SELECT * FROM menu_Type;`;
     connection.query(sql, function(error,rows, results, fields){
         if(error){
             callback(error);
