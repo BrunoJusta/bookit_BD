@@ -113,9 +113,28 @@ function getMenus(callback) {
     connection.end();
 }
 
+function getMenuType(callback) {
+    connection.connect();
+    const sql =`SELECT * FROM menu_Types;`;
+    connection.query(sql, function(error,rows, results, fields){
+        if(error){
+            callback(error);
+        }
+        else{
+            console.log(rows)
+            callback(null,{
+                success:true,
+                data: rows
+            })
+        }
+    });
+    connection.end();
+}
+
 module.exports = {
     addMenu: addMenu,
     addMenuPlusType: addMenuPlusType,
     removeMenu: removeMenu,
-    getMenus: getMenus
+    getMenus: getMenus,
+    getMenuType: getMenuType,
 }

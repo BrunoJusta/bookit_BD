@@ -54,11 +54,21 @@ function getMenus(req, result) {
         result.json(success)
     })
 }
-
+function getMenuType(req,result){
+    menuFunctions.getMenuType((error, success) =>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success);
+    })
+    
+}
 
 
 module.exports = {
     addMenu: addMenu,
     getMenus: getMenus,
     removeMenu: removeMenu,
+    getMenuType: getMenuType,
 }

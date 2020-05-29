@@ -12,6 +12,7 @@ const bookingController = require("../controllers/menu/bookingController");
 router.post("/menus",middleware.checkToken,upload.single('img'),menuController.addMenu)
 router.post("/menuBookings",middleware.checkToken, bookingController.newBooking)
 
+router.get("/menuTypes", menuController.getMenuType)
 router.get("/menus", menuController.getMenus)
 router.get("/menuBookings",middleware.checkToken, bookingController.getBookings)
 router.get("/menuBookings/decor",middleware.checkToken, bookingController.getBookingsDecor)
