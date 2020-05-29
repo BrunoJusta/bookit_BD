@@ -98,7 +98,7 @@ function removeMenuNotification(id) {
 //ordenar por popularidade
 function getMenus(callback) {
     connection.connect();
-    const sql = `SELECT * FROM menu;`;
+    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description FROM menu, menu_Type WHERE menu.menu_type_id = menu_Type.menu_type_id ;`;
     connection.query(sql, function (error, rows, results, fields) {
         if (error) {
             callback(error);
