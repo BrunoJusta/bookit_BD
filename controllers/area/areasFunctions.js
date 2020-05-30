@@ -1,7 +1,7 @@
 const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
 const config = require("../../config.json");
-var connection = mysql.createConnection(HOST,USER, PASSWORD, DATABASE);
+var connection = mysql.createConnection(process.env.HOST,process.env.USER, process.env.PASSWORD, process.env.DATABASE);
 
 function addArea(name, description, img, callback) {
     let id
