@@ -1,4 +1,4 @@
-const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
+// const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysqlhash
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
