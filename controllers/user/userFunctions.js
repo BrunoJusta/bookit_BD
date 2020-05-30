@@ -8,7 +8,7 @@ var connection = mysql.createConnection({host:process.env.HOST,user:process.env.
 function login(email, password, callback) {
     connection
     //Get info from user
-    const sql2 = `SELECT name, email, password FROM user WHERE email = ?;`
+    const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
         if (!error) {
             console.log(rows)
@@ -30,7 +30,17 @@ function login(email, password, callback) {
                     callback(null, {
                         success: true,
                         message: 'Sessão Iniciada',
-                        token: token
+                        user:{
+                            id: rows[0].user_id ,
+                            name: rows[0].name ,
+                            lastName: rows[0].lastname ,
+                            school: rows[0].school ,
+                            number: rows[0].number  ,
+                            email: email,
+                            birthDate: rows[0].birthDate ,
+                            type: rows[0].userType_id ,
+                            token: token
+                        }
                     })
                 } else {
                     console.log("Dados Invalidos")
