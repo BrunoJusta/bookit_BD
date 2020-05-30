@@ -34,7 +34,7 @@ app.use(menuRouter);
 
 app.use(addonsRouter);
 
-app.listen(config.port, () => console.log(config.serverStartMessage, config.host, config.port));
+app.listen(config.port, () => console.log(config.serverStartMessage, "https://apibookit.herokuapp.com/"));
 
 
 

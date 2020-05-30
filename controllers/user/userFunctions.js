@@ -3,7 +3,7 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require("../../config.json");
-var connection = mysql.createConnection(dbConfig);
+var connection = mysql.createConnection(HOST,USER, PASSWORD, DATABASE);
 
 function login(email, password, callback) {
     connection.connect();

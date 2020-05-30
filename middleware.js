@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require("./config.json");
 const dbConfig = require("./database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection(dbConfig);
+var connection = mysql.createConnection(HOST,USER, PASSWORD, DATABASE);
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
