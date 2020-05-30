@@ -1,6 +1,6 @@
 // const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection(process.env.HOST,process.env.USER, process.env.PASSWORD, process.env.DATABASE);
+var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
 
 function addInscription(idUser, idWorkshop, callback) {
     connection.connect();
