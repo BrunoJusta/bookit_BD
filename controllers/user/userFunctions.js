@@ -15,7 +15,7 @@ function login(email, password, callback) {
             //Verify Password
             bcrypt.compare(password, rows[0].password, function (err, res) {
                 if (err) {
-                    callback(err)
+                    callback("Password Incorreta")
                 }
                 //Create Token
                 if (res) {
@@ -38,7 +38,7 @@ function login(email, password, callback) {
                 }
             })
         } else {
-            callback(error)
+            callback("Email Invalido")
         }
         connection
     });
