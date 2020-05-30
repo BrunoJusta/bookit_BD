@@ -8,7 +8,7 @@ var connection = mysql.createConnection({host:process.env.HOST,user:process.env.
 function login(email, password, callback) {
     connection
     //Get info from user
-    const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
+    const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
         if (!error) {
             console.log(rows)
