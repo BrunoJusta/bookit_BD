@@ -48,7 +48,7 @@ function addMenuPlusType(name, newType, img, ing, callback) {
                     message: "Menu Adicionado"
                 })
                 let id = results.insertId
-                // menuIng(ing, id)
+                menuIng(ing, id)
             });
         }
     });
@@ -111,6 +111,7 @@ function getMenus(callback) {
         }
     });
     connection.end();
+    return connection 
 }
 
 function getMenuType(callback) {
