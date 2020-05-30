@@ -5,7 +5,7 @@ var connection = mysql.createConnection({host:process.env.HOST,user:process.env.
 
 function addArea(name, description, img, callback) {
     let id
-    connection.connect();
+    connection
     const sql = `INSERT INTO area (name, description, img) VALUES(?,?,?)`;
     connection.query(sql, [name, description, img], function (error, results, fields) {
         if (error) callback(error);
@@ -27,7 +27,7 @@ function addAreaNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ? or user.userType_id = ?;`
             connection.query(sqlNote, [description, 0, 0, 1], function (error) {
                 if (!error) {
-                    connection.end();
+                    connection;
                 } else {
                     console.log(error)
                 }
@@ -46,7 +46,7 @@ function removeArea(id, callback) {
             success: true,
             message: "Espaço Removido!"
         });
-        connection.end()
+        connection
     });
 }
 
@@ -74,11 +74,11 @@ function updateArea(name, description, id, callback) {
             message: "Espaço Atualizado!"
         });
     });
-    connection.end();
+    connection;
 };
 
 function getAreas(callback) {
-    connection.connect();
+    connection
     let sql = `SELECT * FROM area`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);

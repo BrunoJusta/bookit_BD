@@ -3,7 +3,7 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
 
 function addInscription(idUser, idWorkshop, callback) {
-    connection.connect();
+    connection
     const sql = `SELECT filled from workshop WHERE workshop_id = ?`;
     connection.query(sql, [idWorkshop], function (error, rows, fields) {
         console.log(error)
@@ -25,6 +25,7 @@ function addInscription(idUser, idWorkshop, callback) {
             });
         }
     });
+    connection
 }
 
 module.exports = {

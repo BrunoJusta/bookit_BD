@@ -4,7 +4,7 @@ var connection = mysql.createConnection({host:process.env.HOST,user:process.env.
 
 
 function addAreasBooking(userID, area, reason, date, time, callback) {
-    connection.connect();
+    connection;
     const sql = `INSERT INTO area_Booking (user_id, area_id, reason, date, duration, state_id, decline_txt) VALUES ( ? , ?, ?, ?, ?, ?, ?)`
     connection.query(sql, [userID, area, reason, date, time, 0, ""], function (error, results) {
         if (error) {
@@ -14,7 +14,7 @@ function addAreasBooking(userID, area, reason, date, time, callback) {
                 success: true,
                 message: "Pedido de Reserva Enviado!"
             })
-            connection.end();
+            connection;
         }
     });
 }
@@ -34,7 +34,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
         "opinion": "opinion"
     }
 
-    connection.connect();
+    connection;
     sql = "UPDATE area_Booking SET ";
     Object.keys(context).forEach(function (key) {
         if (!(context[key] === null || context[key] === "" || context[key] === undefined))
@@ -71,7 +71,7 @@ function aproveAreaNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                    connection
                 }
             })
         }
@@ -91,7 +91,7 @@ function refuseNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                    connection
                 }
             })
         }
@@ -99,7 +99,7 @@ function refuseNotification(id) {
 }
 
 function removeAreaBooking(id, callback) {
-    connection.connect()
+    connection
     let sql = `DELETE FROM area_Booking WHERE area_booking_id = ?`;
     connection.query(sql, [id], function (err, result) {
         if (err) callback(error);
@@ -108,11 +108,11 @@ function removeAreaBooking(id, callback) {
             message: "Reserva Removida!"
         })
     });
-    connection.end()
+    connection
 }
 
 function areasBooking(callback) {
-    connection.connect()
+    connection
     let sql = `SELECT area_booking_id, user.name as username, user.lastName, user.email, area.name, date, duration, state_booking.description FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
     connection.query(sql, function (error, rows, fields) {
         if (error) callback(error);

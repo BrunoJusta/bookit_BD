@@ -5,7 +5,7 @@ var connection = mysql.createConnection({host:process.env.HOST,user:process.env.
 
 //MENU
 function addMenu(name, menuType, img, ing, callback) {
-    connection.connect();
+    connection
     const sql = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
     connection.query(sql, [name, menuType, img, 0], function (error, results, fields) {
         if (error) callback(error);
@@ -33,10 +33,11 @@ function newMenuNotification(id) {
             })
         }
     })
+    connection
 }
 
 function addMenuPlusType(name, newType, img, ing, callback) {
-    connection.connect();
+    connection
     const sql = `INSERT INTO menu_Type (description) VALUES(?)`;
     connection.query(sql, [newType], function (error, result, fields) {
         if (!error) {
@@ -59,14 +60,14 @@ function menuIng(ing, id) {
         const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
             if (i === ing.length) {
-                connection.end();
+                connection
             }
         });
     }
 }
 
 function removeMenu(id, callback) {
-    connection.connect()
+    connection
     removeMenuNotification(id)
     let sql = `DELETE FROM menu WHERE menu_id = ?`;
     connection.query(sql, [id], function (err, result) {
@@ -75,7 +76,7 @@ function removeMenu(id, callback) {
             success: true,
             message: "Menu Removido!"
         })
-        connection.end()
+        connection
     });
 }
 
@@ -93,6 +94,7 @@ function removeMenuNotification(id) {
             })
         }
     })
+    connection
 }
 
 //ordenar por popularidade
@@ -114,7 +116,7 @@ function getMenus(callback) {
 }
 
 function getMenuType(callback) {
-    connection.connect();
+    connection
     const sql =`SELECT * FROM menu_Type;`;
     connection.query(sql, function(error,rows, results, fields){
         if(error){
@@ -128,7 +130,7 @@ function getMenuType(callback) {
             })
         }
     });
-    connection.end();
+    connection
 }
 
 module.exports = {
