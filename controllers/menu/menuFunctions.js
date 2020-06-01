@@ -132,6 +132,22 @@ function getMenuType(callback) {
     });
     connection
 }
+function getMenu(id,callback) {
+    connection
+    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description FROM menu, menu_Type WHERE menu.menu_type_id = menu_Type.menu_type_id WHERE menu_id = ?;`;
+    connection.query(sql,[id], function (error, rows, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            console.log(rows)
+            callback(null, {
+                success: true,
+                data: rows
+            })
+        }
+    });
+    connection
+}
 
 module.exports = {
     addMenu: addMenu,
@@ -139,4 +155,5 @@ module.exports = {
     removeMenu: removeMenu,
     getMenus: getMenus,
     getMenuType: getMenuType,
+    getMenu: getMenu,
 }

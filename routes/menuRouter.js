@@ -14,6 +14,7 @@ router.post("/menuBookings",middleware.checkToken, bookingController.newBooking)
 
 router.get("/menuTypes", menuController.getMenuType)
 router.get("/menus", menuController.getMenus)
+router.get("/menus/:id", menuController.getMenu)
 router.get("/menuBookings",middleware.checkToken, bookingController.getBookings)
 router.get("/menuBookings/decor",middleware.checkToken, bookingController.getBookingsDecor)
 router.get("/menuBookings/extra",middleware.checkToken, bookingController.getBookingsExtra)
