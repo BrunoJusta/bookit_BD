@@ -44,7 +44,7 @@ function updateWorkshop(req, result) {
     let time = hi + "-" + hf
     let vacancies = req.body.vacancies;
     workshopFunctions.updateWorkshop(id, name, date, teacher, description, vacancies, time, (error, success) => {
-        if(error) {
+        if (error) {
             throw error;
             return;
         }
@@ -52,8 +52,19 @@ function updateWorkshop(req, result) {
     })
 }
 
-function getWorkshops (req, result) {
+function getWorkshops(req, result) {
     workshopFunctions.getWorkshops((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    });
+}
+
+function getWorkshop(req, result) {
+    let id = req.params.id
+    workshopFunctions.getWorkshop(id,(error, success) => {
         if (error) {
             throw error;
             return;
@@ -66,5 +77,6 @@ module.exports = {
     addWorkshop: addWorkshop,
     removeWorkshop: removeWorkshop,
     updateWorkshop: updateWorkshop,
-    getWorkshops: getWorkshops
+    getWorkshops: getWorkshops,
+    getWorkshop: getWorkshop
 }

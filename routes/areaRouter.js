@@ -14,6 +14,7 @@ router.post("/areas",middleware.checkToken, upload.single('img'), areasControlle
 router.post("/areasBookings",middleware.checkToken, areasBookingController.newAreaBooking)
 
 router.get("/areas", areasController.getAreas)
+router.get("/areas/:id", areasController.getArea)
 router.get("/areasBookings",middleware.checkToken, areasBookingController.areasBooking)
 
 router.put("/areas/:id",middleware.checkToken, areasController.updateArea)

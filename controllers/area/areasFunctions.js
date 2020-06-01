@@ -1,7 +1,12 @@
 // const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
 // const config = require("../../config.json");
-var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
+var connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 
 function addArea(name, description, img, callback) {
     let id
@@ -90,9 +95,24 @@ function getAreas(callback) {
     });
 };
 
+function getArea(id, callback) {
+    connection
+    let sql = `SELECT * FROM area WHERE area_id = ?`;
+    connection.query(sql, [id], function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows)
+        callback(null, {
+            success: true,
+            data: rows
+        });
+    });
+};
+
+
 module.exports = {
     addArea: addArea,
     removeArea: removeArea,
     updateArea: updateArea,
-    getAreas: getAreas
+    getAreas: getAreas,
+    getArea: getArea
 }

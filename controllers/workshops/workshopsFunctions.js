@@ -1,6 +1,11 @@
 // const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
+var connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 
 function addWorkshop(name, date, teacher, description, img, vacancies, time, callback) {
     connection
@@ -87,9 +92,24 @@ function getWorkshops(callback) {
     connection
 }
 
+function getWorkshop(id, callback) {
+    connection
+    let sql = `SELECT * FROM workshop WHERE workshop_id = ? `;
+    connection.query(sql, [id], function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            data: rows
+        })
+    })
+    connection
+}
+
 module.exports = {
     addWorkshop: addWorkshop,
     removeWorkshop: removeWorkshop,
     updateWorkshop: updateWorkshop,
-    getWorkshops: getWorkshops
+    getWorkshops: getWorkshops,
+    getWorkshop: getWorkshop
 }

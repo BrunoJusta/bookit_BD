@@ -53,6 +53,17 @@ function getAreas(req, result) {
     })
 }
 
+function getArea(req, result) {
+    let id = req.params.id
+    areasFunctions.getArea(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
 // function searchArea(req, result) {
 //     let search = req.body.search
 //     areasFunctions.searchArea(search, (error, success) => {
@@ -68,6 +79,7 @@ module.exports = {
     removeArea: removeArea,
     updateArea: updateArea,
     getAreas: getAreas,
+    getArea: getArea,
     // searchArea: searchArea,
     
 }

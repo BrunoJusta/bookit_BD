@@ -16,6 +16,7 @@ router.post("/workshops",middleware.checkToken,upload.single('img'),workshopCont
 router.post("/workshops/inscription",middleware.checkToken,inscriptionController.addInscription)
 
 router.get("/workshops", workshopController.getWorkshops)
+router.get("/workshops/:id", workshopController.getWorkshop)
 
 router.put("/workshops/:id",middleware.checkToken, workshopController.updateWorkshop)
 
