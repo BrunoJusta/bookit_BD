@@ -105,7 +105,7 @@ function getIngredients(req, result) {
 
 function getIngredientsByMenu(req, result) {
     let id = req.params.id;
-    addonsFunctions.getIngredientsByMenu(id,(error, success) => {
+    addonsFunctions.getIngredientByMenu(id,(error, success) => {
         if (error) {
             throw error;
             return;
