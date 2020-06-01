@@ -160,7 +160,7 @@ function deleteUser(id, callback) {
 
 function getUsers(callback) {
     connection
-    let sql = `SELECT name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id;`;
+    let sql = `SELECT user_id, name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id;`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
