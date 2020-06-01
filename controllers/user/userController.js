@@ -103,20 +103,29 @@ function edit(req, res) {
     let newPassword = req.body.newPassword
     let newPassword2 = req.body.newPassword2
     let newNumber = req.body.newNumber
-    let newType = req.body.type
-    if(newPassword === newPassword2){
-        bcrypt.hash(newPassword, 10, function (err, hash) {
-            userFunctions.editUser(idToChange, hash,newNumber,newType, (error, success) => {
-                if (error) {
-                    throw error;
-                    return;
-                }
-                res.json(success)
+    let newType = req.body.newType
+    if (newPassword != "") {
+        if (newPassword === newPassword2) {
+            bcrypt.hash(newPassword, 10, function (err, hash) {
+                userFunctions.editUser(idToChange, hash, newNumber, newType, (error, success) => {
+                    if (error) {
+                        throw error;
+                        return;
+                    }
+                    res.json(success)
+                })
             })
+        } else {
+            console.log("Passwords não coincidem")
+        }
+    } else {
+        userFunctions.editUser(idToChange, newPassword, newNumber, newType, (error, success) => {
+            if (error) {
+                throw error;
+                return;
+            }
+            res.json(success)
         })
-    }
-    else{
-        console.log("Passwords não coincidem")
     }
 }
 
