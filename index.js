@@ -49,4 +49,4 @@ app.use(menuRouter);
 
 app.use(addonsRouter);
 
-app.listen(process.env.PORT, () => console.log(config.serverStartMessage, "https://apibookit.herokuapp.com/", process.env.PORT));
+app.listen(process.env.PORT, () => console.log(config.serverStartMessage, process.env.URL, process.env.PORT));
