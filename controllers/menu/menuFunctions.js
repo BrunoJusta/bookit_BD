@@ -134,7 +134,7 @@ function getMenuType(callback) {
 }
 function getMenu(id,callback) {
     connection
-    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description FROM menu, menu_Type WHERE menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id;`;
+    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description as type FROM menu, menu_Type WHERE menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id;`;
     connection.query(sql,[id], function (error, rows, results, fields) {
         if (error) {
             callback(error);
@@ -142,7 +142,13 @@ function getMenu(id,callback) {
             console.log(rows)
             callback(null, {
                 success: true,
-                data: rows
+                menu:{
+                    id: rows[0].menu_id ,
+                    name: rows[0].name ,
+                    img: rows[0].img ,
+                    popularity: rows[0].popularity ,
+                    type: rows[0].type  ,
+                }
             })
         }
     });
