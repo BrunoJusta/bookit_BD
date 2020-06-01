@@ -146,6 +146,21 @@ function getDecors(callback) {
     connection;
 }
 
+function getSchools(callback) {
+    connection;
+    let sql = `SELECT * from school`;
+    connection.query(sql, function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            data: rows
+        })
+    })
+    connection;
+}
+
+
 function getOutfits(callback) {
     connection;
     let sql = `SELECT * from outfit`;
@@ -185,6 +200,7 @@ module.exports = {
     getDecors: getDecors,
     getExtras: getExtras,
     getOutfits: getOutfits,
+    getSchools: getSchools,
     addExtra: addExtra,
     removeExtra: removeExtra,
     getIngredientByMenu: getIngredientByMenu

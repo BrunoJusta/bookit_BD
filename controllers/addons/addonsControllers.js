@@ -125,6 +125,18 @@ function getDecors(req, result) {
     })
 }
 
+
+function getSchools(req, result) {
+    addonsFunctions.getSchools((error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+
+        result.json(success)
+    })
+}
+
 function getOutfits(req, result) {
     addonsFunctions.getOutfits((error, success) => {
         if (error) {
@@ -159,5 +171,6 @@ module.exports = {
     getDecors: getDecors,
     getOutfits: getOutfits,
     getExtras: getExtras,
+    getSchools:getSchools,
     getIngredientsByMenu:getIngredientsByMenu
 }

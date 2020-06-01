@@ -19,6 +19,8 @@ router.get("/menus/:id/ingredients",addonsController.getIngredientsByMenu)
 router.get("/decors",middleware.checkToken, addonsController.getDecors)
 router.get("/outfits",middleware.checkToken, addonsController.getOutfits)
 router.get("/extras",middleware.checkToken, addonsController.getExtras)
+router.get("/schools",middleware.checkToken, addonsController.getExtras)
+
 
 router.delete("/extras/:id",middleware.checkToken, addonsController.removeExtra)
 router.delete("/ingredients/:id",middleware.checkToken, addonsController.removeIngredient)
