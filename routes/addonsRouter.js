@@ -15,7 +15,7 @@ router.post("/outfits",middleware.checkToken, upload.single('img'),addonsControl
 router.post("/extras",middleware.checkToken, addonsController.addExtra)
 
 router.get("/ingredients",middleware.checkToken, addonsController.getIngredients)
-router.get("/ingredients/:id",middleware.checkToken, addonsController.getIngredientsByMenu)
+router.get("/menus/:id/ingredients",middleware.checkToken, addonsController.getIngredientsByMenu)
 router.get("/decors",middleware.checkToken, addonsController.getDecors)
 router.get("/outfits",middleware.checkToken, addonsController.getOutfits)
 router.get("/extras",middleware.checkToken, addonsController.getExtras)
