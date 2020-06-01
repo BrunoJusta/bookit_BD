@@ -95,19 +95,17 @@ function editUser(id, newPassword, newNumber, newType, callback) {
         "newType": "userType_id",
     }
 
-
-
     connection
-    sql = "UPDATE  user SET userType_id = ? ";
-    // Object.keys(context).forEach(function (key) {
-    //     if (!(context[key] === null || context[key] === "" || context[key] === undefined))
-    //         sql += columns[key] + "='" + context[key] + "',";
-    // });
+    sql = "UPDATE  user SET ";
+    Object.keys(context).forEach(function (key) {
+        if (!(context[key] === null || context[key] === "" || context[key] === undefined))
+            sql += columns[key] + "='" + context[key] + "',";
+    });
     sql += " WHERE  user_id  = ?";
     var n = sql.lastIndexOf(",");
     sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
 
-    connection.query(sql, [newType, id], function (error, results) {
+    connection.query(sql, [id], function (error, results) {
         if (error) callback(error);
         callback(null, {
             success: true,
