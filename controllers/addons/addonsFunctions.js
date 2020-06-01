@@ -125,11 +125,7 @@ function getIngredientByMenu(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            ingredients: {
-                id:rows[0].ingredient_id,
-                name: rows[0].name,
-                type: rows[0].type
-            }
+            ingredients: rows
         })
         
     })
