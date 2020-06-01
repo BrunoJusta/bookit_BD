@@ -101,6 +101,7 @@ function editUser(id, newPassword, newNumber, newType, callback) {
         if (!(context[key] === null || context[key] === "" || context[key] === undefined))
             sql += columns[key] + "='" + context[key] + "',";
     });
+    console.log(context + " adsa " + columns)
     sql += " WHERE  user_id  = ?";
     var n = sql.lastIndexOf(",");
     sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
