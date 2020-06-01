@@ -103,6 +103,17 @@ function getIngredients(req, result) {
     })
 }
 
+function getIngredientsByMenu(req, result) {
+    let id = req.params.id;
+    addonsFunctions.getIngredientsByMenu(id,(error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
 function getDecors(req, result) {
     addonsFunctions.getDecors((error, success) => {
         if (error) {
@@ -147,5 +158,6 @@ module.exports = {
     getIngredients: getIngredients,
     getDecors: getDecors,
     getOutfits: getOutfits,
-    getExtras: getExtras
+    getExtras: getExtras,
+    getIngredientsByMenu:getIngredientsByMenu
 }

@@ -117,6 +117,25 @@ function getIngredients(callback) {
     connection;
 }
 
+function getIngredientByMenu(id, callback) {
+    connection;
+    let sql = `select ingredient.ingredient_id, ingredient.name, ingredient.type from ingredient, menu, menu_Ingredient where menu.menu_id=?  AND menu.menu_id = menu_Ingredient.menu_id and ingredient.ingredient_id = menu_Ingredient.ingredient_id`;
+    connection.query(sql,[id], function (error, rows, result) {
+        if (error) callback(error);
+        console.log(rows);
+        callback(null, {
+            success: true,
+            ingredients: {
+                id:rows[0].ingredient_id,
+                name: rows[0].name,
+                type: rows[0].type
+            }
+        })
+        
+    })
+    connection;
+}
+
 function getDecors(callback) {
     connection;
     let sql = `SELECT * from decoration`;
@@ -171,5 +190,6 @@ module.exports = {
     getExtras: getExtras,
     getOutfits: getOutfits,
     addExtra: addExtra,
-    removeExtra: removeExtra
+    removeExtra: removeExtra,
+    getIngredientByMenu: getIngredientByMenu
 }

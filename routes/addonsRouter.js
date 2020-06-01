@@ -9,15 +9,16 @@ const middleware = require("../middleware.js");
 //Import DB
 const addonsController = require("../controllers/addons/addonsControllers");
 
-router.post("/ingredients/",middleware.checkToken, addonsController.addIngredient)
-router.post("/decors/",middleware.checkToken, addonsController.addDecor)
-router.post("/outfits/",middleware.checkToken, upload.single('img'),addonsController.addOutfit)
-router.post("/extras/",middleware.checkToken, addonsController.addExtra)
+router.post("/ingredients",middleware.checkToken, addonsController.addIngredient)
+router.post("/decors",middleware.checkToken, addonsController.addDecor)
+router.post("/outfits",middleware.checkToken, upload.single('img'),addonsController.addOutfit)
+router.post("/extras",middleware.checkToken, addonsController.addExtra)
 
-router.get("/ingredients/",middleware.checkToken, addonsController.getIngredients)
-router.get("/decors/",middleware.checkToken, addonsController.getDecors)
-router.get("/outfits/",middleware.checkToken, addonsController.getOutfits)
-router.get("/extras/",middleware.checkToken, addonsController.getExtras)
+router.get("/ingredients",middleware.checkToken, addonsController.getIngredients)
+router.get("/ingredients/:id",middleware.checkToken, addonsController.getIngredientsByMenu)
+router.get("/decors",middleware.checkToken, addonsController.getDecors)
+router.get("/outfits",middleware.checkToken, addonsController.getOutfits)
+router.get("/extras",middleware.checkToken, addonsController.getExtras)
 
 router.delete("/extras/:id",middleware.checkToken, addonsController.removeExtra)
 router.delete("/ingredients/:id",middleware.checkToken, addonsController.removeIngredient)
