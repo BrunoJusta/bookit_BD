@@ -95,8 +95,10 @@ function editUser(id, newPassword, newNumber, newType, callback) {
         "newType": "userType_id",
     }
 
+
+
     connection
-    sql = "UPDATE  user SET userType_id ";
+    sql = "UPDATE  user SET userType_id = ? ";
     // Object.keys(context).forEach(function (key) {
     //     if (!(context[key] === null || context[key] === "" || context[key] === undefined))
     //         sql += columns[key] + "='" + context[key] + "',";
@@ -105,7 +107,7 @@ function editUser(id, newPassword, newNumber, newType, callback) {
     var n = sql.lastIndexOf(",");
     sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
 
-    connection.query(sql, [id], function (error, results) {
+    connection.query(sql, [newType, id], function (error, results) {
         if (error) callback(error);
         callback(null, {
             success: true,
