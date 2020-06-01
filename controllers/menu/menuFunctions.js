@@ -134,7 +134,7 @@ function getMenuType(callback) {
 }
 function getMenu(id,callback) {
     connection
-    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description FROM menu, menu_Type WHERE menu_id = ?, menu.menu_type_id = menu_Type.menu_type_id;`;
+    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description FROM menu, menu_Type WHERE menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id;`;
     connection.query(sql,[id], function (error, rows, results, fields) {
         if (error) {
             callback(error);
