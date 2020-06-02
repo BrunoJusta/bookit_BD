@@ -160,7 +160,7 @@ function editMenu(id, name, type, ings, callback) {
     connection
     let sqlType = "SELECT menu_type_id FROM menu_Type WHERE description = ?"
     connection.query(sqlType, [name,type,id], function (error, rows, fields) {
-        let typeID = rows[0].menu_type_id
+        let typeID = rows[0]
         if (!error) {
             let sql = "UPDATE menu SET menu.name=?, menu_type_id=?  WHERE menu_id=?;";
 
