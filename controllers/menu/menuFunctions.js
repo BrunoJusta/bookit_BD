@@ -155,6 +155,47 @@ function getMenu(id,callback) {
     connection
 }
 
+function editMenu(id, name, type, ings, callback) {
+
+    connection
+    let sql = "UPDATE menu SET menu.name=?, menu_type_id=?  WHERE menu_id=?;";
+
+    connection.query(sql, [name,type,id], function (error, results) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            message: "Reserva Atualizada",
+        })
+        removeIngredients(id, ings)
+
+    })
+    
+}
+
+function removeIngredients(id, ings){
+    let sql = "DELETE from menu_Ingredient where menu_id=?"
+    connection.query(sql, [id], function (error, results) {
+        if (!error) {
+            addNewIngredients(id, ings)
+        } 
+    })
+}
+
+function addNewIngredients(id,ings){
+    for (let i = 0; i < ings.length; i++) {
+        let sql = `INSERT INTO menu_Ingredients (menu_id, ingredient_id) VALUES ( ? , ?)`
+        connection.query(sql, [id, ing[i]], function (error, rows, results, fields) {
+            if (i === ing.length) {
+                connection
+            }
+        });
+    }
+}
+
+
+
+
+
 module.exports = {
     addMenu: addMenu,
     addMenuPlusType: addMenuPlusType,
@@ -162,4 +203,5 @@ module.exports = {
     getMenus: getMenus,
     getMenuType: getMenuType,
     getMenu: getMenu,
+    editMenu:editMenu
 }

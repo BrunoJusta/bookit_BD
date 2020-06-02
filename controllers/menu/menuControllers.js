@@ -76,6 +76,24 @@ function getMenu(req, result){
     })
 }
 
+//Aprovar Reserva
+function edit(req, result){
+    let id = req.params.id
+    let name = req.body.name
+    let type = req.body.type
+    let ings = req.body.ings
+
+
+    menuFunctions.editMenu(id,name, type, ings, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+
+}
+
 
 module.exports = {
     addMenu: addMenu,
@@ -83,4 +101,5 @@ module.exports = {
     removeMenu: removeMenu,
     getMenuType: getMenuType,
     getMenu: getMenu,
+    edit:edit
 }
