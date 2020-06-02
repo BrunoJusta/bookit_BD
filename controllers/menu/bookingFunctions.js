@@ -41,8 +41,9 @@ function ExtrasBooking(booking_id, extras, ing) {
     for (let e = 0; e < extras.length; e++) {
         const sqlExtra = `INSERT INTO booking_Extra (booking_id, extra_id) VALUES ( ? , ?)`
         connection.query(sqlExtra, [booking_id, extras[e]], function (error, rows, results, fields) {
-            if (error)
+            if (!error) {
                 AddOnsBooking(booking_id, ing)
+            } else(error)
         });
     }
 }
