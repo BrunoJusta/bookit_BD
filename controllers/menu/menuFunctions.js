@@ -198,6 +198,7 @@ function addNewIngredients(id,ings){
             }
         });
     }
+    connection
 }
 
 
