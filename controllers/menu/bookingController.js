@@ -73,8 +73,7 @@ function getBookings(req, result){
 
 
 function getBookingsDecor(req, result){
-    let id  = req.params.id
-    bookingFunctions.getBookingsDecor(id, (error,success)=>{
+    bookingFunctions.getBookingsDecor((error,success)=>{
         if(error){
             throw error;
             return;
@@ -84,8 +83,7 @@ function getBookingsDecor(req, result){
 }
 
 function getBookingsExtra(req, result){
-    let id  = req.params.id
-    bookingFunctions.getBookingsExtra(id,(error,success)=>{
+    bookingFunctions.getBookingsExtra((error,success)=>{
         if(error){
             throw error;
             return;
@@ -95,8 +93,7 @@ function getBookingsExtra(req, result){
 }
 
 function getBookingsAddOn(req, result){
-    let id  = req.params.id
-    bookingFunctions.getBookingsAddOn(id,(error,success)=>{
+    bookingFunctions.getBookingsAddOn((error,success)=>{
         if(error){
             throw error;
             return;
