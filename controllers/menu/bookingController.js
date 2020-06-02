@@ -19,7 +19,7 @@ function newBooking(req, result) {
     let ing = req.body.ing
 
 
-    bookingFunctions.addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor,ing, (error, success) => {
+    bookingFunctions.addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -29,14 +29,14 @@ function newBooking(req, result) {
 }
 
 //Aprovar Reserva
-function edit(req, result){
+function edit(req, result) {
     let id = req.params.id
     let state = req.body.state
     let decline = req.body.decline
     let opinion = req.body.opinion
 
 
-    bookingFunctions.editBooking(id,state, decline, opinion, (error, success) => {
+    bookingFunctions.editBooking(id, state, decline, opinion, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -48,10 +48,10 @@ function edit(req, result){
 
 
 //Remover Reserva
-function removeBooking(req, result){
-    let id  = req.params.id
-    bookingFunctions.removeBooking(id, (error,success)=>{
-        if(error){
+function removeBooking(req, result) {
+    let id = req.params.id
+    bookingFunctions.removeBooking(id, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -60,9 +60,9 @@ function removeBooking(req, result){
 }
 
 
-function getBookings(req, result){
-    bookingFunctions.getBookings((error,success)=>{
-        if(error){
+function getBookings(req, result) {
+    bookingFunctions.getBookings((error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -72,9 +72,10 @@ function getBookings(req, result){
 
 
 
-function getBookingsDecor(req, result){
-    bookingFunctions.getBookingsDecor((error,success)=>{
-        if(error){
+function getBookingsDecor(req, result) {
+    let id = req.params.id
+    bookingFunctions.getBookingsDecor(id, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -82,9 +83,10 @@ function getBookingsDecor(req, result){
     })
 }
 
-function getBookingsExtra(req, result){
-    bookingFunctions.getBookingsExtra((error,success)=>{
-        if(error){
+function getBookingsExtra(req, result) {
+    let id = req.params.id
+    bookingFunctions.getBookingsExtra(id, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -92,9 +94,10 @@ function getBookingsExtra(req, result){
     })
 }
 
-function getBookingsAddOn(req, result){
-    bookingFunctions.getBookingsAddOn((error,success)=>{
-        if(error){
+function getBookingsAddOn(req, result) {
+    let id = req.params.id
+    bookingFunctions.getBookingsAddOn(id, (error, success) => {
+        if (error) {
             throw error;
             return;
         }
@@ -108,10 +111,8 @@ module.exports = {
     removeBooking: removeBooking,
     getBookings: getBookings,
     getBookingsDecor: getBookingsDecor,
-    getBookingsExtra:getBookingsExtra,
+    getBookingsExtra: getBookingsExtra,
     getBookingsAddOn: getBookingsAddOn,
     edit: edit,
-    
+
 }
-
-
