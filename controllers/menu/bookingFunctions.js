@@ -1,6 +1,11 @@
 // const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
+var connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 
 
 
@@ -93,8 +98,7 @@ function editBooking(id, state, decline, opinion, callback) {
         approveNotification(id)
     } else if (state == 2) {
         refuseNotification(id)
-    }
-    else if(opinion !== null || opinion !== "" || opinion !== undefined ){
+    } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
         opinionNotification(id)
     }
 }
@@ -181,9 +185,9 @@ function getBookings(callback) {
     inner join school on booking.school_id = school.school_id
     inner join outfit on booking.outfit_id = outfit.outfit_id`;
     connection.query(sql, function (err, rows, fields, result) {
-        if (err){
+        if (err) {
             callback(err);
-        } 
+        }
         callback(null, {
             success: true,
             data: rows
@@ -192,10 +196,10 @@ function getBookings(callback) {
     connection
 }
 
-function getBookingsDecor(callback) {
+function getBookingsDecor(id, callback) {
     connection
-    let sql = `SELECT * FROM booking_Decor`;
-    connection.query(sql, function (err, rows, fields, result) {
+    let sql = `SELECT decoration.name FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id AND booking_Decor.booking_id = ?;`;
+    connection.query(sql, [id], function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
@@ -206,10 +210,10 @@ function getBookingsDecor(callback) {
     connection
 }
 
-function getBookingsExtra(callback) {
+function getBookingsExtra(id, callback) {
     connection
-    let sql = `SELECT * FROM booking_Extra`;
-    connection.query(sql, function (err, rows, fields, result) {
+    let sql = `SELECT extra.name FROM booking_Extra, extra WHERE booking_Extra.extra_id = extra.extra_id AND booking_Extra.booking_id = ?;`;
+    connection.query(sql, [id], function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
@@ -221,10 +225,10 @@ function getBookingsExtra(callback) {
 }
 
 
-function getBookingsAddOn(callback) {
+function getBookingsAddOn(id, callback) {
     connection
-    let sql = `SELECT * FROM addOn`;
-    connection.query(sql, function (err, rows, fields, result) {
+    let sql = `SELECT ingredient.name FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id AND addOn.booking_id = ?;`;
+    connection.query(sql, [id], function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
