@@ -183,8 +183,8 @@ function removeIngredients(id, ings){
 
 function addNewIngredients(id,ings){
     for (let i = 0; i < ings.length; i++) {
-        let sql = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
-        connection.query(sql, [id, ing[i]], function (error, rows, results, fields) {
+        let sql = `INSERT INTO menu_Ingredient  (menu_id, ingredient_id) VALUES ( ? , ?)`
+        connection.query(sql, [id, ings[i]], function (error, rows, results, fields) {
             if (i === ing.length) {
                 connection
             }
