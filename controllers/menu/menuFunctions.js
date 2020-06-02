@@ -158,17 +158,25 @@ function getMenu(id,callback) {
 function editMenu(id, name, type, ings, callback) {
 
     connection
-    let sql = "UPDATE menu SET menu.name=?, menu_type_id=?  WHERE menu_id=?;";
+    let sqlType = "SELECT menu_type_id FROM menu_Type WHERE description = ?"
+    connection.query(sqlType, [name,type,id], function (error, rows, fields) {
+        let typeID = rows[0].menu_type_id
+        if (!error) {
+            let sql = "UPDATE menu SET menu.name=?, menu_type_id=?  WHERE menu_id=?;";
 
-    connection.query(sql, [name,type,id], function (error, results) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "Reserva Atualizada",
-        })
-        removeIngredients(id, ings)
+            connection.query(sql, [name,typeID,id], function (error, results) {
+                if (error) callback(error);
+                callback(null, {
+                    success: true,
+                    message: "Reserva Atualizada",
+                })
+                removeIngredients(id, ings)
+        
+            })
+        }
 
     })
+
     
 }
 
