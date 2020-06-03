@@ -197,7 +197,7 @@ function getBookings(callback) {
     connection
 }
 
-function getBookingsDecor(id, callback) {
+function getBookingsDecor(callback) {
     connection
     let sql = `SELECT decoration.name, booking_Decor.booking_id FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id`;
     connection.query(sql, function (err, rows, fields, result) {
