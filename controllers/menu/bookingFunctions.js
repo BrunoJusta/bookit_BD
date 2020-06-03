@@ -199,7 +199,7 @@ function getBookings(callback) {
 
 function getBookingsDecor(callback) {
     connection
-    let sql = `SELECT decoration.name, booking_Decor.booking_id FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id`;
+    let sql = `SELECT decoration.name, booking_Decor.booking_id FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
@@ -211,10 +211,10 @@ function getBookingsDecor(callback) {
     connection
 }
 
-function getBookingsExtra(id, callback) {
+function getBookingsExtra(callback) {
     connection
-    let sql = `SELECT extra.name FROM booking_Extra, extra WHERE booking_Extra.extra_id = extra.extra_id AND booking_Extra.booking_id = ?;`;
-    connection.query(sql, [id], function (err, rows, fields, result) {
+    let sql = `SELECT extra.name, booking_Extra.booking_id FROM booking_Extra, extra WHERE booking_Extra.extra_id = extra.extra_id;`;
+    connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
@@ -226,10 +226,10 @@ function getBookingsExtra(id, callback) {
 }
 
 
-function getBookingsAddOn(id, callback) {
+function getBookingsAddOn(callback) {
     connection
-    let sql = `SELECT ingredient.name, ingredient.type  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id AND addOn.booking_id = ?;`;
-    connection.query(sql, [id], function (err, rows, fields, result) {
+    let sql = `SELECT ingredient.name, ingredient.type  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id;`;
+    connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
             success: true,
