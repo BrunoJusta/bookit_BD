@@ -73,8 +73,7 @@ function getBookings(req, result) {
 
 
 function getBookingsDecor(req, result) {
-    let id = req.params.id
-    bookingFunctions.getBookingsDecor(id, (error, success) => {
+    bookingFunctions.getBookingsDecor((error, success) => {
         if (error) {
             throw error;
             return;
