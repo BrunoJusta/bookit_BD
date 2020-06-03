@@ -42,7 +42,7 @@ function addAreaNotification(id) {
 }
 
 function removeArea(id, callback) {
-    connection.connect()
+    connection
     removeAreaNotification(id);
     let sql = `DELETE FROM area WHERE area_id = ?`;
     connection.query(sql, [id], function (error, result) {
@@ -70,7 +70,7 @@ function removeAreaNotification(id) {
 }
 
 function updateArea(name, description, id, callback) {
-    connection.connect()
+    connection
     let sql = `UPDATE area SET name = ?, description = ? WHERE area_id = ?`;
     connection.query(sql, [name, description, id], function (error, result) {
         if (error) callback(error);
