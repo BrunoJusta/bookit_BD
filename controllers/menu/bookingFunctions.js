@@ -228,7 +228,7 @@ function getBookingsExtra(callback) {
 
 function getBookingsAddOn(callback) {
     connection
-    let sql = `SELECT ingredient.name, ingredient.type  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id;`;
+    let sql = `SELECT ingredient.name, ingredient.type, addOn.booking_id  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
         callback(null, {
