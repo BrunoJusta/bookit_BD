@@ -64,37 +64,44 @@ function AddOnsBooking(booking_id, ing) {
 
 function editBooking(id, state, decline, opinion, callback) {
     let sql
-    var context = {
-        "state": state,
-        "decline": decline,
-        "opinion": opinion
-    }
-
-    var columns = {
-        "state": "state_id",
-        "decline": "decline_txt",
-        "opinion": "opinion"
-    }
-
+    
     connection
-    sql = "UPDATE booking SET ";
-    Object.keys(context).forEach(function (key) {
-        if (!(context[key] === null || context[key] === "" || context[key] === undefined))
-            sql += columns[key] + "='" + context[key] + "',";
-    });
-    sql += " WHERE booking_id = ?";
-    var n = sql.lastIndexOf(",");
-    sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
+    if (!(state === null || state === "" || state === undefined)) {
+        sql = "UPDATE booking SET state_id = ? WHERE booking_id = ?"
 
-    connection.query(sql, [id], function (error, results) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "Reserva Atualizada",
+        connection.query(sql, [state, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Reserva Atualizada",
+            })
         })
+    }
 
-    })
-    console.log(state)
+    if (!(decline === null || decline === "" || decline === undefined)) {
+        sql = "UPDATE booking SET decline_txt = ? WHERE booking_id = ?"
+
+        connection.query(sql, [decline, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Reserva Atualizada",
+            })
+        })
+    }
+
+    if (!(opinion === null || opinion === "" || opinion === undefined)) {
+        sql = "UPDATE booking SET opinion = ? WHERE booking_id = ?"
+
+        connection.query(sql, [opinion, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Reserva Atualizada",
+            })
+        })
+    }
+
     if (state == 1) {
         approveNotification(id)
     } else if (state == 2) {
@@ -102,6 +109,7 @@ function editBooking(id, state, decline, opinion, callback) {
     } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
         opinionNotification(id)
     }
+    connection
 }
 
 function approveNotification(id) {
