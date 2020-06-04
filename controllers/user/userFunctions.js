@@ -212,7 +212,7 @@ function areaBookingsById(id, callback) {
 
 function workshopBookingsById(id, callback) {
     connection
-    let sql = `select workshop.workshop_id, name, date, duration from workshop, inscription
+    let sql = `select workshop.workshop_id, name, workshop.img, date, duration from workshop, inscription
     where workshop.workshop_id = inscription.workshop_id and inscription.user_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
