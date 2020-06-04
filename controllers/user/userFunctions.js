@@ -39,6 +39,7 @@ function login(email, password, callback) {
                             email: email,
                             birthDate: rows[0].birthDate ,
                             type: rows[0].userType_id ,
+                            img: row[0].img,
                             token: token
                         }
                     })
