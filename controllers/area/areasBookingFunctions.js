@@ -1,6 +1,11 @@
 // const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
+var connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 
 
 function addAreasBooking(userID, area, reason, date, time, callback) {
@@ -22,42 +27,53 @@ function addAreasBooking(userID, area, reason, date, time, callback) {
 
 function editAreaBooking(id, state, decline, opinion, callback) {
     let sql
-    var context = {
-        "state": state,
-        "decline": decline,
-        "opinion": opinion
-    }
 
-    var columns = {
-        "state": "state_id",
-        "decline": "decline_txt",
-        "opinion": "opinion"
-    }
+    connection
+    if (!(state === null || state === "" || state === undefined)) {
+        sql = "UPDATE area_Booking SET state_id = ? WHERE area_booking_id = ?"
 
-    connection;
-    sql = "UPDATE area_Booking SET ";
-    Object.keys(context).forEach(function (key) {
-        if (!(context[key] === null || context[key] === "" || context[key] === undefined))
-            sql += columns[key] + "='" + context[key] + "',";
-    });
-    sql += " WHERE area_booking_id = ?";
-    var n = sql.lastIndexOf(",");
-    sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
-
-    connection.query(sql, [id], function (error, results) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "Reserva Atualizada",
+        connection.query(sql, [state, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Reserva de Areas Atualizada",
+            })
         })
+    }
 
-    })
-    console.log(state)
+    if (!(decline === null || decline === "" || decline === undefined)) {
+        sql = "UPDATE area_Booking SET decline_txt = ? WHERE area_booking_id = ?"
+
+        connection.query(sql, [decline, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Reserva de Areas Atualizada",
+            })
+        })
+    }
+
+    if (!(opinion === null || opinion === "" || opinion === undefined)) {
+        sql = "UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?"
+
+        connection.query(sql, [opinion, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Reserva de Areas Atualizada",
+            })
+        })
+    }
+
+
     if (state == 1) {
         aproveAreaNotification(id)
     } else if (state == 2) {
         refuseNotification(id)
+    } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
+        opinionNotification(id)
     }
+    connection
 }
 
 function aproveAreaNotification(id) {
@@ -78,9 +94,6 @@ function aproveAreaNotification(id) {
     })
 }
 
-
-
-
 function refuseNotification(id) {
     const sqlMenu = "Select area.name, area_Booking.user_id from area, area_Booking where  area_booking_id = ? and area.area_id = area_Booking.area_id"
     connection.query(sqlMenu, [id], function (error, rows, fields) {
@@ -89,6 +102,23 @@ function refuseNotification(id) {
             let user_id = rows[0].user_id
             let description = "A sua reverva da " + area + " foi recusada."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
+            connection.query(sqlNote, [user_id, description, 0], function (error) {
+                if (!error) {
+                    connection
+                }
+            })
+        }
+    })
+}
+
+function opinionNotification(id) {
+    const sqlMenu = "Select area.name, area_Booking.user_id from area, area_Booking where  area_booking_id = ? and area.area_id = area_Booking.area_id"
+    connection.query(sqlMenu, [id], function (error, rows, fields) {
+        if (!error) {
+            let area = rows[0].name
+            let user_id = rows[0].user_id
+            let description = "Recebeu uma nova opiniao na reserva da area " + area + "."
+            const sqlNote = `insert into notification (user_id, description, type) select ?, ?,? from user where user.userType_id = ?;`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
                     connection
