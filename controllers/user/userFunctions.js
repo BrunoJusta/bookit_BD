@@ -194,7 +194,7 @@ function menuBookingsById(id, callback) {
 
 function areaBookingsById(id, callback) {
     connection
-    let sql = `select  area_booking_id, area.name, date, duration, state_booking.description 
+    let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state
     from area_Booking, area, state_booking
     where area_Booking.area_id = area.area_id and area_Booking.state_id = state_booking.state_id 
     and area_Booking.user_id = ?;`;
