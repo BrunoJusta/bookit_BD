@@ -156,11 +156,10 @@ function opinionNotification(id) {
         if (!error) {
             let menu = rows[0].name
             let type = rows[0].description
-            let user_id = rows[0].user_id
             console.log(menu + " " + type)
             let description = "Recebeu uma nova opiniao na reserva do menu " + type + " " + menu + "."
-            const sqlNote = `insert into notification (user_id, description, type) select ?, ?,? from user where user.userType_id = ?;`
-            connection.query(sqlNote, [user_id,description, 0], function (error) {
+            const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ?;`
+            connection.query(sqlNote, [description, 0, 0], function (error) {
                 if (!error) {
                     connection
                 }

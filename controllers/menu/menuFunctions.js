@@ -29,11 +29,12 @@ function newMenuNotification(id) {
             let description = "Adicionou um novo menu " + type + " " + menu + "."
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
             connection.query(sqlNote, [description, 0], function (error) {
-                if (!error) {}
+                if (!error) {
+                    connection
+                }
             })
         }
     })
-    connection
 }
 
 function addMenuPlusType(name, newType, img, ing, callback) {
@@ -59,9 +60,10 @@ function menuIng(ing, id) {
     for (let i = 0; i < ing.length; i++) {
         const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
-            if (!error) {}
+            if (i === ing.length) {
+                connection
+            }
         });
-        connection
     }
 
 }
