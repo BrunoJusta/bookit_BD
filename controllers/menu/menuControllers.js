@@ -5,11 +5,12 @@ function addMenu(req, result) {
     let name = req.body.name;
     let menuType = req.body.menuType;
     let newType = req.body.newType
-    let img = req.file
+    let img = req.body.img
+    /* let img = req.file */
     let ing = req.body.ing
 
     if(menuType === "" || menuType === undefined){
-        menuFunctions.addMenuPlusType(name, newType, img.path, ing, (error, success) => {
+        menuFunctions.addMenuPlusType(name, newType, img, ing, (error, success) => {
             if (error) {
                 throw error;
                 return;
@@ -19,7 +20,7 @@ function addMenu(req, result) {
         })
     }
     else{
-        menuFunctions.addMenu(name, menuType, img.path, ing, (error, success) => {
+        menuFunctions.addMenu(name, menuType, img, ing, (error, success) => {
             if (error) {
                 throw error;
                 return;

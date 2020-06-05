@@ -11,7 +11,7 @@ const middleware = require("../middleware")
 const menuController = require("../controllers/menu/menuControllers");
 const bookingController = require("../controllers/menu/bookingController");
 
-router.post("/menus", middleware.checkToken, upload.single('img'), menuController.addMenu)
+router.post("/menus", middleware.checkToken, menuController.addMenu) /* upload.single('img') */
 router.post("/menuBookings", middleware.checkToken, bookingController.newBooking)
 
 router.get("/menuTypes", menuController.getMenuType)
