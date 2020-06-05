@@ -4,17 +4,16 @@ const areasFunctions = require("./areasFunctions")
 function addArea(req, result) {
     let name = req.body.name;
     let description = req.body.description;
-    let img = req.file;
+    let img = req.body.img;
+    // let img = req.file;
 
-    areasFunctions.addArea(name, description, img.path, (error, success) => {
+    areasFunctions.addArea(name, description, img, (error, success) => {
         if (error) {
             throw error;
             return;
         }
         result.json(success)
-
     })
-
 }
 
 function removeArea(req, result) {
