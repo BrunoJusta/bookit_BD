@@ -28,7 +28,7 @@ function newMenuNotification(id) {
             console.log(menu + " " + type)
             let description = "Adicionou um novo menu " + type + " " + menu + "."
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
-            connection.query(sqlNote, [description, 0, 0], function (error) {
+            connection.query(sqlNote, [description, 0], function (error) {
                 if (!error) {}
             })
         }

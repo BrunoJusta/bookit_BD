@@ -1,15 +1,17 @@
 const menuFunctions = require("./menuFunctions")
 
-//ADAPTAR
 function addMenu(req, result) {
     let name = req.body.name;
-    let menuType = req.body.menuType;
+    let type = req.body.type;
     let newType = req.body.newType
     let img = req.body.img
     /* let img = req.file */
     let ing = req.body.ing
 
-    if(menuType === "Outro..."){
+    alert(type)
+    alert(newType + " new")
+
+    if(type === "Outro..."){
         menuFunctions.addMenuPlusType(name, newType, img, ing, (error, success) => {
             if (error) {
                 throw error;
@@ -19,7 +21,7 @@ function addMenu(req, result) {
         })
     }
     else{
-        menuFunctions.addMenu(name, menuType, img, ing, (error, success) => {
+        menuFunctions.addMenu(name, type, img, ing, (error, success) => {
             if (error) {
                 throw error;
                 return;
