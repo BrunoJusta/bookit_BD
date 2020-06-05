@@ -58,9 +58,12 @@ function addMenuPlusType(name, newType, img, ing, callback) {
 function menuIng(ing, id) {
     for (let i = 0; i < ing.length; i++) {
         const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
-        connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {});
+        connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
+            if (!error) {}
+        });
+        connection
     }
-    connection
+
 }
 
 function removeMenu(id, callback) {
