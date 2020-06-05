@@ -9,14 +9,13 @@ function addMenu(req, result) {
     /* let img = req.file */
     let ing = req.body.ing
 
-    if(menuType === "" || menuType === undefined){
+    if(menuType === "Outro..."){
         menuFunctions.addMenuPlusType(name, newType, img, ing, (error, success) => {
             if (error) {
                 throw error;
                 return;
             }
             result.json(success)
-    
         })
     }
     else{
@@ -28,10 +27,7 @@ function addMenu(req, result) {
             result.json(success)
     
         })
-
     }
-
-
 }
 
 function removeMenu(req, result) {
