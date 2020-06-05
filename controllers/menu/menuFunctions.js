@@ -58,12 +58,9 @@ function addMenuPlusType(name, newType, img, ing, callback) {
 function menuIng(ing, id) {
     for (let i = 0; i < ing.length; i++) {
         const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
-        connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
-            if (i === ing.length) {
-                connection
-            }
-        });
+        connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {});
     }
+    connection
 }
 
 function removeMenu(id, callback) {
@@ -117,37 +114,37 @@ function getMenus(callback) {
 
 function getMenuType(callback) {
     connection
-    const sql =`SELECT * FROM menu_Type;`;
-    connection.query(sql, function(error,rows, results, fields){
-        if(error){
-            callback(error);
-        }
-        else{
-            console.log(rows)
-            callback(null,{
-                success:true,
-                data: rows
-            })
-        }
-    });
-    connection
-}
-function getMenu(id,callback) {
-    connection
-    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description as type FROM menu, menu_Type WHERE menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id;`;
-    connection.query(sql,[id], function (error, rows, results, fields) {
+    const sql = `SELECT * FROM menu_Type;`;
+    connection.query(sql, function (error, rows, results, fields) {
         if (error) {
             callback(error);
         } else {
             console.log(rows)
             callback(null, {
                 success: true,
-                menu:{
-                    id: rows[0].menu_id ,
-                    name: rows[0].name ,
-                    img: rows[0].img ,
-                    popularity: rows[0].popularity ,
-                    type: rows[0].type  ,
+                data: rows
+            })
+        }
+    });
+    connection
+}
+
+function getMenu(id, callback) {
+    connection
+    const sql = `SELECT  menu_id, name,img, popularity, menu_Type.description as type FROM menu, menu_Type WHERE menu_id = ? and menu.menu_type_id = menu_Type.menu_type_id;`;
+    connection.query(sql, [id], function (error, rows, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            console.log(rows)
+            callback(null, {
+                success: true,
+                menu: {
+                    id: rows[0].menu_id,
+                    name: rows[0].name,
+                    img: rows[0].img,
+                    popularity: rows[0].popularity,
+                    type: rows[0].type,
                 }
             })
         }
@@ -164,39 +161,39 @@ function editMenu(id, name, type, ings, callback) {
         if (!error) {
             let sql = "UPDATE menu SET menu.name=?, menu_type_id=?  WHERE menu_id=?;";
 
-            connection.query(sql, [name,typeID,id], function (error, results) {
+            connection.query(sql, [name, typeID, id], function (error, results) {
                 if (error) callback(error);
                 callback(null, {
                     success: true,
                     message: "Reserva Atualizada",
                 })
                 removeIngredients(id, ings)
-        
+
             })
         }
 
     })
 
-    
+
 }
 
-function removeIngredients(id, ings){
+function removeIngredients(id, ings) {
     let sql = "DELETE from menu_Ingredient where menu_id=?"
     connection.query(sql, [id], function (error, results) {
         if (!error) {
             connection
             addNewIngredients(id, ings)
-        } 
+        }
     })
 }
 
-function addNewIngredients(id,ings){
+function addNewIngredients(id, ings) {
     for (let i = 0; i < ings.length; i++) {
         connection
         let sql = `INSERT INTO menu_Ingredient  (menu_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sql, [id, ings[i]], function (error, rows, results, fields) {
             if (!error) {
-              connection
+                connection
             }
         });
     }
@@ -213,5 +210,5 @@ module.exports = {
     getMenus: getMenus,
     getMenuType: getMenuType,
     getMenu: getMenu,
-    editMenu:editMenu
+    editMenu: editMenu
 }

@@ -8,9 +8,6 @@ function addMenu(req, result) {
     /* let img = req.file */
     let ing = req.body.ing
 
-    console.log(type)
-    console.log(newType + " new")
-
     if(type === "Outro..."){
         menuFunctions.addMenuPlusType(name, newType, img, ing, (error, success) => {
             if (error) {
