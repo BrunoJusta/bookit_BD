@@ -3,7 +3,12 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require("../../config.json");
-var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
+var connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 
 function login(email, password, callback) {
     connection
@@ -30,15 +35,15 @@ function login(email, password, callback) {
                     callback(null, {
                         success: true,
                         message: 'Sessão Iniciada',
-                        user:{
-                            id: rows[0].user_id ,
-                            name: rows[0].name ,
-                            lastName: rows[0].lastname ,
-                            school: rows[0].school ,
-                            number: rows[0].number  ,
+                        user: {
+                            id: rows[0].user_id,
+                            name: rows[0].name,
+                            lastName: rows[0].lastname,
+                            school: rows[0].school,
+                            number: rows[0].number,
                             email: email,
-                            birthDate: rows[0].birthDate ,
-                            type: rows[0].userType_id ,
+                            birthDate: rows[0].birthDate,
+                            type: rows[0].userType_id,
                             img: rows[0].img,
                             token: token
                         }
@@ -82,39 +87,45 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
 
 
 
-function editUser(id, newPassword, newNumber, newType, callback) {
+function editUser(id, newPassword, number, userType, callback) {
     let sql
-    var context = {
-        "newPassword": newPassword,
-        "newNumber": newNumber,
-        "newType": newType,
-    }
-
-    var columns = {
-        "newPassword": "password",
-        "newNumber": "number",
-        "newType": "userType_id",
-    }
 
     connection
-    sql = "UPDATE  user SET ";
-    Object.keys(context).forEach(function (key) {
-        if (!(context[key] === null || context[key] === "" || context[key] === undefined))
-            sql += columns[key] + "='" + context[key] + "',";
-    });
+    if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
+        sql = "UPDATE  user SET password = ? WHERE  user_id  = ?"
 
-    sql += " WHERE  user_id  = ?";
-    var n = sql.lastIndexOf(",");
-    sql = sql.slice(0, n) + sql.slice(n).replace(",", "");
-
-    connection.query(sql, [id], function (error, results) {
-        if (error) callback(error);
-        callback(null, {
-            success: true,
-            message: "Dados Atualizados!",
+        connection.query(sql, [newPassword, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Utilizador atualizado"
+            })
         })
+    }
 
-    })
+    if (!(number === null || number === "" || number === undefined)) {
+        sql = "UPDATE  user SET number = ? WHERE  user_id  = ?"
+
+        connection.query(sql, [number, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Utilizador atualizado"
+            })
+        })
+    }
+
+    if (!(userType === null || userType === "" || userType === undefined)) {
+        sql = "UPDATE  user SET userType_id = ? WHERE  user_id  = ?"
+
+        connection.query(sql, [userType, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: "Utilizador atualizado"
+            })
+        })
+    }
     connection
 }
 
@@ -168,7 +179,7 @@ function getUsers(callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            data:rows
+            data: rows
         })
     })
     connection
@@ -187,7 +198,7 @@ function menuBookingsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            data:rows
+            data: rows
         })
     })
     connection
@@ -204,7 +215,7 @@ function areaBookingsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            data:rows
+            data: rows
         })
     })
     connection
@@ -220,7 +231,7 @@ function workshopBookingsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            data:rows
+            data: rows
         })
     })
     connection
@@ -235,7 +246,7 @@ function notificationsById(id, callback) {
         console.log(rows);
         callback(null, {
             success: true,
-            data:rows
+            data: rows
         })
     })
     connection
@@ -249,7 +260,7 @@ function archivationsById(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            data:rows
+            data: rows
         })
     })
     connection

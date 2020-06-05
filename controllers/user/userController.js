@@ -99,15 +99,15 @@ function deleteUser(req, result) {
 
 
 function edit(req, res) {
-    let idToChange = req.params.id
+    let id = req.params.id
     let newPassword = req.body.newPassword
     let newPassword2 = req.body.newPassword2
-    let newNumber = req.body.newNumber
-    let newType = req.body.newType
+    let number = req.body.number
+    let userType = req.body.userType
     if (newPassword != "") {
         if (newPassword === newPassword2) {
             bcrypt.hash(newPassword, 10, function (err, hash) {
-                userFunctions.editUser(idToChange, hash, newNumber, newType, (error, success) => {
+                userFunctions.editUser(id, hash, number, userType, (error, success) => {
                     if (error) {
                         throw error;
                         return;
@@ -119,7 +119,7 @@ function edit(req, res) {
             console.log("Passwords não coincidem")
         }
     } else {
-        userFunctions.editUser(idToChange, newPassword, newNumber, newType, (error, success) => {
+        userFunctions.editUser(id, newPassword, number, userType, (error, success) => {
             if (error) {
                 throw error;
                 return;
