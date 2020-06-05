@@ -176,7 +176,7 @@ function getUsers(callback) {
 
 function menuBookingsById(id, callback) {
     connection
-    let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description as state
+    let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description as state, booking.opinion
     from booking, menu, menu_Type, school, state_booking
     where booking.menu_id = menu.menu_id and menu.menu_type_id = menu_Type.menu_type_id 
     and booking.school_id = school.school_id and booking.state_id = state_booking.state_id 
@@ -195,7 +195,7 @@ function menuBookingsById(id, callback) {
 
 function areaBookingsById(id, callback) {
     connection
-    let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state
+    let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state, areaBooking.opinion
     from area_Booking, area, state_booking
     where area_Booking.area_id = area.area_id and area_Booking.state_id = state_booking.state_id 
     and area_Booking.user_id = ?;`;
