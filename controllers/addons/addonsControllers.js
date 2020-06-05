@@ -48,10 +48,11 @@ function removeDecor(req, result) {
 };
 
 function addOutfit(req, result) {
-    let img = req.file;
+    /* let img = req.file; */
+    let img = req.body.img;
     let name = req.body.name;
 
-    addonsFunctions.addOutfit(img.path, name, (error, success) => {
+    addonsFunctions.addOutfit(img, name, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -105,7 +106,7 @@ function getIngredients(req, result) {
 
 function getIngredientsByMenu(req, result) {
     let id = req.params.id;
-    addonsFunctions.getIngredientByMenu(id,(error, success) => {
+    addonsFunctions.getIngredientByMenu(id, (error, success) => {
         if (error) {
             throw error;
             return;
@@ -148,7 +149,7 @@ function getOutfits(req, result) {
 }
 
 function getExtras(req, result) {
-    
+
     addonsFunctions.getExtras((error, success) => {
         if (error) {
             throw error;
@@ -171,6 +172,6 @@ module.exports = {
     getDecors: getDecors,
     getOutfits: getOutfits,
     getExtras: getExtras,
-    getSchools:getSchools,
-    getIngredientsByMenu:getIngredientsByMenu
+    getSchools: getSchools,
+    getIngredientsByMenu: getIngredientsByMenu
 }

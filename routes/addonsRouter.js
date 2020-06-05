@@ -11,7 +11,7 @@ const addonsController = require("../controllers/addons/addonsControllers");
 
 router.post("/ingredients",middleware.checkToken, addonsController.addIngredient)
 router.post("/decors",middleware.checkToken, addonsController.addDecor)
-router.post("/outfits",middleware.checkToken, upload.single('img'),addonsController.addOutfit)
+router.post("/outfits",middleware.checkToken, addonsController.addOutfit) /* upload.single('img'), */
 router.post("/extras",middleware.checkToken, addonsController.addExtra)
 
 router.get("/ingredients",middleware.checkToken, addonsController.getIngredients)
