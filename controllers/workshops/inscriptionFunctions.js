@@ -28,6 +28,20 @@ function addInscription(idUser, idWorkshop, callback) {
     connection
 }
 
+function getInscription(callback){
+    connection
+    const sql = `SELECT * FROM inscription`;
+    connection.query(sql, function(error, rows, fields){
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            data: rows
+        })
+    })
+    connection
+}
+
 module.exports = {
-    addInscription: addInscription
+    addInscription: addInscription,
+    getInscription: getInscription
 }

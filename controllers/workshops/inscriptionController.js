@@ -12,7 +12,17 @@ function addInscription(req, result) {
         result.json(success)
     })
 }
+function getInscription(req, result){
+    inscriptionFunctions.getInscription((error, success)=>{
+        if(error){
+            throw error;
+            return;
+        }
+        result.json(success)
+    })
+}
 
 module.exports = {
     addInscription: addInscription,
+    getInscription: getInscription
 }
