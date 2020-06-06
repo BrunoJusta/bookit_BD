@@ -30,12 +30,12 @@ function addInscription(idUser, idWorkshop, callback) {
 
 function getInscription(callback){
     connection
-    const sql = `SELECT * from inscription`;
+    const sql = `SELECT workshop_id from inscription`;
     connection.query(sql, function(error, rows, fields){
         if (error) callback(error);
         callback(null, {
             success: true,
-            data: rows[0]
+            data: rows
         })
     })
     connection
