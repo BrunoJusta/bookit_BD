@@ -17,7 +17,7 @@ router.post("/workshops/inscription",middleware.checkToken,inscriptionController
 
 router.get("/workshops", workshopController.getWorkshops)
 router.get("/workshops/:id", workshopController.getWorkshop)
-router.get("/workshops/inscriptions", middleware.checkToken, inscriptionController.getIncriptions)
+router.get("/workshops/inscription", middleware.checkToken, inscriptionController.getIncriptions)
 
 router.put("/workshops/:id",middleware.checkToken, workshopController.updateWorkshop)
 
