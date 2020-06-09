@@ -63,9 +63,9 @@ function AddOnsBooking(booking_id, ing) {
 
 
 function editBooking(id, state, decline, opinion, callback) {
-    connection
     let sql
 
+    connection
     if (!(state === null || state === "" || state === undefined)) {
         sql = "UPDATE booking SET state_id = ? WHERE booking_id = ?"
 
@@ -77,7 +77,6 @@ function editBooking(id, state, decline, opinion, callback) {
             })
         })
     }
-
 
     if (!(decline === null || decline === "" || decline === undefined)) {
         sql = "UPDATE booking SET decline_txt = ? WHERE booking_id = ?"
@@ -102,13 +101,15 @@ function editBooking(id, state, decline, opinion, callback) {
             })
         })
     }
-    connection
 
-    /* if (state == 1) {
+    if (state == 1) {
         approveNotification(id)
+    } else if (state == 2) {
+        refuseNotification(id)
     } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
         opinionNotification(id)
-    } */
+    }
+    connection
 }
 
 /* function approveNotification(id) {
