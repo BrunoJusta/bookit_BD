@@ -112,7 +112,7 @@ function editBooking(id, state, decline, opinion, callback) {
     connection
 }
 
-/* function approveNotification(id) {
+function approveNotification(id) {
     connection
 
     const sqlMenu = "Select menu.name, menu_Type.description, booking.user_id from menu, booking, menu_Type where  booking_id = ? and menu.menu_id = booking.menu_id and menu.menu_type_id = menu_Type.menu_type_id"
@@ -168,7 +168,7 @@ function opinionNotification(id) {
         }
     })
     connection
-} */
+}
 
 
 
