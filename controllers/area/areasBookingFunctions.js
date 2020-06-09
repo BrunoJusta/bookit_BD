@@ -143,7 +143,7 @@ function removeAreaBooking(id, callback) {
 
 function areasBooking(callback) {
     connection
-    let sql = `SELECT area_booking_id, concat(user.name," ", user.lastName) as "userName", user.email, area.name, date, duration, reason, state_booking.description, area_Booking.decline_txt  FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
+    let sql = `SELECT area_booking_id, concat(user.name," ", user.lastName) as "userName", user.email, area.name, date, duration, reason, state_booking.description, area_Booking.decline_txt, area_Booking.opinion FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
     connection.query(sql, function (error, rows, fields) {
         if (error) callback(error);
         callback(null, {
