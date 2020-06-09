@@ -90,7 +90,6 @@ function editBooking(id, state, decline, opinion, callback) {
                 success: true,
                 message: "Reserva Atualizada",
             })
-            refuseNotification(id)
         })
     }
 
@@ -115,7 +114,7 @@ function editBooking(id, state, decline, opinion, callback) {
     } */
 }
 
-function approveNotification(id) {
+/* function approveNotification(id) {
     connection
 
     const sqlMenu = "Select menu.name, menu_Type.description, booking.user_id from menu, booking, menu_Type where  booking_id = ? and menu.menu_id = booking.menu_id and menu.menu_type_id = menu_Type.menu_type_id"
@@ -143,7 +142,6 @@ function refuseNotification(id) {
             let menu = rows[0].name
             let type = rows[0].description
             let user_id = rows[0].user_id
-            console.log(menu + " " + type)
             let description = "A sua reverva do menu " + type + " " + menu + " foi recusada."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
@@ -172,7 +170,7 @@ function opinionNotification(id) {
         }
     })
     connection
-}
+} */
 
 
 
