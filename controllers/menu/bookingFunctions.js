@@ -91,6 +91,7 @@ function editBooking(id, state, decline, opinion, callback) {
                 message: "Reserva Atualizada",
             })
         })
+        connection
     }
 
     if (!(opinion === null || opinion === "" || opinion === undefined)) {
