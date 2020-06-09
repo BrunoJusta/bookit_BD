@@ -63,11 +63,11 @@ function AddOnsBooking(booking_id, ing) {
 
 
 function editBooking(id, state, decline, opinion, callback) {
+    connection
     let sql
 
     if (!(state === null || state === "" || state === undefined)) {
         sql = "UPDATE booking SET state_id = ? WHERE booking_id = ?"
-        connection
 
         connection.query(sql, [state, id], function (error, results) {
             if (error) callback(error);
@@ -76,14 +76,12 @@ function editBooking(id, state, decline, opinion, callback) {
                 message: "Reserva Atualizada",
             })
         })
-        connection
     }
 
 
     if (!(decline === null || decline === "" || decline === undefined)) {
         sql = "UPDATE booking SET decline_txt = ? WHERE booking_id = ?"
 
-        connection
         connection.query(sql, [decline, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
@@ -91,13 +89,11 @@ function editBooking(id, state, decline, opinion, callback) {
                 message: "Reserva Atualizada",
             })
         })
-        connection
     }
 
     if (!(opinion === null || opinion === "" || opinion === undefined)) {
         sql = "UPDATE booking SET opinion = ? WHERE booking_id = ?"
 
-        connection
         connection.query(sql, [opinion, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
@@ -105,8 +101,8 @@ function editBooking(id, state, decline, opinion, callback) {
                 message: "Reserva Atualizada",
             })
         })
-        connection
     }
+    connection
 
     /* if (state == 1) {
         approveNotification(id)
