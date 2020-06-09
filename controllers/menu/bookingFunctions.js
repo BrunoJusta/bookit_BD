@@ -153,7 +153,6 @@ function refuseNotification(id) {
             })
         }
     })
-    connection
 }
 
 function opinionNotification(id) {
