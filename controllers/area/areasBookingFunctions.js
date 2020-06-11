@@ -29,42 +29,40 @@ function editAreaBooking(id, state, decline, opinion, callback) {
     let sql
 
     connection
-    if (!(state === null || state === "" || state === undefined)) {
-        sql = "UPDATE area_Booking SET state_id = ? WHERE area_booking_id = ?"
+    if ((!(decline === null || decline === "" || decline === undefined)) && (!(state === null || state === "" || state === undefined))) {
+        sql = "UPDATE area_Booking SET decline_txt = ?, state_id = ? WHERE area_booking_id = ?"
 
-        connection.query(sql, [state, id], function (error, results) {
+        connection.query(sql, [decline, state, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
                 success: true,
-                message: "Reserva de Areas Atualizada",
+                message: "Reserva recusada",
             })
         })
-    }
-    connection
-
-    connection
-    if (!(decline === null || decline === "" || decline === undefined)) {
-        sql = "UPDATE area_Booking SET decline_txt = ? WHERE area_booking_id = ?"
-
-        connection.query(sql, [decline, id], function (error, results) {
-            if (error) callback(error);
-            callback(null, {
-                success: true,
-                message: "Reserva de Areas Atualizada",
-            })
-        })
-    }
-    connection
-
-    connection
-    if (!(opinion === null || opinion === "" || opinion === undefined)) {
+    } else if (!(opinion === null || opinion === "" || opinion === undefined)) {
         sql = "UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?"
 
         connection.query(sql, [opinion, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
                 success: true,
-                message: "Reserva de Areas Atualizada",
+                message: "Opinião enviada",
+            })
+        })
+    } else if (!(state === null || state === "" || state === undefined)) {
+        sql = "UPDATE area_Booking SET state_id = ? WHERE area_booking_id = ?"
+        let txt
+        if (state == 1) {
+            txt = "Reserva Aprovada"
+        } else if (state == 3) {
+            txt = "Reserva Concluída"
+        }
+
+        connection.query(sql, [state, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: txt,
             })
         })
     }
