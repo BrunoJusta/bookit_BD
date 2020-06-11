@@ -39,6 +39,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
                 message: "Reserva recusada",
             })
         })
+        refuseNotification(id)
     } else if (!(opinion === null || opinion === "" || opinion === undefined)) {
         sql = "UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?"
 
@@ -49,6 +50,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
                 message: "Opinião enviada",
             })
         })
+        opinionNotification(id)
     } else if (!(state === null || state === "" || state === undefined)) {
         sql = "UPDATE area_Booking SET state_id = ? WHERE area_booking_id = ?"
         let txt
@@ -65,17 +67,10 @@ function editAreaBooking(id, state, decline, opinion, callback) {
                 message: txt,
             })
         })
+        if (state == 1) {
+            aproveAreaNotification(id)
+        }
     }
-    connection
-
-
-    /*  if (state == 1) {
-         aproveAreaNotification(id)
-     } else if (state == 2) {
-         refuseNotification(id)
-     } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
-         opinionNotification(id)
-     } */
 }
 
 function aproveAreaNotification(id) {
