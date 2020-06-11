@@ -42,7 +42,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
     }
     connection
 
-
+    connection
     if (!(decline === null || decline === "" || decline === undefined)) {
         sql = "UPDATE area_Booking SET decline_txt = ? WHERE area_booking_id = ?"
 
@@ -56,6 +56,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
     }
     connection
 
+    connection
     if (!(opinion === null || opinion === "" || opinion === undefined)) {
         sql = "UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?"
 
