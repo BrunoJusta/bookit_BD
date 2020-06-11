@@ -66,71 +66,66 @@ function editBooking(id, state, decline, opinion, callback) {
     let sql
 
     connection
-    if (!(state === null || state === "" || state === undefined)) {
-        sql = "UPDATE booking SET state_id = ? WHERE booking_id = ?"
+    if ((!(decline === null || decline === "" || decline === undefined)) && (!(state === null || state === "" || state === undefined))) {
+        sql = "UPDATE booking SET decline_txt = ?, state_id = ? WHERE booking_id = ?"
 
-        connection.query(sql, [state, id], function (error, results) {
+        connection.query(sql, [decline, state, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
                 success: true,
-                message: "Reserva Atualizada",
+                message: "Reserva recusada",
             })
         })
-    }
-
-    if (!(decline === null || decline === "" || decline === undefined)) {
-        sql = "UPDATE booking SET decline_txt = ? WHERE booking_id = ?"
-
-        connection.query(sql, [decline, id], function (error, results) {
-            if (error) callback(error);
-            callback(null, {
-                success: true,
-                message: "Reserva Atualizada",
-            })
-        })
-    }
-
-    if (!(opinion === null || opinion === "" || opinion === undefined)) {
+        refuseNotification(id)
+    } else if (!(opinion === null || opinion === "" || opinion === undefined)) {
         sql = "UPDATE booking SET opinion = ? WHERE booking_id = ?"
 
         connection.query(sql, [opinion, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
                 success: true,
-                message: "Reserva Atualizada",
+                message: "Opinião enviada",
             })
         })
-    }
-
-    if (state == 1) {
-        approveNotification(id)
-    } else if (state == 2) {
-        refuseNotification(id)
-    } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
         opinionNotification(id)
+    } else if (!(state === null || state === "" || state === undefined)) {
+        sql = "UPDATE booking SET state_id = ? WHERE booking_id = ?"
+        let txt
+        if (state == 1) {
+            txt = "Reserva Aprovada"
+        } else if (state == 3) {
+            txt = "Reserva Concluída"
+        }
+
+        connection.query(sql, [state, id], function (error, results) {
+            if (error) callback(error);
+            callback(null, {
+                success: true,
+                message: txt,
+            })
+        })
+        if (state == 1) {
+            approveNotification(id)
+        }
     }
-    connection
 }
 
 function approveNotification(id) {
-    connection
-
     const sqlMenu = "Select menu.name, menu_Type.description, booking.user_id from menu, booking, menu_Type where  booking_id = ? and menu.menu_id = booking.menu_id and menu.menu_type_id = menu_Type.menu_type_id"
     connection.query(sqlMenu, [id], function (error, rows, fields) {
         if (!error) {
             let menu = rows[0].name
             let type = rows[0].description
             let user_id = rows[0].user_id
-            console.log(menu + " " + type)
             let description = "A sua reverva do menu " + type + " " + menu + " foi aceite."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
-                if (!error) {}
+                if (!error) {
+                    connection
+                }
             })
         }
     })
-    connection
-
 }
 
 function refuseNotification(id) {
@@ -152,26 +147,21 @@ function refuseNotification(id) {
 }
 
 function opinionNotification(id) {
-    connection
-
     const sqlMenu = "Select menu.name, menu_Type.description from menu, booking, menu_Type where  booking_id = ? and menu.menu_id = booking.menu_id and menu.menu_type_id = menu_Type.menu_type_id"
     connection.query(sqlMenu, [id], function (error, rows, fields) {
         if (!error) {
             let menu = rows[0].name
             let type = rows[0].description
-            console.log(menu + " " + type)
             let description = "Recebeu uma nova opiniao na reserva do menu " + type + " " + menu + "."
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ?;`
             connection.query(sqlNote, [description, 0, 0], function (error) {
-                if (!error) {}
+                if (!error) {
+                    connection
+                }
             })
         }
     })
-    connection
 }
-
-
-
 
 function removeBooking(id, callback) {
     connection
