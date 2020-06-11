@@ -40,6 +40,8 @@ function editAreaBooking(id, state, decline, opinion, callback) {
             })
         })
     }
+    connection
+
 
     if (!(decline === null || decline === "" || decline === undefined)) {
         sql = "UPDATE area_Booking SET decline_txt = ? WHERE area_booking_id = ?"
@@ -52,6 +54,7 @@ function editAreaBooking(id, state, decline, opinion, callback) {
             })
         })
     }
+    connection
 
     if (!(opinion === null || opinion === "" || opinion === undefined)) {
         sql = "UPDATE area_Booking SET opinion = ? WHERE area_booking_id = ?"
@@ -64,16 +67,16 @@ function editAreaBooking(id, state, decline, opinion, callback) {
             })
         })
     }
-
-
-   /*  if (state == 1) {
-        aproveAreaNotification(id)
-    } else if (state == 2) {
-        refuseNotification(id)
-    } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
-        opinionNotification(id)
-    } */
     connection
+
+
+    /*  if (state == 1) {
+         aproveAreaNotification(id)
+     } else if (state == 2) {
+         refuseNotification(id)
+     } else if (opinion !== null || opinion !== "" || opinion !== undefined) {
+         opinionNotification(id)
+     } */
 }
 
 function aproveAreaNotification(id) {
