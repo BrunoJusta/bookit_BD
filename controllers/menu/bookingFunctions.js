@@ -117,7 +117,7 @@ function approveNotification(id) {
             let menu = rows[0].name
             let type = rows[0].description
             let user_id = rows[0].user_id
-            let description = "A sua reverva do menu " + type + " " + menu + " foi aceite."
+            let description = "A sua reserva do menu " + type + " - " + menu + " foi aceite."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
@@ -135,7 +135,7 @@ function refuseNotification(id) {
             let menu = rows[0].name
             let type = rows[0].description
             let user_id = rows[0].user_id
-            let description = "A sua reverva do menu " + type + " " + menu + " foi recusada."
+            let description = "A sua reserva do menu " + type + " - " + menu + " foi recusada."
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
