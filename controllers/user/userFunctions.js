@@ -43,7 +43,7 @@ function login(email, password, callback) {
                     callback(null, {
                         success: true,
                         message: 'Sessão Iniciada',
-                        token: token 
+                        token
                     })
                 } else {
                     console.log("Dados Invalidos")
