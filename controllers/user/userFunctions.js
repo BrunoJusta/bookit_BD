@@ -87,19 +87,31 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
 
 
 
-function editUser(id, newPassword, number, userType, callback) {
+function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
 
     connection
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
-        sql = "UPDATE  user SET password = ? WHERE  user_id  = ?"
+        const verify = "SELECT password FROM user WHERE user_id = ?;"
+        connection.query(verify, [id], function (error, rows, results) {
+            if (!error) {
+                bcrypt.compare(oldPassword, rows[0].password, function (err, res) {
+                    if (err) {
+                        callback("Password atual incorreta")
+                    }
+                    if (res) {
+                        sql = "UPDATE  user SET password = ? WHERE  user_id  = ?"
 
-        connection.query(sql, [newPassword, id], function (error, results) {
-            if (error) callback(error);
-            callback(null, {
-                success: true,
-                message: "Utilizador atualizado"
-            })
+                        connection.query(sql, [newPassword, id], function (error, results) {
+                            if (error) callback(error);
+                            callback(null, {
+                                success: true,
+                                message: "Utilizador atualizado"
+                            })
+                        })
+                    }
+                })
+            }
         })
     }
 
@@ -187,7 +199,7 @@ function getUsers(callback) {
 
 function menuBookingsById(id, callback) {
     connection
-    let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description as state, booking.opinion
+    let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description as state, booking.opinion, booking.decline_txt
     from booking, menu, menu_Type, school, state_booking
     where booking.menu_id = menu.menu_id and menu.menu_type_id = menu_Type.menu_type_id 
     and booking.school_id = school.school_id and booking.state_id = state_booking.state_id 
@@ -206,7 +218,7 @@ function menuBookingsById(id, callback) {
 
 function areaBookingsById(id, callback) {
     connection
-    let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state, area_Booking.opinion
+    let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state, area_Booking.opinion, area_Booking.decline_txt
     from area_Booking, area, state_booking
     where area_Booking.area_id = area.area_id and area_Booking.state_id = state_booking.state_id 
     and area_Booking.user_id = ?;`;

@@ -53,7 +53,6 @@ class LoginValidation {
                 result.json(error)
             }
             result.json(success)
-
         })
     }
     index(req, res) {
@@ -100,6 +99,7 @@ function deleteUser(req, result) {
 
 function edit(req, res) {
     let id = req.params.id
+    let oldPassword = req.body.oldPassword
     let newPassword = req.body.newPassword
     let newPassword2 = req.body.newPassword2
     let number = req.body.number
@@ -107,7 +107,7 @@ function edit(req, res) {
     if (newPassword != "") {
         if (newPassword === newPassword2) {
             bcrypt.hash(newPassword, 10, function (err, hash) {
-                userFunctions.editUser(id, hash, number, userType, (error, success) => {
+                userFunctions.editUser(id, oldPassword, hash, number, userType, (error, success) => {
                     if (error) {
                         throw error;
                         return;
@@ -119,7 +119,7 @@ function edit(req, res) {
             console.log("Passwords não coincidem")
         }
     } else {
-        userFunctions.editUser(id, newPassword, number, userType, (error, success) => {
+        userFunctions.editUser(id, oldPassword, newPassword, number, userType, (error, success) => {
             if (error) {
                 throw error;
                 return;

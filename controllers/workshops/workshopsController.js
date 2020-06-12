@@ -40,9 +40,7 @@ function updateWorkshop(req, result) {
     let teacher = req.body.teacher;
     let date = req.body.date;
     let description = req.body.description;
-    let hi = req.body.hi; //Hora inicio
-    let hf = req.body.hf; //Hora final
-    let time = hi + "-" + hf
+    let time = req.body.time
     let vacancies = req.body.vacancies;
     workshopFunctions.updateWorkshop(id, name, date, teacher, description, vacancies, time, (error, success) => {
         if (error) {
