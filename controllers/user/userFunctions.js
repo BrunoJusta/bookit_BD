@@ -84,20 +84,37 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
 
 
 
-function editUser(id, newPassword, number, userType, callback) {
+
+
+
+
+
+function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
 
     connection
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
-        sql = "UPDATE  user SET password = ? WHERE  user_id  = ?"
-
-        connection.query(sql, [newPassword, id], function (error, results) {
-            if (error) callback(error);
-            callback(null, {
-                success: true,
-                message: "Utilizador atualizado"
-            })
+        const verify = "SELECT password FROM user WHERE user_id = ?;"
+        connection.query(verify, [id], function (error, rows, results) {
+            if (!error) {
+                bcrypt.compare(oldPassword, rows[0].password, function (err, res) {
+                    if (err) {
+                        callback("Password atual incorreta")
+                    }
+                    if (res) {
+                        sql = "UPDATE  user SET password = ? WHERE  user_id  = ?"
+                        connection.query(sql, [newPassword, id], function (error, results) {
+                            if (error) callback(error);
+                            callback(null, {
+                                success: true,
+                                message: "Utilizador atualizado"
+                            })
+                        })
+                    }
+                })
+            }
         })
+        
     }
 
     if (!(number === null || number === "" || number === undefined)) {
