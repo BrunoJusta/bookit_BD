@@ -11,7 +11,7 @@ const middleware = require("../middleware.js");
 let validate = new userController.LoginValidation();
 
 router.post("/users",userController.insertUser)
-router.post('/login', validate.login)
+router.post('/login', upload.single('img'), validate.login)
 router.post('/logout',userController.logout)
 
 
