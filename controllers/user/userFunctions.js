@@ -258,7 +258,7 @@ function workshopBookingsById(id, callback) {
 
 function notificationsById(id, callback) {
     connection
-    let sql = `select notification_id, user_id, description from notification
+    let sql = `select notification_id, user_id, description, type from notification
     where notification.user_id = ? and notification.type = 0;`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
