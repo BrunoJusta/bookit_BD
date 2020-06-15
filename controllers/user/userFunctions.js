@@ -29,28 +29,28 @@ function login(email, password, callback) {
                         if (!error) {
                             console.log(countRows)
                         }
+                        let token = jwt.sign({
+                                id: rows[0].user_id,
+                                name: rows[0].name,
+                                lastName: rows[0].lastname,
+                                school: rows[0].school,
+                                number: rows[0].number,
+                                email: email,
+                                birthDate: rows[0].birthDate,
+                                type: rows[0].userType_id,
+                                img: rows[0].img,
+                                notifications: countRows[0].count
+                            },
+                            config.secret, {
+                                expiresIn: '24h' // expires in 24 hours
+                            }
+                        );
+                        callback(null, {
+                            success: true,
+                            message: 'Sessão Iniciada',
+                            token
+                        })
                     });
-                    let token = jwt.sign({
-                            id: rows[0].user_id,
-                            name: rows[0].name,
-                            lastName: rows[0].lastname,
-                            school: rows[0].school,
-                            number: rows[0].number,
-                            email: email,
-                            birthDate: rows[0].birthDate,
-                            type: rows[0].userType_id,
-                            img: rows[0].img,
-                            notifications: countRows[0].count
-                        },
-                        config.secret, {
-                            expiresIn: '24h' // expires in 24 hours
-                        }
-                    );
-                    callback(null, {
-                        success: true,
-                        message: 'Sessão Iniciada',
-                        token
-                    })
                 } else {
                     console.log("Dados Invalidos")
 
