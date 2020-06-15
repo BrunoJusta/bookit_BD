@@ -24,17 +24,23 @@ function login(email, password, callback) {
                 }
                 //Create Token
                 if (res) {
-                    console.log("works")
+                    const sqlCount = `SELECT COUNT(*) FROM notification WHERE user_id = ?;`
+                    connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
+                        if (!error) {
+                            console.log(countRows)
+                        }
+                    });
                     let token = jwt.sign({
-                        id: rows[0].user_id,
-                        name: rows[0].name,
-                        lastName: rows[0].lastname,
-                        school: rows[0].school,
-                        number: rows[0].number,
-                        email: email,
-                        birthDate: rows[0].birthDate,
-                        type: rows[0].userType_id,
-                        img: rows[0].img,
+                            id: rows[0].user_id,
+                            name: rows[0].name,
+                            lastName: rows[0].lastname,
+                            school: rows[0].school,
+                            number: rows[0].number,
+                            email: email,
+                            birthDate: rows[0].birthDate,
+                            type: rows[0].userType_id,
+                            img: rows[0].img,
+                            notifications: countRows[0]
                         },
                         config.secret, {
                             expiresIn: '24h' // expires in 24 hours
@@ -114,7 +120,7 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
                 })
             }
         })
-        
+
     }
 
     if (!(number === null || number === "" || number === undefined)) {
