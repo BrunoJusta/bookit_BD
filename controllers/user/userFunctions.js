@@ -27,7 +27,6 @@ function login(email, password, callback) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ?;`
                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
                         if (!error) {
-                            console.log(countRows)
                         }
                         let token = jwt.sign({
                                 id: rows[0].user_id,
