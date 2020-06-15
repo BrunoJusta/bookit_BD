@@ -24,7 +24,7 @@ function login(email, password, callback) {
                 }
                 //Create Token
                 if (res) {
-                    const sqlCount = `SELECT COUNT(*) FROM notification WHERE user_id = ?;`
+                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ?;`
                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
                         if (!error) {
                             console.log(countRows)
@@ -40,7 +40,7 @@ function login(email, password, callback) {
                             birthDate: rows[0].birthDate,
                             type: rows[0].userType_id,
                             img: rows[0].img,
-                            notifications: countRows[0]
+                            notifications: countRows[0].count
                         },
                         config.secret, {
                             expiresIn: '24h' // expires in 24 hours
