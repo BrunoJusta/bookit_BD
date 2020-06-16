@@ -11,7 +11,6 @@ function addWorkshop(req, result) {
     let time = hi + "-" + hf
     let vacancies = req.body.vacancies;
     let img = req.body.img;
-    // let img = req.file;
     workshopFunctions.addWorkshop(name, date, teacher, description, img, vacancies, time, (error, success) => {
         if (error) {
             throw error;
