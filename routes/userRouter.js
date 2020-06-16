@@ -11,7 +11,7 @@ const middleware = require("../middleware.js");
 let validate = new userController.LoginValidation();
 
 router.post("/users",userController.insertUser)
-router.post('/login', upload.single('img'), validate.login)
+router.post('/login', validate.login)
 router.post('/logout',userController.logout)
 
 
@@ -24,7 +24,7 @@ router.get("/users/:id/notifications",middleware.checkToken, userController.noti
 router.get("/users/:id/archivations",middleware.checkToken, userController.archivationsById)
 
 router.put("/users/:id",middleware.checkToken, userController.edit)
-router.put("/users/:id/avatar",middleware.checkToken,upload.single('newImg'), userController.changeAvatar)
+router.put("/users/:id/avatar",middleware.checkToken, userController.changeAvatar)
 router.put("/users/:userID/notifications/:id",middleware.checkToken, userController.archive)
 
 router.delete("/users/:id",middleware.checkToken, userController.deleteUser)

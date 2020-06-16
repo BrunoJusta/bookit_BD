@@ -131,8 +131,8 @@ function edit(req, res) {
 
 function changeAvatar(req, res) {
     let idToChange = req.params.id
-    let newImg = req.file
-    userFunctions.changeAvatar(idToChange, newImg.name, (error, success) => {
+    let newImg = req.body.newImg
+    userFunctions.changeAvatar(idToChange, newImg, (error, success) => {
         if (error) {
             throw error;
             return;
