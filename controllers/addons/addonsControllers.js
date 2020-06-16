@@ -48,7 +48,6 @@ function removeDecor(req, result) {
 };
 
 function addOutfit(req, result) {
-    /* let img = req.file; */
     let img = req.body.img;
     let name = req.body.name;
 
