@@ -206,6 +206,18 @@ function archivationsById(req, result) {
     })
 }
 
+
+function avatarById(req, result) {
+    let id = req.params.id
+    userFunctions.avatarById(id, (error, success) => {
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
+    })
+}
+
 function archive(req, result) {
     let idToChange = req.params.id
     let idUser = req.params.userID
@@ -248,4 +260,5 @@ module.exports = {
     deleteNotification: deleteNotification,
     logout: logout,
     LoginValidation: LoginValidation,
+    avatarById: avatarById,
 }

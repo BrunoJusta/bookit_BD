@@ -20,6 +20,7 @@ router.get("/users",middleware.checkToken, userController.getUsers)
 router.get("/users/:id/menuBookings",middleware.checkToken, userController.menuBookingsById)
 router.get("/users/:id/areaBookings",middleware.checkToken, userController.areaBookingsById)
 router.get("/users/:id/workshopBookings",middleware.checkToken, userController.workshopBookingsById)
+router.get("/users/:id/avatar",middleware.checkToken, userController.avatarById)
 router.get("/users/:id/notifications",middleware.checkToken, userController.notificationsById)
 router.get("/users/:id/archivations",middleware.checkToken, userController.archivationsById)
 

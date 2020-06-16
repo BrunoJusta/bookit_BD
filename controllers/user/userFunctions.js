@@ -285,6 +285,19 @@ function archivationsById(id, callback) {
     connection
 }
 
+function avatarById(id, callback) {
+    connection
+    let sql = `select img from user where user_id = ?;`;
+    connection.query(sql, [id], function (error, rows, result) {
+        if (error) callback(error);
+        callback(null, {
+            success: true,
+            data: rows
+        })
+    })
+    connection
+}
+
 function archive(idUser, id, callback) {
     connection
     let sql = `update notification set type = 1 where notification_id = ? and user_id=?;`;
@@ -327,5 +340,6 @@ module.exports = {
     notificationsById: notificationsById,
     archivationsById: archivationsById,
     archive: archive,
-    deleteNotification: deleteNotification
+    deleteNotification: deleteNotification,
+    avatarById:avatarById,
 }
