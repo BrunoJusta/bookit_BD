@@ -37,7 +37,6 @@ function login(email, password, callback) {
                                 email: email,
                                 birthDate: rows[0].birthDate,
                                 type: rows[0].userType_id,
-                                img: rows[0].img,
                                 notifications: countRows[0].count
                             },
                             config.secret, {
