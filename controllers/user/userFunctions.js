@@ -292,7 +292,7 @@ function avatarById(id, callback) {
         if (error) callback(error);
         callback(null, {
             success: true,
-            data: rows
+            data: rows[0].img
         })
     })
     connection
