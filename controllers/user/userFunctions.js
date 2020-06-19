@@ -47,10 +47,7 @@ function login(email, password, callback) {
                             token
                         })
                     });
-                } else {
-                    callback({success: false, message: 'Dados Invalidos'}, null)
-
-                }
+                } 
             })
         } else {
             callback({success: false, message: 'Dados Invalidos'}, null)
