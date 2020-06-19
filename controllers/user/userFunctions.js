@@ -20,7 +20,7 @@ function login(email, password, callback) {
             //Verify Password
             bcrypt.compare(password, rows[0].password, function (err, res) {
                 if (err) {
-                    callback({success: true, message: 'Dados Invalidos'})
+                    callback({success: true, message: 'Dados Invalidos'}, null)
                 }
                 //Create Token
                 if (res) {
@@ -50,12 +50,12 @@ function login(email, password, callback) {
                         })
                     });
                 } else {
-                    callback({success: true, message: 'Dados Invalidos'})
+                    callback({success: true, message: 'Dados Invalidos'}, null)
 
                 }
             })
         } else {
-            callback({success: true, message: 'Dados Invalidos'})
+            callback({success: true, message: 'Dados Invalidos'}, null)
         }
         connection
     });
