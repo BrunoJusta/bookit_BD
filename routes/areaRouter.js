@@ -10,7 +10,7 @@ const middleware = require("../middleware.js");
 const areasController = require("../controllers/area/areasControllers");
 const areasBookingController = require("../controllers/area/areasBookingController");
 
-router.post("/areas",middleware.checkToken, upload.single('img'), areasController.addArea);
+router.post("/areas",middleware.checkToken, areasController.addArea);
 router.post("/areasBookings",middleware.checkToken, areasBookingController.newAreaBooking)
 
 router.get("/areas", areasController.getAreas)
