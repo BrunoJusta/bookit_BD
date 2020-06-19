@@ -1,6 +1,6 @@
 {
-    "host": "process.env.HOST",
-    "user": "process.env.USER",
-    "password": "process.env.PASSWORD",
-    "database": "process.env.DATABASE"
+    "host": "www.remotemysql.com",
+    "user": "oYrnNBFmfU",
+    "password": "qw8kdxSBwz",
+    "database": "oYrnNBFmfU"
 }

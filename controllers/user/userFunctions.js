@@ -16,11 +16,9 @@ function login(email, password, callback) {
     const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
         if (!error) {
-            console.log(rows)
-            //Verify Password
-            bcrypt.compare(password, rows[0].password, function (err, res) {
+                bcrypt.compare(password, rows[0].password, function (err, res) {
                 if (err) {
-                    callback({success: true, message: 'Dados Invalidos'}, null)
+                    callback({success: false, message: 'Dados Invalidos'}, null)
                 }
                 //Create Token
                 if (res) {
@@ -50,12 +48,12 @@ function login(email, password, callback) {
                         })
                     });
                 } else {
-                    callback({success: true, message: 'Dados Invalidos'}, null)
+                    callback({success: false, message: 'Dados Invalidos'}, null)
 
                 }
             })
         } else {
-            callback({success: true, message: 'Dados Invalidos'}, null)
+            callback({success: false, message: 'Dados Invalidos'}, null)
         }
         connection
     });
