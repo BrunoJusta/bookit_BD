@@ -52,6 +52,7 @@ class LoginValidation {
             if (error) {
                 result.json(error)
             }
+            result.json(success)
         })
     }
     index(req, res) {
