@@ -44,7 +44,7 @@ function insertUser(req, result) {
 //Login User
 class LoginValidation {
     //FLogin
-    login(req, result) {
+    login(req, res) {
         //Variaveis
         let email = req.body.email;
         let password = req.body.password;
@@ -52,7 +52,6 @@ class LoginValidation {
             if (error) {
                 result.json(error)
             }
-            result.json(success)
         })
     }
     index(req, res) {
