@@ -50,9 +50,10 @@ class LoginValidation {
         let password = req.body.password;
         userFunctions.login(email, password, (error, success) => {
             if (error) {
-                result.status(400).json({error: 'Email already exists!'});
+                result.status(400).send("Variáveis inválidas");
+            } else {
+                result.json(success)
             }
-            result.json(success)
         })
     }
     index(req, res) {
