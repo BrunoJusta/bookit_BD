@@ -50,9 +50,7 @@ class LoginValidation {
         let password = req.body.password;
         userFunctions.login(email, password, (error, success) => {
             if (error) {
-                result.json("Current password does not match")
-                result.statusMessage = "Current password does not match";
-                result.status(400).end();
+                result.json(error)
             }
             result.json(success)
         })
