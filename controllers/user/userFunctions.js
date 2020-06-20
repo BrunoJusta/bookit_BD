@@ -21,7 +21,7 @@ function login(email, password, callback) {
                     callback({success: false, message: 'Dados Invalidos'}, null)
                 }
                 //Create Token
-                if (!err) {
+                if (res) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
                         if (!error) {
