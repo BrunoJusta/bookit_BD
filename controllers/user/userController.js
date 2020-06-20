@@ -51,8 +51,10 @@ class LoginValidation {
         userFunctions.login(email, password, (error, success) => {
             if (error) {
                 result.status(400).send("Variáveis inválidas");
+                result.json(error)
+            } else {
+                result.json(success)
             }
-            result.json(success)
         })
     }
     index(req, res) {
