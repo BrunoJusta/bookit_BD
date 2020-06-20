@@ -51,6 +51,8 @@ class LoginValidation {
         userFunctions.login(email, password, (error, success) => {
             if (error) {
                 result.json(error)
+                result.statusMessage = "Current password does not match";
+                result.status(400).end();
             }
             result.json(success)
         })
