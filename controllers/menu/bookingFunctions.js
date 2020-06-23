@@ -198,7 +198,7 @@ function getBookings(callback) {
 }
 
 function getBookingsDecor(callback) {
-    connection
+    connection.connect()
     let sql = `SELECT decoration.name, booking_Decor.booking_id FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -208,11 +208,11 @@ function getBookingsDecor(callback) {
         })
         console.log(rows)
     });
-    connection
+    connection.end()
 }
 
 function getBookingsExtra(callback) {
-    connection
+    connection.connect()
     let sql = `SELECT extra.name, booking_Extra.booking_id FROM booking_Extra, extra WHERE booking_Extra.extra_id = extra.extra_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -222,12 +222,12 @@ function getBookingsExtra(callback) {
         })
         console.log(rows)
     });
-    connection
+    connection.end()
 }
 
 
 function getBookingsAddOn(callback) {
-    connection
+    connection.connect()
     let sql = `SELECT ingredient.name, ingredient.type, addOn.booking_id  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -237,7 +237,7 @@ function getBookingsAddOn(callback) {
         })
         console.log(rows)
     });
-    connection
+    connection.end()
 }
 
 
