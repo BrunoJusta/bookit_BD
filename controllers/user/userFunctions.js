@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 });
 
 function login(email, password, callback) {
-    connection
+    connection.connect();
     //Get info from user
     const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
@@ -53,12 +53,12 @@ function login(email, password, callback) {
         } else {
             callback({success: false, message: 'Dados Invalidos'}, null)
         }
-        connection
     });
+    connection.end();
 }
 
 function register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) {
-    connection
+    connection.connect();
     //Get School from mail
     const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
@@ -75,24 +75,17 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
                     message: "Conta criada com sucesso!"
                 })
             });
-            connection
         } else {
             callback(error)
         }
     });
+    connection.end();
 }
-
-
-
-
-
-
-
 
 function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
 
-    connection
+    connection.connect();
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
         const verify = "SELECT password FROM user WHERE user_id = ?;"
         connection.query(verify, [id], function (error, rows, results) {
@@ -114,12 +107,10 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
                 })
             }
         })
-
     }
 
     if (!(number === null || number === "" || number === undefined)) {
         sql = "UPDATE  user SET number = ? WHERE  user_id  = ?"
-
         connection.query(sql, [number, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
@@ -131,7 +122,6 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
 
     if (!(userType === null || userType === "" || userType === undefined)) {
         sql = "UPDATE  user SET userType_id = ? WHERE  user_id  = ?"
-
         connection.query(sql, [userType, id], function (error, results) {
             if (error) callback(error);
             callback(null, {
@@ -140,12 +130,11 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
             })
         })
     }
-    connection
+    connection.end();
 }
 
-
 function changeAvatar(id, newImg, callback) {
-    connection
+    connection.connect();
     var sql = `UPDATE user SET img = ? WHERE user_id = ?`
     connection.query(sql, [newImg, id], function (err, result) {
         if (err) callback(err);
@@ -154,11 +143,11 @@ function changeAvatar(id, newImg, callback) {
             message: "Imagem de Perfil Atualizada!"
         })
     })
-    connection
+    connection.end();
 }
 
 function logout(token, callback) {
-    connection
+    connection.connect();
     let sql = `INSERT INTO blacklist(token) VALUES(?)`
     connection.query(sql, [token], function (err, result) {
         if (err) callback(err);
@@ -167,11 +156,11 @@ function logout(token, callback) {
             message: "Sessão Terminada!"
         })
     });
-    connection
+    connection.end();
 }
 
 function deleteUser(id, callback) {
-    connection
+    connection.connect();
     console.log("Connected!");
     var sql = `DELETE FROM user WHERE user_id = ?`;
     connection.query(sql, [id], function (err, result) {
@@ -181,12 +170,11 @@ function deleteUser(id, callback) {
             message: "Utilizador Eliminado!"
         })
     });
-    connection
+    connection.end();
 }
 
-
 function getUsers(callback) {
-    connection
+    connection.connect();
     let sql = `SELECT user_id, name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id;`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -196,11 +184,11 @@ function getUsers(callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 function menuBookingsById(id, callback) {
-    connection
+    connection.connect();
     let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description as state, booking.opinion, booking.decline_txt
     from booking, menu, menu_Type, school, state_booking
     where booking.menu_id = menu.menu_id and menu.menu_type_id = menu_Type.menu_type_id 
@@ -215,11 +203,11 @@ function menuBookingsById(id, callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 function areaBookingsById(id, callback) {
-    connection
+    connection.connect();
     let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state, area_Booking.opinion
     from area_Booking, area, state_booking
     where area_Booking.area_id = area.area_id and area_Booking.state_id = state_booking.state_id 
@@ -232,12 +220,12 @@ function areaBookingsById(id, callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 
 function workshopBookingsById(id, callback) {
-    connection
+    connection.connect();
     let sql = `select workshop.workshop_id, name, workshop.img, date, duration from workshop, inscription
     where workshop.workshop_id = inscription.workshop_id and inscription.user_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -248,11 +236,11 @@ function workshopBookingsById(id, callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 function notificationsById(id, callback) {
-    connection
+    connection.connect();
     let sql = `select notification_id, user_id, description, type from notification
     where notification.user_id = ? and notification.type = 0;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -263,11 +251,11 @@ function notificationsById(id, callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 function archivationsById(id, callback) {
-    connection
+    connection.connect();
     let sql = `select notification_id, user_id, description from notification
     where notification.user_id = ? and notification.type = 1;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -277,11 +265,11 @@ function archivationsById(id, callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 function avatarById(id, callback) {
-    connection
+    connection.connect();
     let sql = `select img from user where user_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
@@ -290,11 +278,11 @@ function avatarById(id, callback) {
             data: rows[0].img
         })
     })
-    connection
+    connection.end();
 }
 
 function archive(idUser, id, callback) {
-    connection
+    connection.connect();
     let sql = `update notification set type = 1 where notification_id = ? and user_id=?;`;
     connection.query(sql, [id, idUser], function (error, rows, result) {
         if (error) callback(error);
@@ -304,11 +292,11 @@ function archive(idUser, id, callback) {
             message: "Notificação Arquivada!"
         })
     })
-    connection
+    connection.end();
 }
 
 function deleteNotification(idUser, id, callback) {
-    connection
+    connection.connect();
     let sql = `delete from notification where notification_id = ? and user_id=?;`;
     connection.query(sql, [id, idUser], function (error, rows, result) {
         if (error) callback(error);
@@ -318,7 +306,7 @@ function deleteNotification(idUser, id, callback) {
             message: "Notificação Eliminda!"
         })
     })
-    connection
+    connection.end();
 }
 
 module.exports = {
