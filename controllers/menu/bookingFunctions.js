@@ -177,7 +177,7 @@ function removeBooking(id, callback) {
 }
 
 function getBookings(callback) {
-    connection
+    connection.connect()
     let sql = `select booking.booking_id as "id", menu_Type.description as"menuType",menu.name as "menuName", date, duration,reason, numberPeople, observations,school.school, outfit.name as "outfit", concat(user.name," ", user.lastName) as "userName", user.email, state_booking.description as "state", booking.decline_txt, booking.opinion from booking 
     inner join menu on menu.menu_id = booking.menu_id
     inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
@@ -194,7 +194,7 @@ function getBookings(callback) {
             data: rows
         })
     });
-    connection
+    connection.end()
 }
 
 function getBookingsDecor(callback) {
