@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
 });
 
 function addWorkshop(name, date, teacher, description, img, vacancies, time, callback) {
-    connection();
+    connection;
     const sql = `INSERT INTO workshop (name, date, teacher, description, img, vacancies, duration, filled) VALUES(?,?,?,?,?,?,?,?)`;
     connection.query(sql, [name, date, teacher, description, img, vacancies, time, 0], function (error, results, fields) {
         if (error) callback(error);
@@ -38,7 +38,7 @@ function addNotification(id) {
 }
 
 function removeWorkshop(id, callback) {
-    connection();
+    connection;
     deleteNotification(id)
     const sql = `DELETE FROM workshop WHERE workshop_id = ?`
     connection.query(sql, [id], function (err, result) {
@@ -66,7 +66,7 @@ function deleteNotification(id) {
 }
 
 function updateWorkshop(id, name, date, teacher, description, vacancies, time, callback) {
-    connection();
+    connection;
     const sql = `UPDATE workshop SET name = ?, date = ?, teacher = ?, description = ?, vacancies = ?, duration = ? WHERE workshop_id = ?`
     connection.query(sql, [name, date, teacher, description, vacancies, time, id], function (err, result) {
         if (err) callback(err);
@@ -79,7 +79,7 @@ function updateWorkshop(id, name, date, teacher, description, vacancies, time, c
 }
 
 function getWorkshops(callback) {
-    connection();
+    connection;
     let sql = `SELECT* from workshop`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -93,7 +93,7 @@ function getWorkshops(callback) {
 }
 
 function getWorkshop(id, callback) {
-    connection();
+    connection;
     let sql = `SELECT * FROM workshop WHERE workshop_id = ? `;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
