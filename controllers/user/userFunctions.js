@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 });
 
 function login(email, password, callback) {
-    connection.connect();
+    connection;
     //Get info from user
     const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
@@ -61,11 +61,11 @@ function login(email, password, callback) {
             callback({success: false, message: 'Dados Invalidos'}, null)
         }
     });
-    connection.end();
+    connection;
 }
 
 function register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) {
-    connection.connect();
+    connection;
     //Get School from mail
     const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
@@ -86,13 +86,13 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
             callback(error)
         }
     });
-    connection.end();
+    connection;
 }
 
 function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
 
-    connection.connect();
+    connection;
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
         const verify = "SELECT password FROM user WHERE user_id = ?;"
         connection.query(verify, [id], function (error, rows, results) {
@@ -137,11 +137,11 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
             })
         })
     }
-    connection.end();
+    connection;
 }
 
 function changeAvatar(id, newImg, callback) {
-    connection.connect();
+    connection;
     var sql = `UPDATE user SET img = ? WHERE user_id = ?`
     connection.query(sql, [newImg, id], function (err, result) {
         if (err) callback(err);
@@ -150,11 +150,11 @@ function changeAvatar(id, newImg, callback) {
             message: "Imagem de Perfil Atualizada!"
         })
     })
-    connection.end();
+    connection;
 }
 
 function logout(token, callback) {
-    connection.connect();
+    connection;
     let sql = `INSERT INTO blacklist(token) VALUES(?)`
     connection.query(sql, [token], function (err, result) {
         if (err) callback(err);
@@ -163,11 +163,11 @@ function logout(token, callback) {
             message: "Sessão Terminada!"
         })
     });
-    connection.end();
+    connection;
 }
 
 function deleteUser(id, callback) {
-    connection.connect();
+    connection;
     console.log("Connected!");
     var sql = `DELETE FROM user WHERE user_id = ?`;
     connection.query(sql, [id], function (err, result) {
@@ -177,11 +177,11 @@ function deleteUser(id, callback) {
             message: "Utilizador Eliminado!"
         })
     });
-    connection.end();
+    connection;
 }
 
 function getUsers(callback) {
-    connection.connect();
+    connection;
     let sql = `SELECT user_id, name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id;`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -191,11 +191,11 @@ function getUsers(callback) {
             data: rows
         })
     })
-    connection.end();
+    connection;
 }
 
 function menuBookingsById(id, callback) {
-    connection.connect();
+    connection;
     let sql = `select booking_id , menu.name, menu_Type.description, menu.img, date, duration, school.school, state_booking.description as state, booking.opinion, booking.decline_txt
     from booking, menu, menu_Type, school, state_booking
     where booking.menu_id = menu.menu_id and menu.menu_type_id = menu_Type.menu_type_id 
@@ -210,11 +210,11 @@ function menuBookingsById(id, callback) {
             data: rows
         })
     })
-    connection.end();
+    connection;
 }
 
 function areaBookingsById(id, callback) {
-    connection.connect();
+    connection;
     let sql = `select  area_booking_id, area.name, area.img, date, duration, state_booking.description as state, area_Booking.opinion
     from area_Booking, area, state_booking
     where area_Booking.area_id = area.area_id and area_Booking.state_id = state_booking.state_id 
@@ -227,12 +227,12 @@ function areaBookingsById(id, callback) {
             data: rows
         })
     })
-    connection.end();
+    connection;
 }
 
 
 function workshopBookingsById(id, callback) {
-    connection.connect();
+    connection;
     let sql = `select workshop.workshop_id, name, workshop.img, date, duration from workshop, inscription
     where workshop.workshop_id = inscription.workshop_id and inscription.user_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -243,11 +243,11 @@ function workshopBookingsById(id, callback) {
             data: rows
         })
     })
-    connection.end();
+    connection;
 }
 
 function notificationsById(id, callback) {
-    connection.connect();
+    connection;
     let sql = `select notification_id, user_id, description, type from notification
     where notification.user_id = ? and notification.type = 0;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -258,11 +258,11 @@ function notificationsById(id, callback) {
             data: rows
         })
     })
-    connection.end();
+    connection;
 }
 
 function archivationsById(id, callback) {
-    connection.connect();
+    connection;
     let sql = `select notification_id, user_id, description from notification
     where notification.user_id = ? and notification.type = 1;`;
     connection.query(sql, [id], function (error, rows, result) {
@@ -272,11 +272,11 @@ function archivationsById(id, callback) {
             data: rows
         })
     })
-    connection.end();
+    connection;
 }
 
 function avatarById(id, callback) {
-    connection.connect();
+    connection;
     let sql = `select img from user where user_id = ?;`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
@@ -285,11 +285,11 @@ function avatarById(id, callback) {
             data: rows[0].img
         })
     })
-    connection.end();
+    connection;
 }
 
 function archive(idUser, id, callback) {
-    connection.connect();
+    connection;
     let sql = `update notification set type = 1 where notification_id = ? and user_id=?;`;
     connection.query(sql, [id, idUser], function (error, rows, result) {
         if (error) callback(error);
@@ -299,11 +299,11 @@ function archive(idUser, id, callback) {
             message: "Notificação Arquivada!"
         })
     })
-    connection.end();
+    connection;
 }
 
 function deleteNotification(idUser, id, callback) {
-    connection.connect();
+    connection;
     let sql = `delete from notification where notification_id = ? and user_id=?;`;
     connection.query(sql, [id, idUser], function (error, rows, result) {
         if (error) callback(error);
@@ -313,7 +313,7 @@ function deleteNotification(idUser, id, callback) {
             message: "Notificação Eliminda!"
         })
     })
-    connection.end();
+    connection;
 }
 
 module.exports = {
