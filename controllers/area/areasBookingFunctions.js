@@ -28,7 +28,7 @@ function addAreasBooking(userID, area, reason, date, time, callback) {
 function editAreaBooking(id, state, decline, opinion, callback) {
     let sql
 
-    connection.connect()
+ connection
     if ((!(decline === null || decline === "" || decline === undefined)) && (!(state === null || state === "" || state === undefined))) {
         sql = "UPDATE area_Booking SET decline_txt = ?, state_id = ? WHERE area_booking_id = ?"
 
@@ -83,7 +83,7 @@ function aproveAreaNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                 connection
                 }
             })
         }
@@ -100,7 +100,7 @@ function refuseNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                 connection
                 }
             })
         }
@@ -117,10 +117,10 @@ function opinionNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select ?, ?,? from user where user.userType_id = ?;`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                 connection
                 }
                 else{
-                    connection.end()
+                 connection
                 }
             })
         }
@@ -128,7 +128,7 @@ function opinionNotification(id) {
 }
 
 function removeAreaBooking(id, callback) {
-    connection.connect()
+ connection
     let sql = `DELETE FROM area_Booking WHERE area_booking_id = ?`;
     connection.query(sql, [id], function (err, result) {
         if (err) callback(error);
@@ -137,11 +137,11 @@ function removeAreaBooking(id, callback) {
             message: "Reserva Removida!"
         })
     });
-    connection.end()
+ connection
 }
 
 function areasBooking(callback) {
-    connection.connect()
+ connection
     let sql = `SELECT area_booking_id, concat(user.name," ", user.lastName) as "userName", user.email, area.name, date, duration, reason, state_booking.description, area_Booking.decline_txt, area_Booking.opinion FROM area_Booking inner join user on area_Booking.user_id=user.user_id inner join area on area_Booking.area_id = area.area_id inner join state_booking on area_Booking.state_id = state_booking.state_id`
     connection.query(sql, function (error, rows, fields) {
         if (error) callback(error);
@@ -150,7 +150,7 @@ function areasBooking(callback) {
             data: rows
         })
     })
-    connection.end()
+ connection
 }
 
 
