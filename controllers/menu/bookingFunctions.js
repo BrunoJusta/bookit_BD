@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
 
 
 function addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, callback) {
-    connection.connect()
+ connection
     const sql = `INSERT INTO booking (user_id, menu_id, reason, date, duration, numberPeople, school_id, outfit_id, state_id, observations,decline_txt, opinion) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     connection.query(sql, [userID, menu, reason, date, time, numberPeople, school, outfit, 0, observations, "", ""], function (error, results) {
         if (error) {
@@ -53,7 +53,7 @@ function AddOnsBooking(booking_id, ing) {
         const sqlIng = `INSERT INTO addOn (booking_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [booking_id, ing[i]], function (error, rows, results, fields) {
             if (i === ing.length) {
-                connection.end()
+             connection
             }
         });
     }
@@ -121,7 +121,7 @@ function approveNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                 connection
                 }
             })
         }
@@ -139,7 +139,7 @@ function refuseNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                 connection
                 }
             })
         }
@@ -156,7 +156,7 @@ function opinionNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ?;`
             connection.query(sqlNote, [description, 0, 0], function (error) {
                 if (!error) {
-                    connection.end()
+                 connection
                 }
             })
         }
@@ -164,7 +164,7 @@ function opinionNotification(id) {
 }
 
 function removeBooking(id, callback) {
-    connection.connect()
+ connection
     let sql = `DELETE FROM booking WHERE booking_id = ?`;
     connection.query(sql, [id], function (err, result) {
         if (err) callback(error);
@@ -173,11 +173,11 @@ function removeBooking(id, callback) {
             message: "Reserva Removida!"
         })
     });
-    connection.end()
+ connection
 }
 
 function getBookings(callback) {
-    connection.connect()
+ connection
     let sql = `select booking.booking_id as "id", menu_Type.description as"menuType",menu.name as "menuName", date, duration,reason, numberPeople, observations,school.school, outfit.name as "outfit", concat(user.name," ", user.lastName) as "userName", user.email, state_booking.description as "state", booking.decline_txt, booking.opinion from booking 
     inner join menu on menu.menu_id = booking.menu_id
     inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
@@ -194,11 +194,11 @@ function getBookings(callback) {
             data: rows
         })
     });
-    connection.end()
+ connection
 }
 
 function getBookingsDecor(callback) {
-    connection.connect()
+ connection
     let sql = `SELECT decoration.name, booking_Decor.booking_id FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -208,11 +208,11 @@ function getBookingsDecor(callback) {
         })
         console.log(rows)
     });
-    connection.end()
+ connection
 }
 
 function getBookingsExtra(callback) {
-    connection.connect()
+ connection
     let sql = `SELECT extra.name, booking_Extra.booking_id FROM booking_Extra, extra WHERE booking_Extra.extra_id = extra.extra_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -222,12 +222,12 @@ function getBookingsExtra(callback) {
         })
         console.log(rows)
     });
-    connection.end()
+ connection
 }
 
 
 function getBookingsAddOn(callback) {
-    connection.connect()
+ connection
     let sql = `SELECT ingredient.name, ingredient.type, addOn.booking_id  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -237,7 +237,7 @@ function getBookingsAddOn(callback) {
         })
         console.log(rows)
     });
-    connection.end()
+ connection
 }
 
 
