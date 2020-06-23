@@ -103,7 +103,7 @@ function removeExtra(id, callback) {
 }
 
 function getIngredients(callback) {
-    connection;
+    connection.connect();
     let sql = `SELECT * from ingredient`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -114,7 +114,7 @@ function getIngredients(callback) {
         })
         
     })
-    connection;
+    connection.end();
 }
 
 function getIngredientByMenu(id, callback) {
