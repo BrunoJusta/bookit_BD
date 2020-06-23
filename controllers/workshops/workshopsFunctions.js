@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
 });
 
 function addWorkshop(name, date, teacher, description, img, vacancies, time, callback) {
-    connection
+    connection.connect();
     const sql = `INSERT INTO workshop (name, date, teacher, description, img, vacancies, duration, filled) VALUES(?,?,?,?,?,?,?,?)`;
     connection.query(sql, [name, date, teacher, description, img, vacancies, time, 0], function (error, results, fields) {
         if (error) callback(error);
@@ -30,7 +30,7 @@ function addNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user WHERE user.userType_id = ? OR user.userType_id = ?;`
             connection.query(sqlNote, [description, 0, 0, 1], function (error) {
                 if (!error) {
-                    connection
+                    connection.end();
                 }
             })
         }
@@ -38,7 +38,7 @@ function addNotification(id) {
 }
 
 function removeWorkshop(id, callback) {
-    connection
+    connection.connect();
     deleteNotification(id)
     const sql = `DELETE FROM workshop WHERE workshop_id = ?`
     connection.query(sql, [id], function (err, result) {
@@ -47,7 +47,7 @@ function removeWorkshop(id, callback) {
             success: true,
             message: "Workshop Removido"
         })
-        connection
+        connection.end();
     })
 }
 
@@ -66,7 +66,7 @@ function deleteNotification(id) {
 }
 
 function updateWorkshop(id, name, date, teacher, description, vacancies, time, callback) {
-    connection
+    connection.connect();
     const sql = `UPDATE workshop SET name = ?, date = ?, teacher = ?, description = ?, vacancies = ?, duration = ? WHERE workshop_id = ?`
     connection.query(sql, [name, date, teacher, description, vacancies, time, id], function (err, result) {
         if (err) callback(err);
@@ -75,11 +75,11 @@ function updateWorkshop(id, name, date, teacher, description, vacancies, time, c
             message: "Workshop Atualizado!"
         })
     })
-    connection
+    connection.end();
 }
 
 function getWorkshops(callback) {
-    connection
+    connection.connect();
     let sql = `SELECT* from workshop`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -89,11 +89,11 @@ function getWorkshops(callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 function getWorkshop(id, callback) {
-    connection
+    connection.connect();
     let sql = `SELECT * FROM workshop WHERE workshop_id = ? `;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
@@ -103,7 +103,7 @@ function getWorkshop(id, callback) {
             data: rows
         })
     })
-    connection
+    connection.end();
 }
 
 module.exports = {
