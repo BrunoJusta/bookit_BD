@@ -177,7 +177,7 @@ function removeBooking(id, callback) {
 }
 
 function getBookings(callback) {
-    connection
+    connection.connect()
     let sql = `select booking.booking_id as "id", menu_Type.description as"menuType",menu.name as "menuName", date, duration,reason, numberPeople, observations,school.school, outfit.name as "outfit", concat(user.name," ", user.lastName) as "userName", user.email, state_booking.description as "state", booking.decline_txt, booking.opinion from booking 
     inner join menu on menu.menu_id = booking.menu_id
     inner join menu_Type on menu.menu_type_id = menu_Type.menu_type_id
@@ -194,11 +194,11 @@ function getBookings(callback) {
             data: rows
         })
     });
-    connection
+    connection.end()
 }
 
 function getBookingsDecor(callback) {
-    connection
+    connection.connect()
     let sql = `SELECT decoration.name, booking_Decor.booking_id FROM booking_Decor, decoration WHERE booking_Decor.decoration_id = decoration.decoration_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -208,11 +208,11 @@ function getBookingsDecor(callback) {
         })
         console.log(rows)
     });
-    connection
+    connection.end()
 }
 
 function getBookingsExtra(callback) {
-    connection
+    connection.connect()
     let sql = `SELECT extra.name, booking_Extra.booking_id FROM booking_Extra, extra WHERE booking_Extra.extra_id = extra.extra_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -222,12 +222,12 @@ function getBookingsExtra(callback) {
         })
         console.log(rows)
     });
-    connection
+    connection.end()
 }
 
 
 function getBookingsAddOn(callback) {
-    connection
+    connection.connect()
     let sql = `SELECT ingredient.name, ingredient.type, addOn.booking_id  FROM addOn, ingredient WHERE addOn.ingredient_id = ingredient.ingredient_id;`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) callback(error);
@@ -237,7 +237,7 @@ function getBookingsAddOn(callback) {
         })
         console.log(rows)
     });
-    connection
+    connection.end()
 }
 
 
