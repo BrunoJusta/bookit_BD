@@ -27,9 +27,12 @@ function login(email, password, callback) {
                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
                         if (!error) {
                         }
-                        let count = countRows[0].count 
-                        if(count === undefined || count === null){
+                        let count
+                        if(countRows === undefined || countRows === null){
                             count = 0
+                        }
+                        else{
+                            count = countRows[0].count 
                         }
                         let token = jwt.sign({
                                 id: rows[0].user_id,
