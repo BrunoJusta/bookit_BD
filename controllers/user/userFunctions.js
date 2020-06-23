@@ -27,6 +27,10 @@ function login(email, password, callback) {
                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
                         if (!error) {
                         }
+                        let count = countRows[0].count 
+                        if(count === undefined || count === null){
+                            count = 0
+                        }
                         let token = jwt.sign({
                                 id: rows[0].user_id,
                                 name: rows[0].name,
@@ -36,7 +40,7 @@ function login(email, password, callback) {
                                 email: email,
                                 birthDate: rows[0].birthDate,
                                 type: rows[0].userType_id,
-                                notifications: countRows[0].count
+                                notifications: count
                             },
                             config.secret, {
                                 expiresIn: '24h' // expires in 24 hours
