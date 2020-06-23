@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
 
 
 function addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, callback) {
-    connection
+    connection.connect()
     const sql = `INSERT INTO booking (user_id, menu_id, reason, date, duration, numberPeople, school_id, outfit_id, state_id, observations,decline_txt, opinion) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     connection.query(sql, [userID, menu, reason, date, time, numberPeople, school, outfit, 0, observations, "", ""], function (error, results) {
         if (error) {
@@ -53,7 +53,7 @@ function AddOnsBooking(booking_id, ing) {
         const sqlIng = `INSERT INTO addOn (booking_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [booking_id, ing[i]], function (error, rows, results, fields) {
             if (i === ing.length) {
-                connection
+                connection.end()
             }
         });
     }
@@ -65,7 +65,7 @@ function AddOnsBooking(booking_id, ing) {
 function editBooking(id, state, decline, opinion, callback) {
     let sql
 
-    connection
+    connection.connection()
     if ((!(decline === null || decline === "" || decline === undefined)) && (!(state === null || state === "" || state === undefined))) {
         sql = "UPDATE booking SET decline_txt = ?, state_id = ? WHERE booking_id = ?"
 
@@ -121,7 +121,7 @@ function approveNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection
+                    connection.end()
                 }
             })
         }
@@ -139,7 +139,7 @@ function refuseNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) VALUES (?,?,?)`
             connection.query(sqlNote, [user_id, description, 0], function (error) {
                 if (!error) {
-                    connection
+                    connection.end()
                 }
             })
         }
@@ -156,7 +156,7 @@ function opinionNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ?;`
             connection.query(sqlNote, [description, 0, 0], function (error) {
                 if (!error) {
-                    connection
+                    connection.end()
                 }
             })
         }
@@ -164,7 +164,7 @@ function opinionNotification(id) {
 }
 
 function removeBooking(id, callback) {
-    connection
+    connection.connect()
     let sql = `DELETE FROM booking WHERE booking_id = ?`;
     connection.query(sql, [id], function (err, result) {
         if (err) callback(error);
@@ -173,7 +173,7 @@ function removeBooking(id, callback) {
             message: "Reserva Removida!"
         })
     });
-    connection
+    connection.end()
 }
 
 function getBookings(callback) {

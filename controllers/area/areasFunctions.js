@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
 
 function addArea(name, description, img, callback) {
     let id
-    connection
+    connection.connect();
     const sql = `INSERT INTO area (name, description, img) VALUES(?,?,?)`;
     connection.query(sql, [name, description, img], function (error, results, fields) {
         if (error) callback(error);
@@ -42,7 +42,7 @@ function addAreaNotification(id) {
 }
 
 function removeArea(id, callback) {
-    connection
+    connection.connect();
     removeAreaNotification(id);
     let sql = `DELETE FROM area WHERE area_id = ?`;
     connection.query(sql, [id], function (error, result) {
@@ -51,7 +51,7 @@ function removeArea(id, callback) {
             success: true,
             message: "Espaço Removido!"
         });
-        connection
+        connection.end();
     });
 }
 
@@ -70,7 +70,7 @@ function removeAreaNotification(id) {
 }
 
 function updateArea(name, description, id, callback) {
-    connection
+    connection.connect();
     let sql = `UPDATE area SET name = ?, description = ? WHERE area_id = ?`;
     connection.query(sql, [name, description, id], function (error, result) {
         if (error) callback(error);
@@ -79,11 +79,12 @@ function updateArea(name, description, id, callback) {
             message: "Espaço Atualizado!"
         });
     });
-    connection;
+    connection.end();
+
 };
 
 function getAreas(callback) {
-    connection
+    connection.connect();
     let sql = `SELECT * FROM area`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -93,10 +94,11 @@ function getAreas(callback) {
             data: rows
         });
     });
+    connection.end();
 };
 
 function getArea(id, callback) {
-    connection
+    connection.connect();
     let sql = `SELECT * FROM area WHERE area_id = ?`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
@@ -106,6 +108,7 @@ function getArea(id, callback) {
             data: rows
         });
     });
+    connection.end();
 };
 
 

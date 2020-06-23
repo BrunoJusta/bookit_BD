@@ -3,7 +3,7 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
 
 function addIngredient(name, type, callback) {
-    connection;
+    connection.connect();
     const sql = `INSERT INTO ingredient (name, type) VALUES(?, ?)`;
     connection.query(sql, [name, type], function (error, results, fields) {
         if (error) callback(error);
@@ -12,11 +12,11 @@ function addIngredient(name, type, callback) {
             message: "Ingrediente Adicionado!",
         });
     });
-    connection;
+    connection.end();
 }
 
 function removeIngredient(id, callback) {
-    connection;
+    connection.connect();
     const sql = `DELETE FROM ingredient WHERE ingredient_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
         if (error) callback(error);
@@ -25,11 +25,12 @@ function removeIngredient(id, callback) {
             message: "Ingrediente Removido!"
         });
     });
-    connection;
+    connection.end();
+
 }
 
 function addDecor(name, callback) {
-    connection;
+    connection.connect();
     const sql = `INSERT INTO decoration (name) VALUES (?)`;
     connection.query(sql, [name], function (error, results, fields) {
         if (error) callback(error);
@@ -38,11 +39,12 @@ function addDecor(name, callback) {
             message: "Decoração Adicionada!"
         });
     });
-    connection;
+    connection.end();
+
 };
 
 function removeDecor(id, callback) {
-    connection;
+    connection.connect();
     const sql = `DELETE FROM decoration WHERE decoration_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
         if (error) callback(error);
@@ -51,11 +53,12 @@ function removeDecor(id, callback) {
             message: "Decoração Removida!"
         });
     });
-    connection;
+    connection.end();
+
 };
 
 function addOutfit(img, name, callback) {
-    connection;
+    connection.connect();
     const sql = `INSERT INTO outfit (img, name) VALUES (?, ?)`;
     connection.query(sql, [img, name], function (error, results, fields) {
         if (error) callback(error);
@@ -64,10 +67,11 @@ function addOutfit(img, name, callback) {
             message: "Farda Adicionada!"
         });
     });
+    connection.end();
 };
 
 function removeOutfit(id, callback) {
-    connection;
+    connection.connect();
     const sql = `DELETE FROM outfit WHERE outfit_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
         if (error) callback(error);
@@ -76,10 +80,11 @@ function removeOutfit(id, callback) {
             message: "Farda Removida!"
         });
     });
+    connection.end();
 };
 
 function addExtra(name, callback) {
-    connection;
+    connection.connect();
     const sql = `INSERT INTO extra (name) VALUES (?)`;
     connection.query(sql, [name], function (error, results, fields) {
         if (error) callback(error);
@@ -88,10 +93,11 @@ function addExtra(name, callback) {
             message: "Extra Adicionado!"
         });
     });
+    connection.end();
 };
 
 function removeExtra(id, callback) {
-    connection;
+    connection.connect();
     const sql = `DELETE FROM extra WHERE extra_id = ?`;
     connection.query(sql, [id], function (error, results, fields) {
         if (error) callback(error);
@@ -100,6 +106,7 @@ function removeExtra(id, callback) {
             message: "Extra Removido!"
         })
     })
+    connection.end();
 }
 
 function getIngredients(callback) {
@@ -118,7 +125,7 @@ function getIngredients(callback) {
 }
 
 function getIngredientByMenu(id, callback) {
-    connection;
+    connection.connect();
     let sql = `select ingredient.ingredient_id, ingredient.name, ingredient.type from ingredient, menu, menu_Ingredient where menu.menu_id=?  AND menu.menu_id = menu_Ingredient.menu_id and ingredient.ingredient_id = menu_Ingredient.ingredient_id`;
     connection.query(sql,[id], function (error, rows, result) {
         if (error) callback(error);
@@ -129,11 +136,11 @@ function getIngredientByMenu(id, callback) {
         })
         
     })
-    connection;
+    connection.end();
 }
 
 function getDecors(callback) {
-    connection;
+    connection.connect();
     let sql = `SELECT * from decoration`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -143,11 +150,11 @@ function getDecors(callback) {
             data: rows
         })
     })
-    connection;
+    connection.end();
 }
 
 function getSchools(callback) {
-    connection;
+    connection.connect();
     let sql = `SELECT * from school`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -157,12 +164,12 @@ function getSchools(callback) {
             data: rows
         })
     })
-    connection;
+    connection.end();
 }
 
 
 function getOutfits(callback) {
-    connection;
+    connection.connect();
     let sql = `SELECT * from outfit`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -172,11 +179,11 @@ function getOutfits(callback) {
             data: rows
         })
     })
-    connection;
+    connection.end();  
 }
 
 function getExtras(callback) {
-    connection;
+    connection.connect();
     let sql = `SELECT * from extra`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -186,7 +193,7 @@ function getExtras(callback) {
             data: rows
         })
     })
-    connection;
+    connection.end();
 }
 
 module.exports = {
