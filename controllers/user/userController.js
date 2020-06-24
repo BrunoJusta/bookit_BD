@@ -114,12 +114,12 @@ class LoginValidation {
                     });
                    
                 } else {
-                    res.status(404).send(message)
+                    res.status(404).send({message: message})
                 }
             } else {
                 let message = "Error while performing Query."
                 console.log('Error while performing Query.', err);
-                res.status(500).send(message)
+                res.status(500).send({message: message})
             }
         });
     }
