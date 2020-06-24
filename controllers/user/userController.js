@@ -58,9 +58,8 @@ class LoginValidation {
         let passwordSame = false
      
     
-        const query = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
-        connection.query(query, [email], function (err,
-            result) {
+        const query = `SELECT * FROM user WHERE email = ?;`
+        connection.query(query, [email], function (err, result) {
             if (!err) {
                 let message = "success"
                 if (result.length == 0) {
@@ -71,9 +70,6 @@ class LoginValidation {
                         result = []
                         message = "Incorrect data"
     
-     
-    
-    
                     } else if (passwordSame && result[0].userType_id == 2) {
                         result = []
                         message = "Incorrect data"
@@ -81,13 +77,10 @@ class LoginValidation {
                 }
                 if (result.length > 0) {
     
-     
-    
                     const token = jwt.sign({
                         id: result[0].user_id,
                         name: result[0].name,
                         lastName: result[0].lastname,
-                        school: result[0].school,
                         number: result[0].number,
                         email: email,
                         birthDate: result[0].birthDate,
