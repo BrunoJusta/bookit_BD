@@ -118,14 +118,40 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
     if (!(number === null || number === "" || number === undefined)) {
         sql = "UPDATE  user SET number = ? WHERE  user_id  = ?"
         connection.query(sql, [number, id], function (error, results) {
-            if (error) callback(error);
-            updateToken(id)
-            callback(null, {
-                success: true,
-                message: "Utilizador atualizado",
-                token: refreshToken,
-                nome: "Joao"
-            })
+            if (error) {
+                callback(error);
+            } else {
+                const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
+                connection.query(query, [id], function (err, result) {
+                    if (!err) {
+                        const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                        connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                            let count
+                            if (countRows === undefined || countRows === null) {
+                                count = 0
+                            } else {
+                                count = countRows[0].count
+                            }
+                            const token = jwt.sign({
+                                id: id,
+                                name: result[0].name,
+                                lastName: result[0].lastName,
+                                number: number,
+                                school: result[0].school,
+                                email: result[0].email,
+                                birthDate: result[0].birthDate,
+                                notifications: count,
+                                type: result[0].userType_id,
+                            }, config.secret)
+                            callback(null, {
+                                success: true,
+                                message: "Utilizador atualizado",
+                                token: token
+                            })
+                        });
+                    }
+                })
+            }
         })
     }
 
@@ -142,32 +168,7 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
 }
 
 function updateToken(id) {
-    const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
-    connection.query(query, [id], function (err, result) {
-        if (!err) {
-            const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-            connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
-                let count
-                if (countRows === undefined || countRows === null) {
-                    count = 0
-                } else {
-                    count = countRows[0].count
-                }
-                const token = jwt.sign({
-                    id: id,
-                    name: result[0].name,
-                    lastName: result[0].lastName,
-                    number: result[0].number,
-                    school: result[0].school,
-                    email: result[0].email,
-                    birthDate: result[0].birthDate,
-                    notifications: count,
-                    type: result[0].userType_id,
-                }, config.secret)
-                refreshToken = token
-            });
-        }
-    })
+
 }
 
 function changeAvatar(id, newImg, callback) {
