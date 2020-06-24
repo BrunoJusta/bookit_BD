@@ -59,7 +59,7 @@ class LoginValidation {
      
     
         const query = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
-        con.query(query, [email], function (err,
+        connection.query(query, [email], function (err,
             result) {
             if (!err) {
                 let message = "success"
