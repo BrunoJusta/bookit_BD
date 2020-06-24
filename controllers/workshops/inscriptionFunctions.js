@@ -13,7 +13,6 @@ function addInscription(idUser, idWorkshop, callback) {
                         if (!error) {
                             callback(null, {
                                 success: true,
-                                icon: "success",
                                 message: "Inscrito no Workshop!"
                             })
                         }
@@ -22,7 +21,6 @@ function addInscription(idUser, idWorkshop, callback) {
             });
         } else {
             callback({
-                icon: "error",
                 message: "Já Inscrito!"
             })
         }
