@@ -1,20 +1,16 @@
 const connection = require("../../database/db-config")
 
 function addInscription(idUser, idWorkshop, callback) {
-    const sql = `SELECT filled from workshop WHERE workshop_id = ?`;
-    connection.query(sql, [idWorkshop], function (error, rows, fields) {
+    const sql2 = `INSERT INTO inscription (workshop_id, user_id) VALUES(?,?)`
+    connection.query(sql2, [idWorkshop, idUser], function (error, results, fields) {
         if (!error) {
-            let newFilled = rows[0].filled + 1
-            const sql2 = `UPDATE workshop SET filled = ? where workshop_id = ?`
-            connection.query(sql2, [newFilled, idWorkshop], function (error, results, fields) {
+            const sql = `SELECT filled from workshop WHERE workshop_id = ?`;
+            connection.query(sql, [idWorkshop], function (error, rows, fields) {
                 if (!error) {
-                    const sql2 = `INSERT INTO inscription (workshop_id, user_id) VALUES(?,?)`
-                    connection.query(sql2, [idWorkshop, idUser], function (error, results, fields) {
-                        if (error) {
-                            callback({
-                                message: "Já inscrito!"
-                            })
-                        } else {
+                    let newFilled = rows[0].filled + 1
+                    const sql2 = `UPDATE workshop SET filled = ? where workshop_id = ?`
+                    connection.query(sql2, [newFilled, idWorkshop], function (error, results, fields) {
+                        if (!error) {
                             callback(null, {
                                 success: true,
                                 message: "Inscrito no Workshop!"
@@ -25,11 +21,12 @@ function addInscription(idUser, idWorkshop, callback) {
             });
         } else {
             callback({
-                message: "Workshop sem vagas!"
+                message: "Já Inscrito!"
             })
         }
     });
 }
+
 
 function getInscription(callback) {
     let sql = `SELECT * from inscription`;
