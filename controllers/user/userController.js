@@ -89,7 +89,7 @@ class LoginValidation {
                         const token = jwt.sign({
                             id: result[0].user_id,
                             name: result[0].name,
-                            lastName: result[0].lastname,
+                            lastName: result[0].lastName,
                             number: result[0].number,
                             school: result[0].school,
                             email: email,
