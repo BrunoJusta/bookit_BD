@@ -56,9 +56,8 @@ class LoginValidation {
         let email = req.body.email;
         let password = req.body.password;
         let passwordSame = false
-     
-    
-        const query = `SELECT * FROM user WHERE email = ?;`
+ 
+        const query = `SELECT * FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
         connection.query(query, [email], function (err, result) {
             if (!err) {
                 let message = "success"
@@ -82,6 +81,7 @@ class LoginValidation {
                         name: result[0].name,
                         lastName: result[0].lastname,
                         number: result[0].number,
+                        school: result[0].school,
                         email: email,
                         birthDate: result[0].birthDate,
                         type: result[0].userType_id,
