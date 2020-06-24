@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require("./config.json");
-// const dbConfig = require("./database/db-config.json"); //Importar configuração da base de dados
-const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection({host:process.env.HOST,user:process.env.USER,password:process.env.PASSWORD, database:process.env.DATABASE});
+const connection = require("./database/db-config")
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
@@ -14,7 +12,6 @@ let checkToken = (req, res, next) => {
 
 
   const sql = `SELECT token FROM blacklist WHERE token = ?`
-  connection;
   connection.query(sql, [token], function (error, rows, fields) {
     if (rows.length !== 0) {
       return res.json({
@@ -35,7 +32,6 @@ let checkToken = (req, res, next) => {
       });
     }
   })
-  connection
 }
 
 module.exports = {
