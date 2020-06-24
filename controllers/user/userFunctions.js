@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require("../../config.json");
 const connection = require("../../database/db-config")
-let refreshToken
 
 
 
@@ -43,6 +42,7 @@ function login(email, password, callback) {
                         number: result[0].number,
                         school: result[0].school,
                         email: email,
+                        img: result[0].img,
                         birthDate: result[0].birthDate,
                         notifications: count,
                         type: result[0].userType_id,
@@ -167,18 +167,44 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
     }
 }
 
-function updateToken(id) {
-
-}
-
 function changeAvatar(id, newImg, callback) {
     var sql = `UPDATE user SET img = ? WHERE user_id = ?`
     connection.query(sql, [newImg, id], function (err, result) {
-        if (err) callback(err);
-        callback(null, {
-            success: true,
-            message: "Imagem de Perfil Atualizada!"
-        })
+        if (error) {
+            callback(error);
+        } else {
+            const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
+            connection.query(query, [id], function (err, result) {
+                if (!err) {
+                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                        let count
+                        if (countRows === undefined || countRows === null) {
+                            count = 0
+                        } else {
+                            count = countRows[0].count
+                        }
+                        const token = jwt.sign({
+                            id: id,
+                            name: result[0].name,
+                            lastName: result[0].lastName,
+                            number: result[0].number,
+                            school: result[0].school,
+                            email: result[0].email,
+                            img: newImg,
+                            birthDate: result[0].birthDate,
+                            notifications: count,
+                            type: result[0].userType_id,
+                        }, config.secret)
+                        callback(null, {
+                            success: true,
+                            message: "Imagem de perfil Atualizada",
+                            token: token
+                        })
+                    });
+                }
+            })
+        }
     })
 }
 
