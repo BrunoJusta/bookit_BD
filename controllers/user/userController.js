@@ -50,12 +50,7 @@ class LoginValidation {
         let password = req.body.password;
         userFunctions.login(email, password, (error, success) => {
             if (!error) {
-                if(success){
-                    res.status(200).send(success)
-                }
-                else{
-                    res.status(400).send("Nothing to show")
-                }
+              res.status(200).send(success)
             }
             else{
                 res.status(500).send("ERROR")
