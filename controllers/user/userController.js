@@ -43,20 +43,59 @@ function insertUser(req, result) {
 
 //Login User
 class LoginValidation {
-    //FLogin
     login(req, res) {
-        //Variaveis
+
         let email = req.body.email;
         let password = req.body.password;
-        userFunctions.login(email, password, (error, success) => {
+        //Get info from user
+        const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
+        connection.query(sql2, [email], function (error, rows, results, fields) {
             if (!error) {
-              res.status(200).send(success)
-            }
-            else{
+                bcrypt.compare(password, rows[0].password, function (err, result) {
+                    if (err) {
+                        res.status(500).send("ERROR")
+                    }
+                    //Create Token
+
+                    if (result) {
+                        const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                        connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
+                            if (!error) {}
+                            let count
+                            if (countRows === undefined || countRows === null) {
+                                count = 0
+                            } else {
+                                count = countRows[0].count
+                            }
+                            let token = jwt.sign({
+                                    id: rows[0].user_id,
+                                    name: rows[0].name,
+                                    lastName: rows[0].lastname,
+                                    school: rows[0].school,
+                                    number: rows[0].number,
+                                    email: email,
+                                    birthDate: rows[0].birthDate,
+                                    type: rows[0].userType_id,
+                                    notifications: count
+                                },
+                                config.secret, {
+                                    expiresIn: '24h' // expires in 24 hours
+                                }
+                            );
+                            res.status(200).send({
+                                success: true,
+                                message: 'Sessão Iniciada',
+                                token
+                            })
+                        });
+                    }
+                })
+            } else {
                 res.status(500).send("ERROR")
             }
-        })
+        });
     }
+
     index(req, res) {
         res.json({
             success: true,
