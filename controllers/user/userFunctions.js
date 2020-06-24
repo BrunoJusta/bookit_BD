@@ -310,7 +310,6 @@ function archive(idUser, id, callback) {
                             count = 0
                         } else {
                             count = countRows[0].count
-                            count = count - 1
                         }
                         const token = jwt.sign({
                             id: idUser,
@@ -351,7 +350,6 @@ function deleteNotification(idUser, id, callback) {
                             count = 0
                         } else {
                             count = countRows[0].count
-                            count = count - 1
                         }
                         const token = jwt.sign({
                             id: idUser,
