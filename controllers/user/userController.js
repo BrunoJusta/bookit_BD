@@ -11,8 +11,8 @@ function insertUser(req, res) {
     let img
     let lastName = req.body.lastName
     let number = req.body.number
-    let imgMale = "../../assets/userImgs/male.svg"
-    let imgFemale = "../../assets/userImgs/female.svg"
+    let imgMale = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c45f2463-bf29-439a-983d-b7ecb15282ea/ddzrm3d-dd3d836d-b557-4759-8568-b8efcabd4f56.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYzQ1ZjI0NjMtYmYyOS00MzlhLTk4M2QtYjdlY2IxNTI4MmVhXC9kZHpybTNkLWRkM2Q4MzZkLWI1NTctNDc1OS04NTY4LWI4ZWZjYWJkNGY1Ni5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.AZN2nX7ZSwzahUItJp5IZagrPaj8CaHsFvJFgUAbh80"
+    let imgFemale = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c45f2463-bf29-439a-983d-b7ecb15282ea/de00d5q-b8c4b103-6832-467b-b794-e30688acc2d4.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYzQ1ZjI0NjMtYmYyOS00MzlhLTk4M2QtYjdlY2IxNTI4MmVhXC9kZTAwZDVxLWI4YzRiMTAzLTY4MzItNDY3Yi1iNzk0LWUzMDY4OGFjYzJkNC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.eCxLHj1EuJ1E878oyejK7yEQBeWI_WU4VRFHitHpxSI"
     let email = req.body.email
     let birthDate = req.body.birthDate
     let userType_id = 1
@@ -38,10 +38,6 @@ function insertUser(req, res) {
                         if (!error){
 
                             res.status(200).send("Criado com sucesso")
-                        }
-                        else{
-                            let message = "Incorrect data"
-                            res.status(404).send(message)
                         }
                     });
                 } else {

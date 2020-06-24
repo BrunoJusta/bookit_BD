@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 
-
 let connect;
 
 function disconnect() {
@@ -11,7 +10,6 @@ function disconnect() {
         database:process.env.DATABASE
     }); 
    
-
     connect.connect(function (err) { 
         if (err) { 
             console.log('error when connecting to db:', err);
