@@ -1,12 +1,4 @@
-// const dbConfig = require("../../database/db-config.json"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-});
-
 
 
 function addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, callback) {

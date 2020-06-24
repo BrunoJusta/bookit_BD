@@ -1,14 +1,9 @@
 const bcrypt = require('bcrypt');
-const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysqlhash
 const userFunctions = require("./userFunctions")
 const jwt = require('jsonwebtoken')
 const config = require("../../config.json")
-var connection = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-});
+const connection = require("../../database/db-config")
+
 //Register User
 function insertUser(req, res) {
     //Variaveis
