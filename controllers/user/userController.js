@@ -2,7 +2,12 @@ const bcrypt = require('bcrypt');
 const userFunctions = require("./userFunctions")
 const jwt = require('jsonwebtoken')
 const config = require("../../config.json")
-
+var connection = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+});
 //Register User
 function insertUser(req, result) {
     //Variaveis
