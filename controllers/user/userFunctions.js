@@ -14,15 +14,15 @@ function login(email, password, callback) {
         if (!err) {
             let message = "success"
             if (result.length == 0) {
-                message = "Incorrect data"
+                message = "Dados Inválidos"
             } else {
                 samePW = bcrypt.compareSync(password, result[0].password)
                 if (samePW == false) {
                     result = []
-                    message = "Incorrect data"
+                    message = "Dados Inválidos"
                 } else if (samePW && result[0].userType_id == 2) {
                     result = []
-                    message = "Incorrect data"
+                    message = "Dados Inválidos"
                 }
             }
             if (result.length > 0) {
@@ -90,6 +90,7 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
 
 function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
+    let token = refreshToken(id)
 
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
         const verify = "SELECT password FROM user WHERE user_id = ?;"
@@ -120,7 +121,8 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
             if (error) callback(error);
             callback(null, {
                 success: true,
-                message: "Utilizador atualizado"
+                message: "Utilizador atualizado",
+                token: token
             })
         })
     }
@@ -135,6 +137,38 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
             })
         })
     }
+}
+
+function refreshToken(id) {
+    const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
+    connection.query(query, [id], function (err, result) {
+        if (!err) {
+            if (result.length > 0) {
+                const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                    if (!error) {}
+                    let count
+                    if (countRows === undefined || countRows === null) {
+                        count = 0
+                    } else {
+                        count = countRows[0].count
+                    }
+                    const token = jwt.sign({
+                        id: id,
+                        name: result[0].name,
+                        lastName: result[0].lastName,
+                        number: result[0].number,
+                        school: result[0].school,
+                        email: result[0].email,
+                        birthDate: result[0].birthDate,
+                        notifications: count,
+                        type: result[0].userType_id,
+                    }, config.secret)
+                    return token
+                });
+            }
+        }
+    })
 }
 
 function changeAvatar(id, newImg, callback) {
