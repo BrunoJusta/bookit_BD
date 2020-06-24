@@ -63,7 +63,6 @@ function login(email, password, callback) {
 }
 
 function register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) {
-    connection;
     //Get School from mail
     const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
@@ -84,7 +83,6 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
             callback(error)
         }
     });
-    connection;
 }
 
 function editUser(id, oldPassword, newPassword, number, userType, callback) {

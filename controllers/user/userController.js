@@ -3,7 +3,7 @@ const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/pack
 const userFunctions = require("./userFunctions")
 const jwt = require('jsonwebtoken')
 const config = require("../../config.json")
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
     host: process.env.HOST,
     user: process.env.USER,
     password: process.env.PASSWORD,
