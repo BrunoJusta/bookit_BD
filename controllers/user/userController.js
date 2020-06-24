@@ -40,12 +40,14 @@ function insertUser(req, res) {
                     //Insert user into DB
                     const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate, genre) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                     connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {
-                        if (error) callback(error);
-                        callback(null, {
-                            success: true,
-                            message: "Conta criada com sucesso!"
-                        })
-                        res.status(200).send("Criado com sucesso")
+                        if (!error){
+
+                            res.status(200).send("Criado com sucesso")
+                        }
+                        else{
+                            let message = "Incorrect data"
+                            res.status(404).send(message)
+                        }
                     });
                 } else {
                     let message = "Incorrect data"
