@@ -11,7 +11,6 @@ var connection = mysql.createConnection({
 });
 
 function login(email, password, callback) {
-    connection;
     //Get info from user
     const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(sql2, [email], function (error, rows, results, fields) {
@@ -61,7 +60,6 @@ function login(email, password, callback) {
             callback({success: false, message: 'Dados Invalidos'}, null)
         }
     });
-    connection;
 }
 
 function register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) {

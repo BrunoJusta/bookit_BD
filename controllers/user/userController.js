@@ -44,15 +44,22 @@ function insertUser(req, result) {
 //Login User
 class LoginValidation {
     //FLogin
-    login(req, result) {
+    login(req, res) {
         //Variaveis
         let email = req.body.email;
         let password = req.body.password;
         userFunctions.login(email, password, (error, success) => {
-            if (error) {
-                result.json(error)
+            if (!error) {
+                if(success.length > 0){
+                    res.status(200).send(success)
+                }
+                else{
+                    res.status(400).send("Nothing to show")
+                }
             }
-            result.json(success)
+            else{
+                res.status(500).send("ERROR")
+            }
         })
     }
     index(req, res) {
