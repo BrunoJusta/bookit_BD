@@ -37,7 +37,10 @@ function insertUser(req, res) {
                     connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {
                         if (!error){
 
-                            res.status(200).send("Criado com sucesso")
+                            res.status(200).send( {
+                                success: true,
+                                message: "Conta criada com sucesso!"
+                            })
                         }
                     });
                 } else {
