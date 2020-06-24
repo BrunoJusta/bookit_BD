@@ -1,4 +1,4 @@
-const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
+const connection = require("../../database/db-config")
 
 function addIngredient(name, type, callback) {
     const sql = `INSERT INTO ingredient (name, type) VALUES(?, ?)`;

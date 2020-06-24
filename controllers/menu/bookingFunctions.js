@@ -1,4 +1,4 @@
-const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
+const connection = require("../../database/db-config")
 
 
 function addBooking(userID, menu, reason, date, time, numberPeople, school, outfit, observations, extras, decor, ing, callback) {
