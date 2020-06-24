@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require("../../config.json");
 const connection = require("../../database/db-config")
+let refreshToken
 
 
 
@@ -90,7 +91,7 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
 
 function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
-    let token = refreshToken(id)
+    updateToken(id)
 
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
         const verify = "SELECT password FROM user WHERE user_id = ?;"
@@ -122,7 +123,7 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
             callback(null, {
                 success: true,
                 message: "Utilizador atualizado",
-                token: token,
+                token: refreshToken,
                 nome: "Joao"
             })
         })
@@ -140,7 +141,7 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
     }
 }
 
-function refreshToken(id) {
+function updateToken(id) {
     const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
     connection.query(query, [id], function (err, result) {
         if (!err) {
@@ -165,7 +166,7 @@ function refreshToken(id) {
                         notifications: count,
                         type: result[0].userType_id,
                     }, config.secret)
-                    return token
+                    refreshToken = token
                 });
             }
         }
