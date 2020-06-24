@@ -10,7 +10,6 @@ var connection = mysql.createConnection({
 
 function addArea(name, description, img, callback) {
     let id
- connection;
     const sql = `INSERT INTO area (name, description, img) VALUES(?,?,?)`;
     connection.query(sql, [name, description, img], function (error, results, fields) {
         if (error) callback(error);
@@ -32,7 +31,6 @@ function addAreaNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user where user.userType_id = ? or user.userType_id = ?;`
             connection.query(sqlNote, [description, 0, 0, 1], function (error) {
                 if (!error) {
-                    connection;
                 } else {
                     console.log(error)
                 }
@@ -42,7 +40,6 @@ function addAreaNotification(id) {
 }
 
 function removeArea(id, callback) {
- connection;
     removeAreaNotification(id);
     let sql = `DELETE FROM area WHERE area_id = ?`;
     connection.query(sql, [id], function (error, result) {
@@ -51,7 +48,6 @@ function removeArea(id, callback) {
             success: true,
             message: "Espaço Removido!"
         });
-     connection;
     });
 }
 
@@ -70,7 +66,6 @@ function removeAreaNotification(id) {
 }
 
 function updateArea(name, description, id, callback) {
- connection;
     let sql = `UPDATE area SET name = ?, description = ? WHERE area_id = ?`;
     connection.query(sql, [name, description, id], function (error, result) {
         if (error) callback(error);
@@ -79,7 +74,6 @@ function updateArea(name, description, id, callback) {
             message: "Espaço Atualizado!"
         });
     });
- connection;
 
 };
 
