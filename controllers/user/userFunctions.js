@@ -122,7 +122,8 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
             callback(null, {
                 success: true,
                 message: "Utilizador atualizado",
-                token: token
+                token: token,
+                nome: "Joao"
             })
         })
     }
