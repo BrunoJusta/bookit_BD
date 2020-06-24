@@ -35,9 +35,9 @@ function insertUser(req, res) {
                     //Insert user into DB
                     const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate, genre) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                     connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {
-                        if (!error){
+                        if (!error) {
 
-                            res.status(200).send( {
+                            res.status(200).send({
                                 success: true,
                                 message: "Conta criada com sucesso!"
                             })
@@ -63,14 +63,11 @@ class LoginValidation {
     login(req, res) {
         let email = req.body.email;
         let password = req.body.password;
-        
+
         userFunctions.login(email, password, (error, success) => {
             if (!error) {
-                if(success.length > 0){
-                    res.status(200).send(success)
-                }
-            }
-            else{
+                res.status(200).send(success)
+            } else {
                 res.status(400).send(error)
             }
         })
