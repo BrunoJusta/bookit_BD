@@ -91,6 +91,7 @@ class LoginValidation {
                     }
                 })
             } else {
+                console.log(error)
                 res.status(500).send("ERROR")
             }
         });
