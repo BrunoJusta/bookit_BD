@@ -301,7 +301,7 @@ function archive(idUser, id, callback) {
             callback(error);
         } else {
             const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
-            connection.query(query, [id], function (err, result) {
+            connection.query(query, [idUser], function (err, result) {
                 if (!err) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
                     connection.query(sqlCount, [idUser], function (error, countRows, results, fields) {
@@ -342,7 +342,7 @@ function deleteNotification(idUser, id, callback) {
             callback(error);
         } else {
             const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
-            connection.query(query, [id], function (err, result) {
+            connection.query(query, [idUser], function (err, result) {
                 if (!err) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
                     connection.query(sqlCount, [idUser], function (error, countRows, results, fields) {
