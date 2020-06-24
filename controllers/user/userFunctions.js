@@ -297,24 +297,82 @@ function avatarById(id, callback) {
 function archive(idUser, id, callback) {
     let sql = `update notification set type = 1 where notification_id = ? and user_id=?;`;
     connection.query(sql, [id, idUser], function (error, rows, result) {
-        if (error) callback(error);
-        console.log(rows);
-        callback(null, {
-            success: true,
-            message: "Notificação Arquivada!"
-        })
+        if (error) {
+            callback(error);
+        } else {
+            const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
+            connection.query(query, [id], function (err, result) {
+                if (!err) {
+                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                        let count
+                        if (countRows === undefined || countRows === null) {
+                            count = 0
+                        } else {
+                            count = countRows[0].count
+                            count = count - 1
+                        }
+                        const token = jwt.sign({
+                            id: idUser,
+                            name: result[0].name,
+                            lastName: result[0].lastName,
+                            number: result[0].number,
+                            school: result[0].school,
+                            email: result[0].email,
+                            birthDate: result[0].birthDate,
+                            notifications: count,
+                            type: result[0].userType_id,
+                        }, config.secret)
+                        callback(null, {
+                            success: true,
+                            message: "Notificação arquivada",
+                            token: token
+                        })
+                    });
+                }
+            })
+        }
     })
 }
 
 function deleteNotification(idUser, id, callback) {
     let sql = `delete from notification where notification_id = ? and user_id=?;`;
     connection.query(sql, [id, idUser], function (error, rows, result) {
-        if (error) callback(error);
-        console.log(rows);
-        callback(null, {
-            success: true,
-            message: "Notificação Eliminda!"
-        })
+        if (error) {
+            callback(error);
+        } else {
+            const query = `SELECT * FROM user, school WHERE user_id = ? AND user.school_id = school.school_id;`
+            connection.query(query, [id], function (err, result) {
+                if (!err) {
+                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                        let count
+                        if (countRows === undefined || countRows === null) {
+                            count = 0
+                        } else {
+                            count = countRows[0].count
+                            count = count - 1
+                        }
+                        const token = jwt.sign({
+                            id: idUser,
+                            name: result[0].name,
+                            lastName: result[0].lastName,
+                            number: result[0].number,
+                            school: result[0].school,
+                            email: result[0].email,
+                            birthDate: result[0].birthDate,
+                            notifications: count,
+                            type: result[0].userType_id,
+                        }, config.secret)
+                        callback(null, {
+                            success: true,
+                            message: "Notificação eliminada",
+                            token: token
+                        })
+                    });
+                }
+            })
+        }
     })
 }
 
