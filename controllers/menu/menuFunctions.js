@@ -1,6 +1,6 @@
 const dbConfig = require("../../database/db-config"); //Importar configuração da base de dados
 const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysql
-var connection = mysql.createConnection(dbConfig.connect);
+var connection = mysql.createPool(dbConfig.connect);
 
 
 //MENU
