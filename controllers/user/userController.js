@@ -56,8 +56,6 @@ function insertUser(req, res) {
     }
 }
 
-
-
 //Login User
 class LoginValidation {
 
@@ -65,63 +63,19 @@ class LoginValidation {
     login(req, res) {
         let email = req.body.email;
         let password = req.body.password;
-        let passwordSame = false
- 
-        const query = `SELECT * FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
-        connection.query(query, [email], function (err, result) {
-            if (!err) {
-                let message = "success"
-                if (result.length == 0) {
-                    message = "Incorrect data"
-                } else {
-                    passwordSame = bcrypt.compareSync(password, result[0].password)
-                    if (passwordSame == false) {
-                        result = []
-                        message = "Incorrect data"
-    
-                    } else if (passwordSame && result[0].userType_id == 2) {
-                        result = []
-                        message = "Incorrect data"
-                    }
+        userFunctions.login(email, password, (error, success) => {
+            if (!error) {
+                if(success.length > 0){
+                    res.status(200).send(success)
                 }
-                if (result.length > 0) {
-                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
-                        if (!error) {
-                        }
-                        let count
-                        if(countRows === undefined || countRows === null){
-                            count = 0
-                        }
-                        else{
-                            count = countRows[0].count 
-                        }
-                        const token = jwt.sign({
-                            id: result[0].user_id,
-                            name: result[0].name,
-                            lastName: result[0].lastName,
-                            number: result[0].number,
-                            school: result[0].school,
-                            email: email,
-                            birthDate: result[0].birthDate,
-                            notifications: count,
-                            type: result[0].userType_id,
-                        }, config.secret)
-                        res.status(200).send({
-                            token: token,
-                            response: result
-                        })
-                    });
-                   
-                } else {
-                    res.status(404).send({message: message})
+                else{
+                    res.status(400).send("Nothing to show")
                 }
-            } else {
-                let message = "Error while performing Query."
-                console.log('Error while performing Query.', err);
-                res.status(500).send({message: message})
             }
-        });
+            else{
+                res.status(500).send("ERROR")
+            }
+        })
     }
 
     index(req, res) {

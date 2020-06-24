@@ -7,54 +7,63 @@ const connection = require("../../database/db-config")
 
 function login(email, password, callback) {
     //Get info from user
-    const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
-    connection.query(sql2, [email], function (error, rows, results, fields) {
-        if (!error) {
-                bcrypt.compare(password, rows[0].password, function (err, res) {
-                if (err) {
-                    callback({success: false, message: 'Dados Invalidos'}, null)
+    let samePW = false
+
+    const query = `SELECT * FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
+    connection.query(query, [email], function (err, result) {
+        if (!err) {
+            let message = "success"
+            if (result.length == 0) {
+                message = "Incorrect data"
+            } else {
+                samePW = bcrypt.compareSync(password, result[0].password)
+                if (samePW == false) {
+                    result = []
+                    message = "Incorrect data"
+                } else if (samePW && result[0].userType_id == 2) {
+                    result = []
+                    message = "Incorrect data"
                 }
-                //Create Token
-                
-                if (res) {
-                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                    connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
-                        if (!error) {
-                        }
-                        let count
-                        if(countRows === undefined || countRows === null){
-                            count = 0
-                        }
-                        else{
-                            count = countRows[0].count 
-                        }
-                        let token = jwt.sign({
-                                id: rows[0].user_id,
-                                name: rows[0].name,
-                                lastName: rows[0].lastname,
-                                school: rows[0].school,
-                                number: rows[0].number,
-                                email: email,
-                                birthDate: rows[0].birthDate,
-                                type: rows[0].userType_id,
-                                notifications: count
-                            },
-                            config.secret, {
-                                expiresIn: '24h' // expires in 24 hours
-                            }
-                        );
-                        callback(null, {
-                            success: true,
-                            message: 'Sessão Iniciada',
-                            token
-                        })
-                    });
-                } 
-            })
+            }
+            if (result.length > 0) {
+                const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                    if (!error) {}
+                    let count
+                    if (countRows === undefined || countRows === null) {
+                        count = 0
+                    } else {
+                        count = countRows[0].count
+                    }
+                    const token = jwt.sign({
+                        id: result[0].user_id,
+                        name: result[0].name,
+                        lastName: result[0].lastName,
+                        number: result[0].number,
+                        school: result[0].school,
+                        email: email,
+                        birthDate: result[0].birthDate,
+                        notifications: count,
+                        type: result[0].userType_id,
+                    }, config.secret)
+                    res.status(200).send({
+                        token: token,
+                        response: result
+                    })
+                });
+            } else {
+                res.status(404).send({
+                    message: message
+                })
+            }
         } else {
-            callback({success: false, message: 'Dados Invalidos'}, null)
+            let message = "Error while performing Query."
+            console.log('Error while performing Query.', err);
+            res.status(500).send({
+                message: message
+            })
         }
-    });
+    })
 }
 
 function register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, callback) {
@@ -296,5 +305,5 @@ module.exports = {
     archivationsById: archivationsById,
     archive: archive,
     deleteNotification: deleteNotification,
-    avatarById:avatarById,
+    avatarById: avatarById,
 }
