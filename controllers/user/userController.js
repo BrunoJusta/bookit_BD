@@ -75,21 +75,34 @@ class LoginValidation {
                     }
                 }
                 if (result.length > 0) {
-    
-                    const token = jwt.sign({
-                        id: result[0].user_id,
-                        name: result[0].name,
-                        lastName: result[0].lastname,
-                        number: result[0].number,
-                        school: result[0].school,
-                        email: email,
-                        birthDate: result[0].birthDate,
-                        type: result[0].userType_id,
-                    }, config.secret)
-                    res.status(200).send({
-                        token: token,
-                        response: result
-                    })
+                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                    connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
+                        if (!error) {
+                        }
+                        let count
+                        if(countRows === undefined || countRows === null){
+                            count = 0
+                        }
+                        else{
+                            count = countRows[0].count 
+                        }
+                        const token = jwt.sign({
+                            id: result[0].user_id,
+                            name: result[0].name,
+                            lastName: result[0].lastname,
+                            number: result[0].number,
+                            school: result[0].school,
+                            email: email,
+                            birthDate: result[0].birthDate,
+                            notifications: count,
+                            type: result[0].userType_id,
+                        }, config.secret)
+                        res.status(200).send({
+                            token: token,
+                            response: result
+                        })
+                    });
+                   
                 } else {
                     res.status(404).send(message)
                 }
