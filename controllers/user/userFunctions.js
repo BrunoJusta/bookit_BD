@@ -91,7 +91,6 @@ function register(name, lastName, email, hash, number, img, userType_id, birthDa
 
 function editUser(id, oldPassword, newPassword, number, userType, callback) {
     let sql
-    updateToken(id)
 
     if (!(newPassword === null || newPassword === "" || newPassword === undefined)) {
         const verify = "SELECT password FROM user WHERE user_id = ?;"
@@ -120,6 +119,7 @@ function editUser(id, oldPassword, newPassword, number, userType, callback) {
         sql = "UPDATE  user SET number = ? WHERE  user_id  = ?"
         connection.query(sql, [number, id], function (error, results) {
             if (error) callback(error);
+            updateToken(id)
             callback(null, {
                 success: true,
                 message: "Utilizador atualizado",
