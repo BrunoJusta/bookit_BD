@@ -304,7 +304,7 @@ function archive(idUser, id, callback) {
             connection.query(query, [id], function (err, result) {
                 if (!err) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                    connection.query(sqlCount, [idUser], function (error, countRows, results, fields) {
                         let count
                         if (countRows === undefined || countRows === null) {
                             count = 0
@@ -345,7 +345,7 @@ function deleteNotification(idUser, id, callback) {
             connection.query(query, [id], function (err, result) {
                 if (!err) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                    connection.query(sqlCount, [idUser], function (error, countRows, results, fields) {
                         let count
                         if (countRows === undefined || countRows === null) {
                             count = 0
