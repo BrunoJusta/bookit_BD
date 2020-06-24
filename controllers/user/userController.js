@@ -69,12 +69,9 @@ class LoginValidation {
                 if(success.length > 0){
                     res.status(200).send(success)
                 }
-                else{
-                    res.status(400).send(error)
-                }
             }
             else{
-                res.status(500).send(error)
+                res.status(400).send(error)
             }
         })
     }

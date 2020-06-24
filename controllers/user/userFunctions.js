@@ -47,9 +47,8 @@ function login(email, password, callback) {
                         type: result[0].userType_id,
                     }, config.secret)
                     callback(null, {
-                        success: true,
-                        message: 'Sessão Iniciada',
-                        token
+                        token: token,
+                        response: result
                     })
                 });
             } else {
