@@ -76,7 +76,7 @@ class LoginValidation {
                 }
                 if (result.length > 0) {
                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                    connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
+                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
                         if (!error) {
                         }
                         let count
