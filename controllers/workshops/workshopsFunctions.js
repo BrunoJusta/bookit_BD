@@ -79,7 +79,6 @@ function updateWorkshop(id, name, date, teacher, description, vacancies, time, c
 }
 
 function getWorkshops(callback) {
-    connection;
     let sql = `SELECT* from workshop`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -89,11 +88,9 @@ function getWorkshops(callback) {
             data: rows
         })
     })
-    connection;
 }
 
 function getWorkshop(id, callback) {
-    connection;
     let sql = `SELECT * FROM workshop WHERE workshop_id = ? `;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
@@ -103,7 +100,6 @@ function getWorkshop(id, callback) {
             data: rows
         })
     })
-    connection;
 }
 
 module.exports = {

@@ -84,7 +84,6 @@ function updateArea(name, description, id, callback) {
 };
 
 function getAreas(callback) {
- connection;
     let sql = `SELECT * FROM area`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
@@ -94,11 +93,9 @@ function getAreas(callback) {
             data: rows
         });
     });
- connection;
 };
 
 function getArea(id, callback) {
- connection;
     let sql = `SELECT * FROM area WHERE area_id = ?`;
     connection.query(sql, [id], function (error, rows, result) {
         if (error) callback(error);
@@ -108,7 +105,6 @@ function getArea(id, callback) {
             data: rows
         });
     });
- connection;
 };
 
 
