@@ -63,21 +63,21 @@ class LoginValidation {
     login(req, res) {
         let email = req.body.email;
         let password = req.body.password;
+        
         userFunctions.login(email, password, (error, success) => {
             if (!error) {
                 if(success.length > 0){
                     res.status(200).send(success)
                 }
                 else{
-                    res.status(400).send("Nothing to show")
+                    res.status(400).send(error)
                 }
             }
             else{
-                res.status(500).send("ERROR")
+                res.status(500).send(error)
             }
         })
     }
-
     index(req, res) {
         res.json({
             success: true,

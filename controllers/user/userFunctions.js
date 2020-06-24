@@ -46,20 +46,20 @@ function login(email, password, callback) {
                         notifications: count,
                         type: result[0].userType_id,
                     }, config.secret)
-                    res.status(200).send({
-                        token: token,
-                        response: result
+                    callback(null, {
+                        success: true,
+                        message: 'Sessão Iniciada',
+                        token
                     })
                 });
             } else {
-                res.status(404).send({
+                callback({
                     message: message
                 })
             }
         } else {
             let message = "Error while performing Query."
-            console.log('Error while performing Query.', err);
-            res.status(500).send({
+            callback({
                 message: message
             })
         }
