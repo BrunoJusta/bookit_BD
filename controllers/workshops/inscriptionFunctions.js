@@ -3,7 +3,7 @@ const connection = require("../../database/db-config")
 function addInscription(idUser, idWorkshop, callback) {
     const sql2 = `INSERT INTO inscription (workshop_id, user_id) VALUES(?,?)`
     connection.query(sql2, [idWorkshop, idUser], function (error, results, fields) {
-        if (!error) {
+        if (!error.status == 304) {
             const sql = `SELECT filled from workshop WHERE workshop_id = ?`;
             connection.query(sql, [idWorkshop], function (error, rows, fields) {
                 if (!error) {
