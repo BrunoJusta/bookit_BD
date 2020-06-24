@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const mysql = require("mysql"); //bilbioteca de mysql https://www.npmjs.com/package/mysqlhash
 const userFunctions = require("./userFunctions")
 const jwt = require('jsonwebtoken')
 const config = require("../../config.json")
@@ -44,6 +45,7 @@ function insertUser(req, result) {
         console.log("Passwords nao coincidem!")
     }
 }
+
 
 
 //Login User
