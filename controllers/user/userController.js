@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
     database: process.env.DATABASE
 });
 //Register User
-function insertUser(req, result) {
+function insertUser(req, res) {
     //Variaveis
     let name = req.body.name
     let img
@@ -33,16 +33,30 @@ function insertUser(req, result) {
     if (req.body.password === req.body.password2) {
         //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
-            userFunctions.register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, (error, success) => {
-                if (error) {
-                    throw error;
-                    return;
+            const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
+            connection.query(sql2, [email], function (error, rows, results, fields) {
+                if (!error) {
+                    let school = rows[0].school_id
+                    //Insert user into DB
+                    const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate, genre) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                    connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {
+                        if (error) callback(error);
+                        callback(null, {
+                            success: true,
+                            message: "Conta criada com sucesso!"
+                        })
+                        res.status(200).send("Criado com sucesso")
+                    });
+                } else {
+                    let message = "Incorrect data"
+                    res.status(404).send(message)
+
                 }
-                result.json(success)
-            })
+            });
         })
     } else {
-        console.log("Passwords nao coincidem!")
+        let message = "Incorrect data"
+        res.status(404).send(message)
     }
 }
 
@@ -64,7 +78,7 @@ class LoginValidation {
                 if (result.length == 0) {
                     message = "Incorrect data"
                 } else {
-                    passwordSame = bcrypt.compareSync(password, result[0].password) // confirms if the hashed password = to the password that has been introduced
+                    passwordSame = bcrypt.compareSync(password, result[0].password)
                     if (passwordSame == false) {
                         result = []
                         message = "Incorrect data"
@@ -113,62 +127,6 @@ class LoginValidation {
             }
         });
     }
-
-
-
-    // login(req, res) {
-
-    //     let email = req.body.email;
-    //     let password = req.body.password;
-    //     //Get info from user
-    //     const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
-    //     connection.query(sql2, [email], function (error, rows, results, fields) {
-    //         if (!error) {
-    //             bcrypt.compare(password, rows[0].password, function (err, result) {
-    //                 if (err) {
-    //                     res.status(500).send("ERROR")
-    //                 }
-    //                 //Create Token
-
-    //                 if (result) {
-    //                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-    //                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
-    //                         if (!error) {}
-    //                         let count
-    //                         if (countRows === undefined || countRows === null) {
-    //                             count = 0
-    //                         } else {
-    //                             count = countRows[0].count
-    //                         }
-    //                         let token = jwt.sign({
-    //                                 id: rows[0].user_id,
-    //                                 name: rows[0].name,
-    //                                 lastName: rows[0].lastname,
-    //                                 school: rows[0].school,
-    //                                 number: rows[0].number,
-    //                                 email: email,
-    //                                 birthDate: rows[0].birthDate,
-    //                                 type: rows[0].userType_id,
-    //                                 notifications: count
-    //                             },
-    //                             config.secret, {
-    //                                 expiresIn: '24h' // expires in 24 hours
-    //                             }
-    //                         );
-    //                         res.status(200).send({
-    //                             success: true,
-    //                             message: 'Sessão Iniciada',
-    //                             token
-    //                         })
-    //                     });
-    //                 }
-    //             })
-    //         } else {
-    //             console.log(error)
-    //             res.status(500).send("ERROR")
-    //         }
-    //     });
-    // }
 
     index(req, res) {
         res.json({
