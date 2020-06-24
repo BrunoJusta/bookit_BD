@@ -5,7 +5,6 @@ var connection = mysql.createConnection(dbConfig.connect);
 
 //MENU
 function addMenu(name, menuType, img, ing, callback) {
- connection
     const sql = `INSERT INTO menu (name, menu_type_id , img, popularity) VALUES(?,?,?,?)`;
     connection.query(sql, [name, menuType, img, 0], function (error, results, fields) {
         if (error) callback(error);
@@ -30,7 +29,6 @@ function newMenuNotification(id) {
             const sqlNote = `insert into notification (user_id, description, type) select user_id, ?,? from user;`
             connection.query(sqlNote, [description, 0], function (error) {
                 if (!error) {
-                 connection
                 }
             })
         }
@@ -38,7 +36,6 @@ function newMenuNotification(id) {
 }
 
 function addMenuPlusType(name, newType, img, ing, callback) {
- connection
     const sql = `INSERT INTO menu_Type (description) VALUES(?)`;
     connection.query(sql, [newType], function (error, result, fields) {
         if (!error) {
@@ -50,7 +47,6 @@ function addMenuPlusType(name, newType, img, ing, callback) {
                     message: "Menu Adicionado"
                 })
                 let id = results.insertId
-             connection
                 menuIng(ing, id)
             });
         }
@@ -58,7 +54,6 @@ function addMenuPlusType(name, newType, img, ing, callback) {
 };
 
 function menuIng(ing, id) {
- connection
     for (let i = 0; i < ing.length; i++) {
         const sqlIng = `INSERT INTO menu_Ingredient (menu_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sqlIng, [id, ing[i]], function (error, rows, results, fields) {
@@ -71,7 +66,6 @@ function menuIng(ing, id) {
 }
 
 function removeMenu(id, callback) {
- connection
     removeMenuNotification(id)
     let sql = `DELETE FROM menu WHERE menu_id = ?`;
     connection.query(sql, [id], function (err, result) {
@@ -82,8 +76,6 @@ function removeMenu(id, callback) {
         })
         
     });
- connection
-
 }
 
 function removeMenuNotification(id) {
@@ -100,8 +92,6 @@ function removeMenuNotification(id) {
             })
         }
     })
- connection
-
 }
 
 //ordenar por popularidade
@@ -157,7 +147,6 @@ function getMenu(id, callback) {
 }
 
 function editMenu(id, name, type, ings, callback) {
- connection
     let sqlType = "SELECT menu_type_id FROM menu_Type WHERE description = ?"
     connection.query(sqlType, [type], function (error, rows, fields) {
         let typeID = rows[0].menu_type_id
@@ -184,7 +173,6 @@ function removeIngredients(id, ings) {
     let sql = "DELETE from menu_Ingredient where menu_id=?"
     connection.query(sql, [id], function (error, results) {
         if (!error) {
-         connection
             addNewIngredients(id, ings)
         }
     })
@@ -192,11 +180,9 @@ function removeIngredients(id, ings) {
 
 function addNewIngredients(id, ings) {
     for (let i = 0; i < ings.length; i++) {
-     connection
         let sql = `INSERT INTO menu_Ingredient  (menu_id, ingredient_id) VALUES ( ? , ?)`
         connection.query(sql, [id, ings[i]], function (error, rows, results, fields) {
             if (!error) {
-             connection
 
             }
         });
