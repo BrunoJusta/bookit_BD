@@ -50,59 +50,119 @@ function insertUser(req, result) {
 
 //Login User
 class LoginValidation {
-    login(req, res) {
 
+
+    login(req, res) {
         let email = req.body.email;
         let password = req.body.password;
-        //Get info from user
-        const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
-        connection.query(sql2, [email], function (error, rows, results, fields) {
-            if (!error) {
-                bcrypt.compare(password, rows[0].password, function (err, result) {
-                    if (err) {
-                        res.status(500).send("ERROR")
+        let passwordSame = false
+     
+    
+        const query = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
+        con.query(query, [email], function (err,
+            result) {
+            if (!err) {
+                let message = "success"
+                if (result.length == 0) {
+                    message = "Incorrect data"
+                } else {
+                    passwordSame = bcrypt.compareSync(password, result[0].password) // confirms if the hashed password = to the password that has been introduced
+                    if (passwordSame == false) {
+                        result = []
+                        message = "Incorrect data"
+    
+     
+    
+    
+                    } else if (passwordSame && result[0].userType_id == 2) {
+                        result = []
+                        message = "Incorrect data"
                     }
-                    //Create Token
-
-                    if (result) {
-                        const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                        connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
-                            if (!error) {}
-                            let count
-                            if (countRows === undefined || countRows === null) {
-                                count = 0
-                            } else {
-                                count = countRows[0].count
-                            }
-                            let token = jwt.sign({
-                                    id: rows[0].user_id,
-                                    name: rows[0].name,
-                                    lastName: rows[0].lastname,
-                                    school: rows[0].school,
-                                    number: rows[0].number,
-                                    email: email,
-                                    birthDate: rows[0].birthDate,
-                                    type: rows[0].userType_id,
-                                    notifications: count
-                                },
-                                config.secret, {
-                                    expiresIn: '24h' // expires in 24 hours
-                                }
-                            );
-                            res.status(200).send({
-                                success: true,
-                                message: 'Sessão Iniciada',
-                                token
-                            })
-                        });
-                    }
-                })
+                }
+                if (result.length > 0) {
+    
+     
+    
+                    const token = jwt.sign({
+                        id: result[0].user_id,
+                        name: result[0].name,
+                        lastName: result[0].lastname,
+                        school: result[0].school,
+                        number: result[0].number,
+                        email: email,
+                        birthDate: result[0].birthDate,
+                        type: result[0].userType_id,
+                    }, config.secret)
+                    res.status(200).send({
+                        token: token,
+                        response: result
+                    })
+                } else {
+                    res.status(404).send(message)
+                }
             } else {
-                console.log(error)
-                res.status(500).send("ERROR")
+                let message = "Error while performing Query."
+                console.log('Error while performing Query.', err);
+                res.status(500).send(message)
             }
         });
     }
+
+
+
+    // login(req, res) {
+
+    //     let email = req.body.email;
+    //     let password = req.body.password;
+    //     //Get info from user
+    //     const sql2 = `SELECT user_id, name, lastname, email, school.school,number, birthDate, img, userType_id, password FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
+    //     connection.query(sql2, [email], function (error, rows, results, fields) {
+    //         if (!error) {
+    //             bcrypt.compare(password, rows[0].password, function (err, result) {
+    //                 if (err) {
+    //                     res.status(500).send("ERROR")
+    //                 }
+    //                 //Create Token
+
+    //                 if (result) {
+    //                     const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+    //                     connection.query(sqlCount, [rows[0].user_id], function (error, countRows, results, fields) {
+    //                         if (!error) {}
+    //                         let count
+    //                         if (countRows === undefined || countRows === null) {
+    //                             count = 0
+    //                         } else {
+    //                             count = countRows[0].count
+    //                         }
+    //                         let token = jwt.sign({
+    //                                 id: rows[0].user_id,
+    //                                 name: rows[0].name,
+    //                                 lastName: rows[0].lastname,
+    //                                 school: rows[0].school,
+    //                                 number: rows[0].number,
+    //                                 email: email,
+    //                                 birthDate: rows[0].birthDate,
+    //                                 type: rows[0].userType_id,
+    //                                 notifications: count
+    //                             },
+    //                             config.secret, {
+    //                                 expiresIn: '24h' // expires in 24 hours
+    //                             }
+    //                         );
+    //                         res.status(200).send({
+    //                             success: true,
+    //                             message: 'Sessão Iniciada',
+    //                             token
+    //                         })
+    //                     });
+    //                 }
+    //             })
+    //         } else {
+    //             console.log(error)
+    //             res.status(500).send("ERROR")
+    //         }
+    //     });
+    // }
 
     index(req, res) {
         res.json({
