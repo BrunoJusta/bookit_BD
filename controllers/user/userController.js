@@ -80,11 +80,11 @@ function logout(req, result) {
         token = token.slice(7, token.length);
     }
     userFunctions.logout(token, (error, success) => {
-        if (error) {
-            throw error;
-            return;
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
         }
-        result.json(success)
     })
 
 }
@@ -95,11 +95,11 @@ function deleteUser(req, result) {
     let id = req.params.id
 
     userFunctions.deleteUser(id, (error, success) => {
-        if (error) {
-            throw error;
-            return;
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
         }
-        result.json(success)
     })
 
 }
@@ -116,11 +116,11 @@ function edit(req, res) {
         if (newPassword === newPassword2) {
             bcrypt.hash(newPassword, 10, function (err, hash) {
                 userFunctions.editUser(id, oldPassword, hash, number, userType, (error, success) => {
-                    if (error) {
-                        throw error;
-                        return;
+                    if (!error) {
+                        res.status(200).send(success)
+                    } else {
+                        res.status(400).send(error)
                     }
-                    res.json(success)
                 })
             })
         } else {
@@ -128,11 +128,11 @@ function edit(req, res) {
         }
     } else {
         userFunctions.editUser(id, oldPassword, newPassword, number, userType, (error, success) => {
-            if (error) {
-                throw error;
-                return;
+            if (!error) {
+                res.status(200).send(success)
+            } else {
+                res.status(400).send(error)
             }
-            res.json(success)
         })
     }
 }
@@ -141,76 +141,76 @@ function changeAvatar(req, res) {
     let idToChange = req.params.id
     let newImg = req.body.newImg
     userFunctions.changeAvatar(idToChange, newImg, (error, success) => {
-        if (error) {
-            throw error;
-            return;
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
         }
-        res.json(success)
     })
 }
 
 function getUsers(req, result) {
     userFunctions.getUsers((error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
 function menuBookingsById(req, result) {
     let idToChange = req.params.id
     userFunctions.menuBookingsById(idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
 function areaBookingsById(req, result) {
     let idToChange = req.params.id
     userFunctions.areaBookingsById(idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
 function workshopBookingsById(req, result) {
     let idToChange = req.params.id
     userFunctions.workshopBookingsById(idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
 function notificationsById(req, result) {
     let idToChange = req.params.id
     userFunctions.notificationsById(idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
 function archivationsById(req, result) {
     let idToChange = req.params.id
     userFunctions.archivationsById(idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
@@ -218,11 +218,11 @@ function archivationsById(req, result) {
 function avatarById(req, result) {
     let id = req.params.id
     userFunctions.avatarById(id, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
@@ -230,11 +230,11 @@ function archive(req, result) {
     let idToChange = req.params.id
     let idUser = req.params.userID
     userFunctions.archive(idUser, idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
@@ -242,11 +242,11 @@ function deleteNotification(req, result) {
     let idToChange = req.params.id
     let idUser = req.params.userID
     userFunctions.deleteNotification(idUser, idToChange, (error, success) => {
-        if (error) {
-            throw error;
-            return;
-        };
-        result.json(success)
+        if (!error) {
+            res.status(200).send(success)
+        } else {
+            res.status(400).send(error)
+        }
     })
 }
 
