@@ -11,8 +11,12 @@ function login(email, password, callback) {
 
     const query = `SELECT * FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(query, [email], function (err, result) {
-        if (!err || result[0].user_id != 3) {
+        if (!err) {
             let message = "success"
+
+               
+
+
             if (result.length == 0) {
                 message = "Dados Inválidos"
             } else {
@@ -26,31 +30,41 @@ function login(email, password, callback) {
                 }
             }
             if (result.length > 0) {
-                const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
-                connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
-                    if (!error) {}
-                    let count
-                    if (countRows === undefined || countRows === null) {
-                        count = 0
-                    } else {
-                        count = countRows[0].count
-                    }
-                    const token = jwt.sign({
-                        id: result[0].user_id,
-                        name: result[0].name,
-                        lastName: result[0].lastName,
-                        number: result[0].number,
-                        school: result[0].school,
-                        email: email,
-                        birthDate: result[0].birthDate,
-                        notifications: count,
-                        type: result[0].userType_id,
-                    }, config.secret)
-                    callback(null, {
-                        token: token,
-                        response: result
+                if(result[0].userType_id != 3){
+
+                    const sqlCount = `SELECT COUNT(*) as count FROM notification WHERE user_id = ? AND type = 0;`
+                    connection.query(sqlCount, [result[0].user_id], function (error, countRows, results, fields) {
+                        if (!error) {}
+                        let count
+                        if (countRows === undefined || countRows === null) {
+                            count = 0
+                        } else {
+                            count = countRows[0].count
+                        }
+                        const token = jwt.sign({
+                            id: result[0].user_id,
+                            name: result[0].name,
+                            lastName: result[0].lastName,
+                            number: result[0].number,
+                            school: result[0].school,
+                            email: email,
+                            birthDate: result[0].birthDate,
+                            notifications: count,
+                            type: result[0].userType_id,
+                        }, config.secret)
+                        callback(null, {
+                            token: token,
+                            response: result
+                        })
+                    });
+                }else{
+                     message = "NO BOOKIT 4 U"
+                    callback({
+                        message: message
                     })
-                });
+                }
+
+
             } else {
                 callback({
                     message: message
