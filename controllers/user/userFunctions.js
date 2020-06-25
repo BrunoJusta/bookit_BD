@@ -58,7 +58,7 @@ function login(email, password, callback) {
                         })
                     });
                 }else{
-                     message = "NO BOOKIT 4 U"
+                     message = "Conta Bloqueada!"
                     callback({
                         message: message
                     })
