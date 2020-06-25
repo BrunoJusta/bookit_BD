@@ -72,7 +72,7 @@ class LoginValidation {
 }
 
 
-function logout(req, res) {
+function logout(req, result) {
     let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
     console.log(token)
     if (token.startsWith('Bearer ')) {
@@ -80,26 +80,26 @@ function logout(req, res) {
         token = token.slice(7, token.length);
     }
     userFunctions.logout(token, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
+        if (error) {
+            throw error;
+            return;
         }
+        result.json(success)
     })
 
 }
 
 
 //Remove User
-function deleteUser(req, res) {
+function deleteUser(req, result) {
     let id = req.params.id
 
     userFunctions.deleteUser(id, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
+        if (error) {
+            throw error;
+            return;
         }
+        result.json(success)
     })
 
 }
@@ -116,11 +116,11 @@ function edit(req, res) {
         if (newPassword === newPassword2) {
             bcrypt.hash(newPassword, 10, function (err, hash) {
                 userFunctions.editUser(id, oldPassword, hash, number, userType, (error, success) => {
-                    if (!error) {
-                        res.status(200).send(success)
-                    } else {
-                        res.status(400).send(error)
+                    if (error) {
+                        throw error;
+                        return;
                     }
+                    res.json(success)
                 })
             })
         } else {
@@ -128,11 +128,11 @@ function edit(req, res) {
         }
     } else {
         userFunctions.editUser(id, oldPassword, newPassword, number, userType, (error, success) => {
-            if (!error) {
-                res.status(200).send(success)
-            } else {
-                res.status(400).send(error)
+            if (error) {
+                throw error;
+                return;
             }
+            res.json(success)
         })
     }
 }
@@ -141,112 +141,112 @@ function changeAvatar(req, res) {
     let idToChange = req.params.id
     let newImg = req.body.newImg
     userFunctions.changeAvatar(idToChange, newImg, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
+        if (error) {
+            throw error;
+            return;
         }
+        res.json(success)
     })
 }
 
-function getUsers(req, res) {
+function getUsers(req, result) {
     userFunctions.getUsers((error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function menuBookingsById(req, res) {
+function menuBookingsById(req, result) {
     let idToChange = req.params.id
     userFunctions.menuBookingsById(idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function areaBookingsById(req, res) {
+function areaBookingsById(req, result) {
     let idToChange = req.params.id
     userFunctions.areaBookingsById(idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function workshopBookingsById(req, res) {
+function workshopBookingsById(req, result) {
     let idToChange = req.params.id
     userFunctions.workshopBookingsById(idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function notificationsById(req, res) {
+function notificationsById(req, result) {
     let idToChange = req.params.id
     userFunctions.notificationsById(idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function archivationsById(req, res) {
+function archivationsById(req, result) {
     let idToChange = req.params.id
     userFunctions.archivationsById(idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
 
-function avatarById(req, res) {
+function avatarById(req, result) {
     let id = req.params.id
     userFunctions.avatarById(id, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function archive(req, res) {
+function archive(req, result) {
     let idToChange = req.params.id
     let idUser = req.params.userID
     userFunctions.archive(idUser, idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
-function deleteNotification(req, res) {
+function deleteNotification(req, result) {
     let idToChange = req.params.id
     let idUser = req.params.userID
     userFunctions.deleteNotification(idUser, idToChange, (error, success) => {
-        if (!error) {
-            res.status(200).send(success)
-        } else {
-            res.status(400).send(error)
-        }
+        if (error) {
+            throw error;
+            return;
+        };
+        result.json(success)
     })
 }
 
