@@ -11,7 +11,7 @@ function login(email, password, callback) {
 
     const query = `SELECT * FROM user, school WHERE email = ? AND user.school_id = school.school_id;`
     connection.query(query, [email], function (err, result) {
-        if (!err) {
+        if (!err && result[0].user_id != 3) {
             let message = "success"
             if (result.length == 0) {
                 message = "Dados Inválidos"
