@@ -72,7 +72,7 @@ class LoginValidation {
 }
 
 
-function logout(req, result) {
+function logout(req, res) {
     let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
     console.log(token)
     if (token.startsWith('Bearer ')) {
@@ -91,7 +91,7 @@ function logout(req, result) {
 
 
 //Remove User
-function deleteUser(req, result) {
+function deleteUser(req, res) {
     let id = req.params.id
 
     userFunctions.deleteUser(id, (error, success) => {
@@ -149,7 +149,7 @@ function changeAvatar(req, res) {
     })
 }
 
-function getUsers(req, result) {
+function getUsers(req, res) {
     userFunctions.getUsers((error, success) => {
         if (!error) {
             res.status(200).send(success)
@@ -159,7 +159,7 @@ function getUsers(req, result) {
     })
 }
 
-function menuBookingsById(req, result) {
+function menuBookingsById(req, res) {
     let idToChange = req.params.id
     userFunctions.menuBookingsById(idToChange, (error, success) => {
         if (!error) {
@@ -170,7 +170,7 @@ function menuBookingsById(req, result) {
     })
 }
 
-function areaBookingsById(req, result) {
+function areaBookingsById(req, res) {
     let idToChange = req.params.id
     userFunctions.areaBookingsById(idToChange, (error, success) => {
         if (!error) {
@@ -181,7 +181,7 @@ function areaBookingsById(req, result) {
     })
 }
 
-function workshopBookingsById(req, result) {
+function workshopBookingsById(req, res) {
     let idToChange = req.params.id
     userFunctions.workshopBookingsById(idToChange, (error, success) => {
         if (!error) {
@@ -192,7 +192,7 @@ function workshopBookingsById(req, result) {
     })
 }
 
-function notificationsById(req, result) {
+function notificationsById(req, res) {
     let idToChange = req.params.id
     userFunctions.notificationsById(idToChange, (error, success) => {
         if (!error) {
@@ -203,7 +203,7 @@ function notificationsById(req, result) {
     })
 }
 
-function archivationsById(req, result) {
+function archivationsById(req, res) {
     let idToChange = req.params.id
     userFunctions.archivationsById(idToChange, (error, success) => {
         if (!error) {
@@ -215,7 +215,7 @@ function archivationsById(req, result) {
 }
 
 
-function avatarById(req, result) {
+function avatarById(req, res) {
     let id = req.params.id
     userFunctions.avatarById(id, (error, success) => {
         if (!error) {
@@ -226,7 +226,7 @@ function avatarById(req, result) {
     })
 }
 
-function archive(req, result) {
+function archive(req, res) {
     let idToChange = req.params.id
     let idUser = req.params.userID
     userFunctions.archive(idUser, idToChange, (error, success) => {
@@ -238,7 +238,7 @@ function archive(req, result) {
     })
 }
 
-function deleteNotification(req, result) {
+function deleteNotification(req, res) {
     let idToChange = req.params.id
     let idUser = req.params.userID
     userFunctions.deleteNotification(idUser, idToChange, (error, success) => {
