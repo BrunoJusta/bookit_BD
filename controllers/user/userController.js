@@ -5,50 +5,41 @@ const config = require("../../config.json")
 const connection = require("../../database/db-config")
 
 //Register User
+
+//Variaveis
+let name = req.body.name
+let img
+let lastName = req.body.lastName
+let number = req.body.number
+let imgMale = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c45f2463-bf29-439a-983d-b7ecb15282ea/ddzrm3d-dd3d836d-b557-4759-8568-b8efcabd4f56.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYzQ1ZjI0NjMtYmYyOS00MzlhLTk4M2QtYjdlY2IxNTI4MmVhXC9kZHpybTNkLWRkM2Q4MzZkLWI1NTctNDc1OS04NTY4LWI4ZWZjYWJkNGY1Ni5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.AZN2nX7ZSwzahUItJp5IZagrPaj8CaHsFvJFgUAbh80"
+let imgFemale = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c45f2463-bf29-439a-983d-b7ecb15282ea/de00d5q-b8c4b103-6832-467b-b794-e30688acc2d4.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYzQ1ZjI0NjMtYmYyOS00MzlhLTk4M2QtYjdlY2IxNTI4MmVhXC9kZTAwZDVxLWI4YzRiMTAzLTY4MzItNDY3Yi1iNzk0LWUzMDY4OGFjYzJkNC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.eCxLHj1EuJ1E878oyejK7yEQBeWI_WU4VRFHitHpxSI"
+let email = req.body.email
+let birthDate = req.body.birthDate
+let userType_id = 1
+let genre = req.body.genre
+
+
+if (genre == "male") {
+    img = imgMale
+} else {
+    img = imgFemale
+}
+
 function insertUser(req, res) {
-    //Variaveis
-    let name = req.body.name
-    let img
-    let lastName = req.body.lastName
-    let number = req.body.number
-    let imgMale = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c45f2463-bf29-439a-983d-b7ecb15282ea/ddzrm3d-dd3d836d-b557-4759-8568-b8efcabd4f56.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYzQ1ZjI0NjMtYmYyOS00MzlhLTk4M2QtYjdlY2IxNTI4MmVhXC9kZHpybTNkLWRkM2Q4MzZkLWI1NTctNDc1OS04NTY4LWI4ZWZjYWJkNGY1Ni5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.AZN2nX7ZSwzahUItJp5IZagrPaj8CaHsFvJFgUAbh80"
-    let imgFemale = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c45f2463-bf29-439a-983d-b7ecb15282ea/de00d5q-b8c4b103-6832-467b-b794-e30688acc2d4.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYzQ1ZjI0NjMtYmYyOS00MzlhLTk4M2QtYjdlY2IxNTI4MmVhXC9kZTAwZDVxLWI4YzRiMTAzLTY4MzItNDY3Yi1iNzk0LWUzMDY4OGFjYzJkNC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.eCxLHj1EuJ1E878oyejK7yEQBeWI_WU4VRFHitHpxSI"
-    let email = req.body.email
-    let birthDate = req.body.birthDate
-    let userType_id = 1
-    let genre = req.body.genre
 
-
-    if (genre == "male") {
-        img = imgMale
-    } else {
-        img = imgFemale
-    }
     //verify Password = 123AvesChines
     if (req.body.password === req.body.password2) {
         //Encrypting Password
         bcrypt.hash(req.body.password, 10, function (err, hash) {
-            const sql2 = `SELECT school_id FROM school WHERE INSTR(?, school) > 0;`
-            connection.query(sql2, [email], function (error, rows, results, fields) {
+
+            userFunctions.register(name, lastName, email, hash, number, img, userType_id, birthDate, genre, (error, success) => {
                 if (!error) {
-                    let school = rows[0].school_id
-                    //Insert user into DB
-                    const sql = `INSERT INTO user (name, lastName, email, password, number, img, userType_id, school_id, birthDate, genre) VALUES ( ? , ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                    connection.query(sql, [name, lastName, email, hash, number, img, userType_id, school, birthDate, genre], function (error, results, fields) {
-                        if (!error) {
-
-                            res.status(200).send({
-                                success: true,
-                                message: "Conta criada com sucesso!"
-                            })
-                        }
-                    });
+                    res.status(200).send(success)
                 } else {
-                    let message = "Incorrect data"
-                    res.status(404).send(message)
-
+                    res.status(400).send(error)
                 }
-            });
+            })
+
         })
     } else {
         let message = "Incorrect data"
