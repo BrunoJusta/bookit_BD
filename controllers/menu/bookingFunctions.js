@@ -167,7 +167,7 @@ function getBookings(callback) {
     inner join user on booking.user_id = user.user_id
     inner join state_booking on booking.state_id = state_booking.state_id
     inner join school on booking.school_id = school.school_id
-    inner join outfit on booking.outfit_id = outfit.outfit_id`;
+    inner join outfit on booking.outfit_id = outfit.outfit_id order by booking.booking_id desc`;
     connection.query(sql, function (err, rows, fields, result) {
         if (err) {
             callback(err);
