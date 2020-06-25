@@ -70,7 +70,7 @@ function updateArea(name, description, id, callback) {
 };
 
 function getAreas(callback) {
-    let sql = `SELECT * FROM area`;
+    let sql = `SELECT * FROM area order by area.area_id desc`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows)

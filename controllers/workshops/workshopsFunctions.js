@@ -67,7 +67,7 @@ function updateWorkshop(id, name, date, teacher, description, vacancies, time, c
 }
 
 function getWorkshops(callback) {
-    let sql = `SELECT* from workshop`;
+    let sql = `SELECT* from workshop  order by workshop.workshop_id desc`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
