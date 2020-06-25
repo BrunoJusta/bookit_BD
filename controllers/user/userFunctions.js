@@ -215,7 +215,7 @@ function deleteUser(id, callback) {
 }
 
 function getUsers(callback) {
-    let sql = `SELECT user_id, name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id order by user.user_id desc`;
+    let sql = `SELECT user_id, name, lastName, email, number, user_Type.type FROM user, user_Type WHERE user.userType_id = user_Type.userType_id order by user.user_id asc`;
     connection.query(sql, function (error, rows, result) {
         if (error) callback(error);
         console.log(rows);
