@@ -71,7 +71,7 @@ function login(email, password, callback) {
                 })
             }
         } else {
-            let message = "Error while performing Query."
+            let message = "O email que inseriu naõ está associado a nenhuma conta."
             callback({
                 message: message
             })

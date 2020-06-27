@@ -42,7 +42,7 @@ function insertUser(req, res) {
 
         })
     } else {
-        let message = "Incorrect data"
+        let message = "Dados Incorretos"
         res.status(404).send(message)
     }
 }
