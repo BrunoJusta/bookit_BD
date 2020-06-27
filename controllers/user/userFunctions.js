@@ -71,7 +71,7 @@ function login(email, password, callback) {
                 })
             }
         } else {
-            let message = "O email que inseriu naõ está associado a nenhuma conta."
+            let message = "Erro de ligação"
             callback({
                 message: message
             })
